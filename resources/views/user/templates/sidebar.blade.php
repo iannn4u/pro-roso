@@ -1,0 +1,38 @@
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+    <!-- Sidebar - Brand -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+        <div class="sidebar-brand-icon rotate-n-15">
+            <i class="fa-regular fa-building"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">MyCom <sup>❤</sup></div>
+    </a>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
+
+    <!-- Nav Item - Dashboard -->
+    <li class="nav-item {{ request()->is('/*') ? 'active' : '' }}">
+        <a class="nav-link" href="/">
+            <i class="fa-solid fa-house"></i>
+            <span>Beranda</span>
+        </a>
+    </li>
+
+    <!-- Nav Item - Public File -->
+    <li class="nav-item">
+        <a class="nav-link" href="index.html">
+            <i class="fa-solid fa-earth-americas"></i>
+            <span>Publik File</span>
+        </a>
+    </li>
+
+    <!-- Nav Item - User Data -->
+    <li class="nav-item">
+        <a class="nav-link" href="index.html">
+            <i class="fa-regular fa-user"></i>
+            <span>Data User</span>
+        </a>
+    </li>
+
+</ul>
