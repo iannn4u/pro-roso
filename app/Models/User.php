@@ -13,4 +13,8 @@ class User extends Model implements Authenticatable
 
     protected $primaryKey = 'id_user';
     protected $guarded = ['id_user'];
+
+    public function files() {
+        return $this->hasMany(File::class, 'id_user', 'id_user');
+    }
 }

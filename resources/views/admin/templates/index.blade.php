@@ -22,10 +22,10 @@
 
     <!-- Bootstrap  -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-
+    
     <!-- MyCSS  -->
     <link rel="stylesheet" href="/css/style.css">
-    
+
 </head>
 
 <body id="page-top">
@@ -34,7 +34,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        @include('user.templates.sidebar')
+        @include('admin.templates.sidebar')
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -44,7 +44,7 @@
             <div id="content">
 
                 <!-- Topbar -->
-                @include('user.templates.topbar')
+                @include('admin.templates.topbar')
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -81,7 +81,7 @@
     </a>
 
     <!-- Logout Modal-->
-    @include('user.templates.modal')
+    @include('admin.templates.modal')
 
     <!-- Bootstrap core JavaScript-->
     <script src="/vendor/jquery/jquery.min.js"></script>

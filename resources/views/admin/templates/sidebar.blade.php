@@ -28,13 +28,13 @@
     </li>
 
     @if (Auth::user()->status == 2)
-        <!-- Nav Item - User Data -->
-        <li class="nav-item {{ request()->is('admin') ? 'active' : '' }}">
-            <a class="nav-link" href="/admin">
-                <i class="fa-regular fa-user"></i>
-                <span>Data User</span>
-            </a>
-        </li>
+    <!-- Nav Item - User Data -->
+    <li class="nav-item {{ request()->is('admin') ? 'active' : '' }}">
+        <a class="nav-link" href="/admin">
+            <i class="fa-regular fa-user"></i>
+            <span>Data User</span>
+        </a>
+    </li>
     @endif
 
 </ul>

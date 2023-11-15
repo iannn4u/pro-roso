@@ -16,7 +16,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="deleteAccountModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="adminDeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -29,11 +29,7 @@
             <div class="modal-body">Akun akan terhapus permanen dan semua data-data akun ini akan terhapus.</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <form action="/user/{{ Auth::user()->id_user }}" method="POST" class="d-inline">
-                    @method('DELETE')
-                    @csrf
-                    <button type="submit" class="btn btn-danger">Hapus</button>
-                </form>
+                <a href="/hapus/{{ Auth::user()->id_user }}" class="btn btn-danger">Hapus</a>
             </div>
         </div>
     </div>

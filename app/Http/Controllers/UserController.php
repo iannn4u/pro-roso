@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\File;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -17,6 +18,12 @@ class UserController extends Controller
     public function index()
     {
         $data['title'] = 'Beranda';
+        $data['user'] = User::where('id_user', auth()->id())->first();
+        $file = File::latest();
+        if(request('search')) {
+            $file->where('judul_file', 'like', '%' . request('search') . '%');
+        }
+        $data['files'] = $file->get();
         return view('user.index', $data);
     }
 
@@ -102,7 +109,7 @@ class UserController extends Controller
         } else {
             $namaPP = $user->pp;
         }
-        if (!$request->input('password')) {
+        if (!$request->input('password') || Hash::check($request->input('password'), $user->password)) {
             $validasiData = $request->validate($rules, $errors);
             $validasiData['pp'] = $namaPP;
         } else {
@@ -123,8 +130,9 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        $user->files()->delete();
         Storage::deleteDirectory('users/' . $user->id_user);
-        $user->destroy($user->id_user);
+        $user->delete();
         Auth::logout();
         request()->session()->invalidate();
         request()->session()->regenerateToken();

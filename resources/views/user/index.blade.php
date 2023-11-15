@@ -20,14 +20,14 @@
                 <h6 class="m-0 font-weight-bold text-primary">My File</h6>
                 <a href="/file/create" class="btn btn-primary">Tambah File</a>
             </div>
-            {{-- <div class="card-body d-flex flex-wrap">
+            <div class="card-body d-flex flex-wrap">
                 @if (!count($files))
                     <p>Tidak ada file</p>
                 @endif
                 @foreach ($files as $file)
                     <?php $namaFile = explode('/', $file->generate_filename); ?>
                     <input type="hidden"
-                        value="{{ env('APP_URL', 'http://localhost') . '/d/' . $file->id_user . '/' . end($namaFile) }}"
+                        value="{{ env('APP_URL', 'http://localhost') . 'd/' . $file->id_user . '/' . end($namaFile) }}"
                         id="link">
                     <div class="col-lg-3">
                         <!-- Dropdown Card Example -->
@@ -35,7 +35,7 @@
                             <!-- Card Header - Dropdown -->
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                 <a href="file/{{ $file->id_file }}"
-                                    class="m-0 font-weight-bold text-primary w-75">{{ $file->judul_file }}</a>
+                                    class="m-0 font-weight-bold text-primary">{{ $file->judul_file }}</a>
                                 <div class="dropdown no-arrow">
                                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -43,23 +43,21 @@
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                         aria-labelledby="dropdownMenuLink">
-                                        <a class="dropdown-item" href="file/{{ $file->id_file }}/edit">Edit</a>
-                                        <a class="dropdown-item" href="/download/{{ $file->id_file }}">Download</a>
-                                        <button class="dropdown-item" id="salin">Bagikan dengan
+                                        <a class="dropdown-item" href="/file/{{ $file->id_file }}/edit"><i
+                                                class="fa-regular fa-pen-to-square" style="margin-right: 10px"></i>Edit</a>
+                                        <a class="dropdown-item" href="/download/{{ $file->id_file }}"><i
+                                                class="fa-solid fa-download" style="margin-right: 10px"></i>Download</a>
+                                        <button class="dropdown-item" id="salin"><i class="fa-solid fa-paperclip"
+                                                style="margin-right: 12px"></i>Bagikan dengan
                                             link</button>
                                         <button type="button" class="dropdown-item" data-bs-toggle="modal"
                                             data-bs-target="#shareUser">
-                                            Bagikan dengan user
+                                            <i class="fa-solid fa-users" style="margin-right: 8px"></i>Bagikan dengan user
                                         </button>
                                         <div class="dropdown-divider"></div>
-                                        <form action="file/{{ $file->id_file }}" method="post" class="d-inline">
-                                            @csrf
-                                            @method('delete')
-                                            <button type="submit" class="dropdown-item"
-                                                onclick="return confirm('yakin ingin hapus?')"><i
-                                                    class="fa-solid fa-trash"></i>
-                                                Hapus</button>
-                                        </form>
+                                        <button type="submit" class="dropdown-item" data-bs-toggle="modal"
+                                            data-bs-target="#deleteFile"><i class="fa-solid fa-trash"
+                                                style="margin-right: 10px"></i>Hapus</button>
                                     </div>
                                 </div>
                             </div>
@@ -133,7 +131,7 @@
                         </div>
                     </div>
                 @endforeach
-            </div> --}}
+            </div>
         </div>
     </div>
     <div class="modal fade" id="shareUser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -150,6 +148,29 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary">Kirim</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteFile" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Yakin ingin menghapus file?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Silahkan klik hapus jika sudah benar benar ingin menghapus.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <form action="/file/{{ (!empty($file->id_file)) ? $file->id_file : '' }}" method="POST" class="d-inline">
+                        @method('DELETE')
+                        @csrf
+                        <button type="submit" class="btn btn-danger">Hapus</button>
                     </form>
                 </div>
             </div>
