@@ -233,17 +233,11 @@ class FileController extends Controller
 
         if ($fileDB == null) {
             session()->flash('errors', 'file tidak ditemukan');
-            return redirect()->back();
+            return redirect('/');
         }
 
-        $headers = [
-            'Content-Type' => 'application/octet-stream'
-        ];
-
-        $path = public_path('storage/users/' . $id_file . '/files/' .  $filename);
-
-        // session()->flash('success', 'download file');
-        return response()->download($path, $fileDB->original_filename, $headers);
+        session()->flash('download', $fileDB->id_file);
+        return redirect('/');
     }
 
     public function detailPublik(File $file, $id_file)
