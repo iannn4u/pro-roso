@@ -139,4 +139,14 @@ class UserController extends Controller
 
         return redirect('signin');
     }
+
+    public function ajax() {
+        $query = request('q');
+        $users = User::where('username', 'like', "%$query%")->take(5)->get();
+        return response()->json($users);
+    }
+
+    public function kirimFile($id_file) {
+        dd('suda sampai sini');
+    }
 }

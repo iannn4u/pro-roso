@@ -50,7 +50,7 @@
                                         <button class="dropdown-item" id="salin"><i class="fa-solid fa-paperclip"
                                                 style="margin-right: 12px"></i>Bagikan dengan
                                             link</button>
-                                        <button type="button" class="dropdown-item" data-bs-toggle="modal"
+                                        <button id="bSearch" type="button" class="dropdown-item" data-id_file="{{ $file->id_file }}" data-bs-toggle="modal"
                                             data-bs-target="#shareUser">
                                             <i class="fa-solid fa-users" style="margin-right: 8px"></i>Bagikan dengan user
                                         </button>
@@ -142,12 +142,17 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="" method="post">
-
+                    <form action="/kirimFile/" method="POST" id="form">
+                        @csrf
+                        <div class="mb-3">
+                            <input type="text" class="form-control" id="searchUser"
+                                placeholder="username penerima...">
+                            <ul class="list-group" id="result"></ul>
+                        </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Kirim</button>
+                    <button type="submit" class="btn btn-primary">Kirim</button>
                     </form>
                 </div>
             </div>
@@ -167,7 +172,8 @@
                 <div class="modal-body">Silahkan klik hapus jika sudah benar benar ingin menghapus.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <form action="/file/{{ (!empty($file->id_file)) ? $file->id_file : '' }}" method="POST" class="d-inline">
+                    <form action="/file/{{ !empty($file->id_file) ? $file->id_file : '' }}" method="POST"
+                        class="d-inline">
                         @method('DELETE')
                         @csrf
                         <button type="submit" class="btn btn-danger">Hapus</button>
