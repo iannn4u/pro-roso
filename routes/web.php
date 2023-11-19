@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\PesanController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -30,7 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/', [UserController::class, 'index']);
     Route::resource('user', UserController::class);
     Route::get('username', [UserController::class, 'ajax']);
-    Route::post('kirimFile/{id_file}', [UserController::class, 'kirimFile']);
+    Route::post('kirimFile/{id_file}', [PesanController::class, 'store']);
 
     Route::resource('file', FileController::class);
     Route::controller(FileController::class)->group(function () {

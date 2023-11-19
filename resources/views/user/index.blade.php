@@ -13,6 +13,13 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
+        @if (session('errors'))
+        <div class="alert alert-danger alert-dismissible fade show w-25 m-3" role="alert"
+            style="position: fixed; z-index: 1; top: 0; right: 0;">
+            <strong>Gagal!</strong> {{ session('errors') }}.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
 
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
@@ -51,7 +58,7 @@
                                                 style="margin-right: 12px"></i>Bagikan dengan
                                             link</button>
                                         <button id="bSearch" type="button" class="dropdown-item" data-id_file="{{ $file->id_file }}" data-bs-toggle="modal"
-                                            data-bs-target="#shareUser">
+                                            data-bs-target="#shareUser" data-user="{{ Auth::user()->username }}">
                                             <i class="fa-solid fa-users" style="margin-right: 8px"></i>Bagikan dengan user
                                         </button>
                                         <div class="dropdown-divider"></div>
@@ -142,17 +149,17 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="/kirimFile/" method="POST" id="form">
+                    <form action="" method="POST" id="form">
                         @csrf
                         <div class="mb-3">
                             <input type="text" class="form-control" id="searchUser"
-                                placeholder="username penerima...">
+                                placeholder="username penerima..." name="username">
                             <ul class="list-group" id="result"></ul>
                         </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Kirim</button>
+                    <button type="submit" class="btn btn-primary disabled" id="kirimUser">Kirim</button>
                     </form>
                 </div>
             </div>

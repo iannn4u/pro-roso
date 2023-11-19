@@ -76,38 +76,53 @@ bSalin.forEach((b) => {
 
 const searchUser = document.querySelector('#searchUser');
 const result = document.querySelector('#result');
-const bSearch = document.querySelectorAll('#bSearch');
-bSearch.forEach(b => {
+const buttonModalShare = document.querySelectorAll('#bSearch');
+let username;
+buttonModalShare.forEach(b => {
     b.addEventListener('click', () => {
+        const form = document.querySelector('#form');
         let id_file = b.getAttribute('data-id_file');
-        const formKirim = document.querySelector('#form');
-        formKirim.action = '/kirimFile/' + id_file;
-        searchUser.addEventListener('input', function() {
-            const user = searchUser.value.trim();
-            if(user != '') {
-                const xhr = new XMLHttpRequest();
-                xhr.open('GET', `/username?q=${user}`, true);
-                xhr.onload = function() {
-                    if(xhr.status == 200) {
-        
-                        const users  = JSON.parse(xhr.responseText);
-                        const id_file = event.relatedTarget;
-        
-                        result.innerHTML = '';
-        
-                        users.forEach(u => {
-                            const li = document.createElement('li');
-                            li.textContent = u.username;
-                            li.classList.add('list-group-item')
-                            result.appendChild(li);
-                        })
-                    }
-                };
-        
-                xhr.send();
-            } else {
-                result.innerHTML = '';
-            }
-        })
+        username = b.getAttribute('data-user');
+        form.action = '';
+        form.action = '/kirimFile/' + id_file;
     })
+})
+searchUser.addEventListener('input', function () {
+    let valueSearch = searchUser.value.trim();
+    const buttonKirim = document.querySelector('#kirimUser');
+    if (valueSearch != '') {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', `/username?q=${valueSearch}`, true);
+        xhr.onload = function () {
+            if (xhr.status == 200) {
+                const users = JSON.parse(xhr.responseText);
+                valueSearch == username ? buttonKirim.classList.add('disabled') : buttonKirim.classList.remove('disabled');
+                result.innerHTML = '';
+
+                if (users.length == 0) {
+                    buttonKirim.classList.add('disabled')
+                }
+                
+                users.forEach(u => {
+                    const li = document.createElement('li');
+                    li.textContent = u.username;
+                    li.classList.add('list-group-item');
+                    li.classList.add('userLi');
+                    result.appendChild(li);
+                    let liUser = document.querySelectorAll('.userLi');
+                    liUser.forEach(uli => {
+                        uli.addEventListener('click', () => {
+                            searchUser.value = uli.innerText;
+                            result.innerHTML = '';
+                        })
+                    })
+                })
+            }
+        };
+
+        xhr.send();
+    } else {
+        buttonKirim.classList.add('disabled');
+        result.innerHTML = '';
+    }
 })

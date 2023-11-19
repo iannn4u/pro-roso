@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\File;
+use App\Models\Pesan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -19,6 +20,8 @@ class UserController extends Controller
     {
         $data['title'] = 'Beranda';
         $data['user'] = User::where('id_user', auth()->id())->first();
+        $data['pesan'] = Pesan::where('id_penerima', auth()->id())->first();
+        dd($data['pesan']);
         $file = File::latest();
         if(request('search')) {
             $file->where('judul_file', 'like', '%' . request('search') . '%');
@@ -142,11 +145,7 @@ class UserController extends Controller
 
     public function ajax() {
         $query = request('q');
-        $users = User::where('username', 'like', "%$query%")->take(5)->get();
+        $users = User::where('username', 'like', "%$query%")->where('username', '!=', Auth::user()->username)->take(5)->get();
         return response()->json($users);
-    }
-
-    public function kirimFile($id_file) {
-        dd('suda sampai sini');
     }
 }
