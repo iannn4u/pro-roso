@@ -4,22 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\File;
+use App\Models\Pesan;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('admin');
-    }
-
     public function index()
     {
         $data['title'] = 'Beranda Admin';
         $users = User::whereIn('status', [0, 1]);
         $data['files'] = File::all();
+        $data['jumlahPesan'] = Pesan::where('id_penerima', auth()->id())->count();
+        $data['pesan'] = Pesan::where('id_penerima', auth()->id())->get();
 
         if (request('search')) {
             $users->where(function ($q) {
@@ -52,6 +50,8 @@ class AdminController extends Controller
 
     public function edit($id_user)
     {
+        $data['jumlahPesan'] = Pesan::where('id_penerima', auth()->id())->count();
+        $data['pesan'] = Pesan::where('id_penerima', auth()->id())->get();
         $data['title'] = 'Edit Profil User';
         $data['user'] = User::where('id_user', $id_user)->first();
         return view('admin.edit', $data);

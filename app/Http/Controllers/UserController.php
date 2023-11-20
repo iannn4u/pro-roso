@@ -20,13 +20,13 @@ class UserController extends Controller
     {
         $data['title'] = 'Beranda';
         $data['user'] = User::where('id_user', auth()->id())->first();
-        $data['pesan'] = Pesan::where('id_penerima', auth()->id())->first();
-        dd($data['pesan']);
-        $file = File::latest();
+        $data['jumlahPesan'] = Pesan::where('id_penerima', auth()->id())->count();
+        $data['pesan'] = Pesan::where('id_penerima', auth()->id())->get();
+        $files = File::where('id_user', auth()->id());
         if(request('search')) {
-            $file->where('judul_file', 'like', '%' . request('search') . '%');
+            $files->where('judul_file', 'like', '%' . request('search') . '%');
         }
-        $data['files'] = $file->get();
+        $data['files'] = $files->get();
         return view('user.index', $data);
     }
 
@@ -53,6 +53,8 @@ class UserController extends Controller
     {
         $data['title'] = 'Profil Saya';
         $data['user'] = $user;
+        $data['jumlahPesan'] = Pesan::where('id_penerima', auth()->id())->count();
+        $data['pesan'] = Pesan::where('id_penerima', auth()->id())->take(5)->get();
         return view('user.detail', $data);
     }
 
@@ -66,6 +68,8 @@ class UserController extends Controller
             abort(404);
         }
         $data['user'] = $user;
+        $data['jumlahPesan'] = Pesan::where('id_penerima', auth()->id())->count();
+        $data['pesan'] = Pesan::where('id_penerima', auth()->id())->get();
         return view('user.edit', $data);
     }
 
