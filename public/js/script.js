@@ -6,53 +6,56 @@ function showPreview(event) {
     }
 }
 
-if (window.location.href === 'http://127.0.0.1:8000/file/create' || window.location.href === 'http://127.0.0.1:8000/file/1/edit') {
-    document.querySelectorAll('.dropFile').forEach((i) => {
-        const dropArea = i.closest('.dropArea');
-        dropArea.addEventListener('click', (e) => {
+if (
+    window.location.href === "http://127.0.0.1:8000/file/create" ||
+    window.location.href === "http://127.0.0.1:8000/file/1/edit"
+) {
+    document.querySelectorAll(".dropFile").forEach((i) => {
+        const dropArea = i.closest(".dropArea");
+        dropArea.addEventListener("click", (e) => {
             i.click();
         });
 
-        i.addEventListener('change', (e) => {
+        i.addEventListener("change", (e) => {
             if (i.files.length) {
                 thumb(dropArea, i.files[0]);
             }
-        })
+        });
 
-        dropArea.addEventListener('dragover', (e) => {
+        dropArea.addEventListener("dragover", (e) => {
             e.preventDefault();
-            dropArea.classList.add('dropArea-over');
+            dropArea.classList.add("dropArea-over");
         });
-        ['dragleave', 'dragend'].forEach((type) => {
+        ["dragleave", "dragend"].forEach((type) => {
             dropArea.addEventListener(type, (e) => {
-                dropArea.classList.remove('dropArea-over');
-            })
+                dropArea.classList.remove("dropArea-over");
+            });
         });
-        dropArea.addEventListener('drop', (e) => {
+        dropArea.addEventListener("drop", (e) => {
             e.preventDefault();
             if (e.dataTransfer.files.length) {
                 i.files = e.dataTransfer.files;
                 thumb(dropArea, e.dataTransfer.files[0]);
             }
-            dropArea.classList.remove('dropArea-over');
+            dropArea.classList.remove("dropArea-over");
         });
-    })
+    });
 
     function thumb(dropArea, file) {
-        let thumbElement = dropArea.querySelector('.dropArea-thumb');
+        let thumbElement = dropArea.querySelector(".dropArea-thumb");
 
-        if (dropArea.querySelector('.dropText')) {
-            dropArea.querySelector('.dropText').remove();
+        if (dropArea.querySelector(".dropText")) {
+            dropArea.querySelector(".dropText").remove();
         }
 
         if (!thumbElement) {
-            thumbElement = document.createElement('div');
-            thumbElement.classList.add('dropArea-thumb');
+            thumbElement = document.createElement("div");
+            thumbElement.classList.add("dropArea-thumb");
             dropArea.appendChild(thumbElement);
         }
         thumbElement.dataset.label = file.name;
 
-        if (file.type.startsWith('image/')) {
+        if (file.type.startsWith("image/")) {
             const reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onload = () => {
@@ -66,63 +69,95 @@ if (window.location.href === 'http://127.0.0.1:8000/file/create' || window.locat
 
 const bSalin = document.querySelectorAll("#salin");
 bSalin.forEach((b) => {
-    b.addEventListener('click', () => {
-        link = document.querySelector('#link');
+    b.addEventListener("click", () => {
+        link = document.querySelector("#link");
         navigator.clipboard.writeText(link.value);
-        alert('berhasil disalin');
+        alert("berhasil disalin");
     });
-})
+});
 
-
-const searchUser = document.querySelector('#searchUser');
-const result = document.querySelector('#result');
-const buttonModalShare = document.querySelectorAll('#bSearch');
+const searchUser = document.querySelector("#searchUser");
+const result = document.querySelector("#result");
+const buttonModalShare = document.querySelectorAll("#bSearch");
+const notfon = document.querySelector("#notfon");
+let clicked = false;
 let username;
-buttonModalShare.forEach(b => {
-    b.addEventListener('click', () => {
-        const form = document.querySelector('#form');
-        let id_file = b.getAttribute('data-id_file');
-        username = b.getAttribute('data-user');
-        form.action = '';
-        form.action = '/kirimFile/' + id_file;
-    })
-})
-searchUser.addEventListener('input', function () {
+
+buttonModalShare.forEach((b) => {
+    b.addEventListener("click", () => {
+        const form = document.querySelector("#form");
+        let id_file = b.getAttribute("data-id_file");
+        username = b.getAttribute("data-user");
+        form.action = "";
+        form.action = "/kirimFile/" + id_file;
+    });
+});
+searchUser.addEventListener("input", function () {
     let valueSearch = searchUser.value.trim();
-    const buttonKirim = document.querySelector('#kirimUser');
-    if (valueSearch != '') {
+    const buttonKirim = document.querySelector("#kirimUser");
+    if (valueSearch != "") {
         const xhr = new XMLHttpRequest();
-        xhr.open('GET', `/username?q=${valueSearch}`, true);
+        xhr.open("GET", `/username?q=${valueSearch}`, true);
         xhr.onload = function () {
             if (xhr.status == 200) {
                 const users = JSON.parse(xhr.responseText);
-                valueSearch == username ? buttonKirim.classList.add('disabled') : buttonKirim.classList.remove('disabled');
-                result.innerHTML = '';
+                valueSearch == username
+                    ? buttonKirim.classList.add("disabled")
+                    : buttonKirim.classList.remove("disabled");
+                result.innerHTML = "";
+
+                if (clicked) {
+                    buttonKirim.classList.remove("disabled");
+                } else {
+                    buttonKirim.classList.add("disabled");
+                }
+
+                searchUser.addEventListener("keyup", function () {
+                    clicked = false;
+                    buttonKirim.classList.add("disabled");
+                });
 
                 if (users.length == 0) {
-                    buttonKirim.classList.add('disabled')
+                    buttonKirim.classList.add("disabled");
+                    notfon.textContent = `User '${valueSearch}' tidak ada!`;
+                    notfon.classList.remove("d-none");
+                    notfon.classList.add("d-block");
+                } else {
+                    notfon.classList.add("d-none");
+                    notfon.classList.remove("d-block");
                 }
-                
-                users.forEach(u => {
-                    const li = document.createElement('li');
+
+                users.forEach((u) => {
+                    const li = document.createElement("li");
                     li.textContent = u.username;
-                    li.classList.add('list-group-item');
-                    li.classList.add('userLi');
+                    li.classList.add("list-group-item");
+                    li.classList.add("userLi");
+                    li.setAttribute("role", "button");
                     result.appendChild(li);
-                    let liUser = document.querySelectorAll('.userLi');
-                    liUser.forEach(uli => {
-                        uli.addEventListener('click', () => {
+                    let liUser = document.querySelectorAll(".userLi");
+                    liUser.forEach((uli) => {
+                        uli.addEventListener("click", () => {
                             searchUser.value = uli.innerText;
-                            result.innerHTML = '';
-                        })
-                    })
-                })
+                            result.innerHTML = "";
+                            clicked = true;
+                            console.log(clicked);
+
+                            if (clicked) {
+                                buttonKirim.classList.remove("disabled");
+                            } else {
+                                buttonKirim.classList.add("disabled");
+                            }
+                        });
+                    });
+                });
             }
         };
 
         xhr.send();
     } else {
-        buttonKirim.classList.add('disabled');
-        result.innerHTML = '';
+        buttonKirim.classList.add("disabled");
+        notfon.classList.add("d-none");
+        notfon.classList.remove("d-block");
+        result.innerHTML = "";
     }
-})
+});
