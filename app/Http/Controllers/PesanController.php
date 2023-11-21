@@ -6,6 +6,7 @@ use App\Models\Pesan;
 use App\Http\Requests\StorePesanRequest;
 use App\Http\Requests\UpdatePesanRequest;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class PesanController extends Controller
@@ -40,7 +41,9 @@ class PesanController extends Controller
         DB::table('pesans')->insert([
             'id_pengirim' => auth()->id(),
             'id_penerima' => $user->id_user,
-            'id_file' => $id_file
+            'id_file' => $id_file,
+            'created_at' => Carbon::now('Asia/Jakarta'),
+            'updated_at' => Carbon::now('Asia/Jakarta')
         ]);
 
         session()->flash('success', 'berhasil mengirim file');

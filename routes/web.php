@@ -42,11 +42,11 @@ Route::middleware('auth')->group(function () {
         Route::get('lihatFile/{id_file}', 'detailFileKirim');
     });
 
-    Route::controller(AdminController::class)->group(function () {
+    Route::middleware('admin')->controller(AdminController::class)->group(function () {
         Route::get('admin', 'index');
         Route::get('verified/{id_user}', 'verified');
         Route::get('hapus/{id_user}', 'destroy');
         Route::get('admin/{id_user}/edit', 'edit');
         Route::put('admin/{id_user}/edit', 'update');
-    })->middleware('admin');
+    });
 });

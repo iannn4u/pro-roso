@@ -23,10 +23,12 @@ class UserController extends Controller
         $data['jumlahPesan'] = Pesan::where('id_penerima', auth()->id())->count();
         $data['pesan'] = Pesan::where('id_penerima', auth()->id())->get();
         $files = File::where('id_user', auth()->id());
-        if(request('search')) {
+        if (request('search')) {
             $files->where('judul_file', 'like', '%' . request('search') . '%');
         }
         $data['files'] = $files->get();
+
+        // dd($data);
         return view('user.index', $data);
     }
 
@@ -47,7 +49,7 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * nampilin data profil kita
      */
     public function show(User $user)
     {
@@ -147,7 +149,8 @@ class UserController extends Controller
         return redirect('signin');
     }
 
-    public function ajax() {
+    public function ajax()
+    {
         $query = request('q');
         $users = User::where('username', 'like', "%$query%")->where('username', '!=', Auth::user()->username)->take(5)->get();
         return response()->json($users);

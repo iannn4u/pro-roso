@@ -1,28 +1,27 @@
 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-    <!-- Sidebar Toggle (Topbar) -->
-    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-        <i class="fa fa-bars"></i>
-    </button>
+  <!-- Sidebar Toggle (Topbar) -->
+  <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+    <i class="fa fa-bars"></i>
+  </button>
 
-    <!-- Topbar Search -->
-    <form
-        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-        <div class="input-group">
-            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                aria-label="Search" aria-describedby="basic-addon2" name="search">
-            <div class="input-group-append">
-                <button class="btn btn-primary" type="submit">
-                    <i class="fas fa-search fa-sm"></i>
-                </button>
-            </div>
-        </div>
-    </form>
+  <!-- Topbar Search -->
+  <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+    <div class="input-group">
+      <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search"
+        aria-describedby="basic-addon2" name="search">
+      <div class="input-group-append">
+        <button class="btn btn-primary" type="submit">
+          <i class="fas fa-search fa-sm"></i>
+        </button>
+      </div>
+    </div>
+  </form>
 
-    <!-- Topbar Navbar -->
-    <ul class="navbar-nav ml-auto">
+  <!-- Topbar Navbar -->
+  <ul class="navbar-nav ml-auto">
 
-        {{-- <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+    {{-- <!-- Nav Item - Search Dropdown (Visible Only XS) -->
         <li class="nav-item dropdown no-arrow d-sm-none">
             <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -46,38 +45,41 @@
             </div>
         </li> --}}
 
-        <!-- Nav Item - Alerts -->
-        <li class="nav-item dropdown no-arrow mx-1">
-            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-bell fa-fw"></i>
-                <!-- Counter - Alerts -->
-                <span class="badge badge-danger badge-counter">{{ $jumlahPesan }}</span>
-            </a>
-            <!-- Dropdown - Alerts -->
-            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                aria-labelledby="alertsDropdown">
-                <h6 class="dropdown-header">
-                    Notifikasi
-                </h6>
-                @foreach ($pesan as $p)
-                <div class="dropdown-item d-flex align-items-center">
-                    <div class="mr-3">
-                        <div class="icon-circle bg-primary">
-                            <i class="fas fa-file-alt text-white"></i>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="small text-gray-500">December 12, 2019</div>
-                        <span><b>{{ $p->user->username }}</b>, Baru saja mengirim file kepada anda! <a href="/lihatFile/{{ $p->id_file }}">Lihat file</a></span>
-                    </div>
-                </div>
-                @endforeach
-                <a class="dropdown-item text-center small text-gray-500" href="#">Lihat Notifikasi Lainnya</a>
+    <!-- Nav Item - Alerts -->
+    <li class="nav-item dropdown no-arrow mx-1">
+      <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-bell fa-fw"></i>
+        @unless ($jumlahPesan == 0)
+          <!-- Counter - Alerts -->
+          <span class="badge badge-danger badge-counter">{{ $jumlahPesan }}</span>
+        @endunless
+      </a>
+      <!-- Dropdown - Alerts -->
+      <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+        aria-labelledby="alertsDropdown">
+        <h6 class="dropdown-header">
+          Notifikasi
+        </h6>
+        @foreach ($pesan as $p)
+          <div class="dropdown-item d-flex align-items-center">
+            <div class="mr-3">
+              <div class="icon-circle bg-primary">
+                <i class="fas fa-file-alt text-white"></i>
+              </div>
             </div>
-        </li>
+            <div>
+              <div title="{{ $p->user->created_at }}" class="small text-gray-700">{{ $p->user->created_at->format('F d, Y h:iA') }}</div>
+              <span>Hai {{ Auth::user()->username }}! <b>{{ $p->user->username }}</b> mengirim sebuah file kepada anda! <a
+                  href="/lihatFile/{{ $p->id_file }}">Lihat file</a></span>
+            </div>
+          </div>
+        @endforeach
+        <a class="dropdown-item text-center small text-gray-500" href="#">Lihat Notifikasi Lainnya</a>
+      </div>
+    </li>
 
-        {{-- <!-- Nav Item - Messages -->
+    {{-- <!-- Nav Item - Messages -->
         <li class="nav-item dropdown no-arrow mx-1">
             <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -143,24 +145,24 @@
             </div>
         </li> --}}
 
-        <div class="topbar-divider d-none d-sm-block"></div>
+    <div class="topbar-divider d-none d-sm-block"></div>
 
-        <!-- Nav Item - User Information -->
-        <li class="nav-item dropdown no-arrow">
-            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->username }}</span>
-                <img class="img-profile rounded-circle"
-                    src="{{ Auth::user()->pp === 'img/defaultProfile.svg' ? asset('img/defaultProfile.svg') : asset('storage/' . $user->pp) }}" class="img-fluid rounded-full">
-            </a>
-            <!-- Dropdown - User Information -->
-            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="/user/{{ Auth::user()->id_user }}">
-                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Profile
-                </a>
-                {{-- <a class="dropdown-item" href="#">
+    <!-- Nav Item - User Information -->
+    <li class="nav-item dropdown no-arrow">
+      <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+        <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->username }}</span>
+        <img class="img-profile rounded-circle"
+          src="{{ (Auth::user()->pp === 'img/defaultProfile.svg') ? asset('img/defaultProfile.svg') : asset('storage/' . Auth::user()->pp) }}"
+          class="img-fluid rounded-full">
+      </a>
+      <!-- Dropdown - User Information -->
+      <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+        <a class="dropdown-item" href="/user/{{ Auth::user()->id_user }}">
+          <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+          Profile
+        </a>
+        {{-- <a class="dropdown-item" href="#">
                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                     Settings
                 </a>
@@ -168,14 +170,14 @@
                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                     Activity Log
                 </a> --}}
-                <div class="dropdown-divider"></div>
-                <button class="dropdown-item" data-toggle="modal" data-target="#logoutModal">
-                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Logout
-                </button>
-            </div>
-        </li>
+        <div class="dropdown-divider"></div>
+        <button class="dropdown-item" data-toggle="modal" data-target="#logoutModal">
+          <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+          Logout
+        </button>
+      </div>
+    </li>
 
-    </ul>
+  </ul>
 
 </nav>
