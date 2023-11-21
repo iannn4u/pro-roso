@@ -69,7 +69,7 @@
               </div>
             </div>
             <div>
-              <div title="{{ $p->user->created_at }}" class="small text-gray-700">{{ $p->user->created_at->format('F d, Y h:iA') }}</div>
+              <div title="{{ $p->created_at }}" class="small text-gray-700">{{ $p->created_at->format('F d, Y h:iA') }}</div>
               <span>Hai {{ Auth::user()->username }}! <b>{{ $p->user->username }}</b> mengirim sebuah file kepada anda! <a
                   href="/lihatFile/{{ $p->id_file }}">Lihat file</a></span>
             </div>
