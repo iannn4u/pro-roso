@@ -72,7 +72,7 @@ bSalin.forEach((b) => {
     b.addEventListener("click", () => {
         link = document.querySelector("#link");
         navigator.clipboard.writeText(link.value);
-        alert("berhasil disalin");
+        alert("Link file berhasil disalin!");
     });
 });
 
@@ -101,6 +101,9 @@ searchUser.addEventListener("input", function () {
         xhr.onload = function () {
             if (xhr.status == 200) {
                 const users = JSON.parse(xhr.responseText);
+
+                // users = User
+                
                 valueSearch == username
                     ? buttonKirim.classList.add("disabled")
                     : buttonKirim.classList.remove("disabled");

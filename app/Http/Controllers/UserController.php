@@ -29,7 +29,7 @@ class UserController extends Controller
         $data['files'] = $files->get();
 
         // dd($data);
-        return view('user.index', $data);
+        return view('user.index', $data)->render();
     }
 
     /**

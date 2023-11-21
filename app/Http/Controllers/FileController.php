@@ -8,19 +8,29 @@ use App\Http\Requests\UpdateFileRequest;
 use App\Models\Pesan;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class FileController extends Controller
 {
+    protected $jumlahPesan;
+    protected $pesan;
+
+    public function __construct()
+    {
+        $this->jumlahPesan = Pesan::where('id_penerima', Auth::id())->count();
+        $this->pesan = Pesan::where('id_penerima', Auth::id())->get();
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $data['jumlahPesan'] = Pesan::where('id_penerima', auth()->id())->count();
-        $data['pesan'] = Pesan::where('id_penerima', auth()->id())->get();
+        $data['jumlahPesan'] = $this->jumlahPesan;
+        $data['pesan'] = $this->pesan;
         $files = File::latest()->where('status', 'public');
-        if(request('search')) {
+        if (request('search')) {
             $files->where('judul_file', 'like', '%' . request('search') . '%');
         }
         $data['files'] = $files->get();
@@ -33,8 +43,8 @@ class FileController extends Controller
      */
     public function create()
     {
-        $data['jumlahPesan'] = Pesan::where('id_penerima', auth()->id())->count();
-        $data['pesan'] = Pesan::where('id_penerima', auth()->id())->get();
+        $data['jumlahPesan'] = $this->jumlahPesan;
+        $data['pesan'] = $this->pesan;
         $data['title'] = 'Buat File';
         return view('user.file.create', $data);
     }
@@ -106,8 +116,8 @@ class FileController extends Controller
      */
     public function show(File $file)
     {
-        $data['jumlahPesan'] = Pesan::where('id_penerima', auth()->id())->count();
-        $data['pesan'] = Pesan::where('id_penerima', auth()->id())->get();
+        $data['jumlahPesan'] = $this->jumlahPesan;
+        $data['pesan'] = $this->pesan;
         $data['title'] = 'Detail File';
         if ($file->id_user != Auth::id()) abort(404);
         $data['file'] = $file;
@@ -128,9 +138,9 @@ class FileController extends Controller
             session()->flash('errors', 'File tidak ada');
             return redirect('/');
         }
-        
-        $data['jumlahPesan'] = Pesan::where('id_penerima', auth()->id())->count();
-        $data['pesan'] = Pesan::where('id_penerima', auth()->id())->get();
+
+        $data['jumlahPesan'] = $this->jumlahPesan;
+        $data['pesan'] = $this->pesan;
 
         if ($file->id_user != Auth::id()) abort(404);
         return view('user.file.edit', $data);
@@ -246,17 +256,16 @@ class FileController extends Controller
             session()->flash('errors', 'file tidak ditemukan');
             return redirect('/');
         }
-
         session()->flash('download', $fileDB->id_file);
         return redirect('/');
     }
 
     public function detailPublik(File $file, $id_file)
     {
-        $data['jumlahPesan'] = Pesan::where('id_penerima', auth()->id())->count();
-        $data['pesan'] = Pesan::where('id_penerima', auth()->id())->get();
+        $data['jumlahPesan'] = $this->jumlahPesan;
+        $data['pesan'] = $this->pesan;
         $data['file'] = $file->find($id_file);
-        if($data['file'] == null || $data['file']->status != 'public') {
+        if ($data['file'] == null || $data['file']->status != 'public') {
             session()->flash('errors', 'file tidak ada');
             return redirect('/');
         }
@@ -264,15 +273,19 @@ class FileController extends Controller
         return view('user.file.detalPublik', $data);
     }
 
-    public function detailFileKirim(File $file, $id_file) {
-        $data['jumlahPesan'] = Pesan::where('id_penerima', auth()->id())->count();
-        $data['pesan'] = Pesan::where('id_penerima', auth()->id())->get();
-        $data['file'] = $file->find($id_file);
-        if($data['file'] == null) {
-            session()->flash('errors', 'file tidak ada');
+    public function detailFileKirim($id_file)
+    {
+        $data['jumlahPesan'] = $this->jumlahPesan;
+        $data['pesan'] = $this->pesan;
+        $data['file'] = File::find($id_file);
+
+        $fii = DB::table('files AS f')->join('users AS u', 'u.id_user', '=', 'f.id_user')->join('pesans AS p', 'f.id_file', '=', 'p.id_file')->where('p.id_file', '=', $id_file)->get();
+
+        if (is_null($data['file']) || count($fii) == 0) {
+            session()->flash('errors', 'file tidak ada / tidak dibagikan');
             return redirect('/');
         }
-        $data['title'] = 'Detail File';
+        $data['title'] = 'File dari ' . $data['file']->user->username;
         return view('user.file.detalPublik', $data);
     }
 }

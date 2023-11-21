@@ -8,7 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class File extends Model
 {
     use HasFactory;
-    
+
     protected $primaryKey = 'id_file';
     protected $guarded = ['id_file'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_user', 'id_user');
+    }
 }
