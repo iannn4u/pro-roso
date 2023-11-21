@@ -4,7 +4,7 @@ ___
 git clone https://github.com/iannn4u/pro-roso.git
 ```
 ```
-cd pro-roso_laravel
+cd pro-roso
 ```
 ```
 composer install
