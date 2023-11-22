@@ -18,6 +18,7 @@ class FileController extends Controller
 
     public function __construct()
     {
+        $this->middleware('auth');
         $this->jumlahPesan = Pesan::where('id_penerima', Auth::id())->count();
         $this->pesan = Pesan::where('id_penerima', Auth::id())->get();
     }
@@ -27,6 +28,7 @@ class FileController extends Controller
      */
     public function index()
     {
+        dd($this->jumlahPesan);
         $data['jumlahPesan'] = $this->jumlahPesan;
         $data['pesan'] = $this->pesan;
         $files = File::latest()->where('status', 'public');
@@ -276,7 +278,8 @@ class FileController extends Controller
     public function detailFileKirim($id_file)
     {
         $data['jumlahPesan'] = $this->jumlahPesan;
-        $data['pesan'] = $this->pesan;
+        $data['pesan'] = $this->pesan; //countable
+        $data['pesanUser'] = Pesan::where('id_penerima', Auth::id())->first(); //object
         $data['file'] = File::find($id_file);
 
         $fii = DB::table('files AS f')->join('users AS u', 'u.id_user', '=', 'f.id_user')->join('pesans AS p', 'f.id_file', '=', 'p.id_file')->where('p.id_file', '=', $id_file)->get();

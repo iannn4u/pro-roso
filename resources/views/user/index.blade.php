@@ -147,6 +147,11 @@
               <input type="text" class="form-control" id="searchUser" placeholder="username penerima..."
                 name="username">
               <ul class="list-group mt-2" id="result"></ul>
+
+              <div class="mb-3 mt-1">
+                <label for="pesan" class="form-label">Pesanmu</label>
+                <textarea class="form-control" name="pesan" id="pesan" rows="2"></textarea>
+              </div>
               <small class="mt-2 text-danger d-none" id="notfon"></small>
             </div>
         </div>

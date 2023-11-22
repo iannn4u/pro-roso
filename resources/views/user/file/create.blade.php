@@ -18,7 +18,7 @@
             <div class="col-md-6">
                 <form method="POST" action="/file" enctype="multipart/form-data">
                     @csrf
-                    <div class="dropArea mb-2">
+                    <div class="dropArea mb-4">
                         <div class="dropText">Drop disini atau click untuk memilih file</div>
                         <input type="file" name="files" id="files"
                             class="dropFile @error('files') is-invalid @enderror">

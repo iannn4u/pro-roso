@@ -15,6 +15,23 @@ class StoreFileRequest extends FormRequest
     }
 
     /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'judul_file.required' => 'Judul file harus diisi',
+            'judul_file.unique' => 'Judul ini sudah digunakan',
+            'files.required' => 'Files harus diisi',
+            'files.file' => 'Files format harus file',
+            'status.required' => 'Status file harus diisi',
+            'deskripsi.required' => 'Deskripsi file harus diisi'
+        ];
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>

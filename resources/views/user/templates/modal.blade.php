@@ -26,7 +26,7 @@
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <div class="modal-body">Akun akan terhapus permanen dan semua data-data akun ini akan terhapus.</div>
+            <div class="modal-body">Akun ini akan terhapus dari database secara permanen.</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                 <form action="/user/{{ Auth::user()->id_user }}" method="POST" class="d-inline">

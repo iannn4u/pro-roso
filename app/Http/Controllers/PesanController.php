@@ -30,7 +30,7 @@ class PesanController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorePesanRequest $request, $id_file)
+    public function store($id_file)
     {
 
         $user = User::where('username', request('username'))->first();
@@ -42,6 +42,7 @@ class PesanController extends Controller
             'id_pengirim' => auth()->id(),
             'id_penerima' => $user->id_user,
             'id_file' => $id_file,
+            'pesan' => request('pesan'),
             'created_at' => Carbon::now('Asia/Jakarta'),
             'updated_at' => Carbon::now('Asia/Jakarta')
         ]);

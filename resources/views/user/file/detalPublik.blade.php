@@ -86,6 +86,11 @@
                                     <li class="list-group-item"><b>Dari</b> :
                                         <?= $file->user->username ?>
                                     </li>
+                                    @isset($pesanUser)
+                                    <li class="list-group-item"><b>Pesan</b> :
+                                        <?= $pesanUser->pesan ?>
+                                    </li>
+                                    @endisset
                                     <li class="list-group-item"><b>Nama File</b> :
                                         <?= $file->original_filename ?>
                                     </li>

@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::post('kirimFile/{id_file}', [PesanController::class, 'store']);
 
     Route::resource('file', FileController::class);
+
     Route::controller(FileController::class)->group(function () {
         Route::get('publikFile', 'index');
         Route::get('download/{id_file}', 'download');
@@ -42,11 +43,11 @@ Route::middleware('auth')->group(function () {
         Route::get('lihatFile/{id_file}', 'detailFileKirim');
     });
 
-    Route::middleware('admin')->controller(AdminController::class)->group(function () {
-        Route::get('admin', 'index');
-        Route::get('verified/{id_user}', 'verified');
-        Route::get('hapus/{id_user}', 'destroy');
-        Route::get('admin/{id_user}/edit', 'edit');
-        Route::put('admin/{id_user}/edit', 'update');
+    Route::middleware('admin')->controller(AdminController::class)->prefix('a/users')->group(function () {
+        Route::get('/', 'index');
+        Route::get('verified/{id_user}', 'verified')->name('verify');
+        Route::delete('hapus/{id_user}', 'destroy')->name('hapusUser');
+        Route::get('/{id_user}/edit', 'edit')->name('editUser');
+        Route::put('/{id_user}/edit', 'update')->name('editAction');
     });
 });

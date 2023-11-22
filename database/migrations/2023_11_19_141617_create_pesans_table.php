@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('id_pengirim');
             $table->integer('id_penerima');
             $table->integer('id_file');
+            $table->text('pesan')->default(null);
             $table->timestamps();
         });
     }

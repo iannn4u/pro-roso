@@ -1,3 +1,6 @@
+/**
+ * dari nanamnya taulah
+ */
 function showPreview(event) {
     if (event.target.files.length > 0) {
         let src = URL.createObjectURL(event.target.files[0]);
@@ -6,6 +9,9 @@ function showPreview(event) {
     }
 }
 
+/**
+ * Kalau user edit  atau create tampilin dragble
+ */
 if (
     window.location.href === "http://127.0.0.1:8000/file/create" ||
     window.location.href === "http://127.0.0.1:8000/file/1/edit"
@@ -67,6 +73,26 @@ if (
     }
 }
 
+/**
+ * Hapus user lain oleh admin
+ */
+const targetDelete = document.querySelectorAll(".deleteA");
+targetDelete.forEach((target) => {
+    target.addEventListener("click", () => {
+        const formDel = document.querySelector("#form-delete-admin");
+        const namaAkun = document.querySelector(".nmA");
+        let idTarget = target.getAttribute("data-user");
+        let nmTarget = target.getAttribute("data-acc");
+
+        formDel.action = "";
+        formDel.action = `users/hapus/${idTarget}`;
+        namaAkun.textContent = nmTarget;
+    });
+});
+
+/**
+ * Nyalin link
+ */
 const bSalin = document.querySelectorAll("#salin");
 bSalin.forEach((b) => {
     b.addEventListener("click", () => {
@@ -76,6 +102,9 @@ bSalin.forEach((b) => {
     });
 });
 
+/**
+ * ajax nyari user
+ */
 const searchUser = document.querySelector("#searchUser");
 const result = document.querySelector("#result");
 const buttonModalShare = document.querySelectorAll("#bSearch");
@@ -103,7 +132,7 @@ searchUser.addEventListener("input", function () {
                 const users = JSON.parse(xhr.responseText);
 
                 // users = User
-                
+
                 valueSearch == username
                     ? buttonKirim.classList.add("disabled")
                     : buttonKirim.classList.remove("disabled");
