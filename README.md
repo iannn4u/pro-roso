@@ -10,9 +10,6 @@ cd pro-roso
 composer install
 ```
 ```
-npm i
-```
-```
 cp .env.example .env
 ```
 ```
@@ -30,15 +27,18 @@ php artisan storage:link
 ```
 php artisan serve
 ```
-```
-npm run dev
-```
 [localhost](http://127.0.0.1:8000)
 ---
 
 Catatan
 - ```npm run dev``` dan ```npm i``` belum berfungsi
 
+```
+npm i
+```
+```
+npm run dev
+```
 ```
 php artisan view:clear
 ```
