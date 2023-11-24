@@ -1,15 +1,14 @@
-@extends('user.templates.index')
-@section('content')
+<x-user :$title :$user :$jumlahPesan :$pesan>
     <div class="container-fluid">
 
         <!-- Page Heading -->
         <h1 class="h3 mb-4 text-gray-800">My Profile</h1>
         @if (session('success'))
-            <div class="alert alert-success alert-dismissible fade show w-25 m-3" role="alert"
-                style="position: fixed; z-index: 1; top: 0; right: 0;">
-                <strong>Berhasil!</strong> {{ session('success') }}.
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
+        <div class="alert alert-success alert-dismissible fade show w-25 m-3" role="alert"
+            style="position: fixed; z-index: 1; top: 0; right: 0;">
+            <strong>Berhasil!</strong> {{ session('success') }}.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
         @endif
 
         <!-- DataTales Example -->
@@ -36,7 +35,8 @@
                             <div class="text-center mt-4">
                                 <div class="mb-3 float-end">
                                     <a href="/user/{{ auth()->id() }}/edit" class="btn btn-success">Edit Profile</a>
-                                    <button class="btn btn-danger" data-toggle="modal" data-target="#deleteAccountModal">
+                                    <button class="btn btn-danger" data-toggle="modal"
+                                        data-target="#deleteAccountModal">
                                         Hapus Akun
                                     </button>
                                 </div>
@@ -47,4 +47,4 @@
             </div>
         </div>
     </div>
-@endsection
+</x-user>

@@ -4,7 +4,7 @@
 <head>
 
     @if (session('download'))
-        <meta http-equiv="refresh" content="0;url={{ url('/download/' . session('download')) }}">
+    <meta http-equiv="refresh" content="0;url={{ url('/download/' . session('download')) }}">
     @endif
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -25,7 +25,7 @@
 
     <!-- Bootstrap  -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-    
+
     <!-- MyCSS  -->
     <link rel="stylesheet" href="/css/style.css">
 
@@ -37,7 +37,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        @include('admin.templates.sidebar')
+        @include('user.templates.sidebar')
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -47,14 +47,14 @@
             <div id="content">
 
                 <!-- Topbar -->
-                @include('admin.templates.topbar')
+                @include('user.templates.topbar')
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    @yield('content')
+                    {{ $slot }}
 
                 </div>
                 <!-- /.container-fluid -->
@@ -66,7 +66,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; My Company {{ date('Y') }}</span>
+                        <span>Copyright &copy; {{ config('app.name') . ' ' . date('Y') }}</span>
                     </div>
                 </div>
             </footer>
@@ -84,7 +84,7 @@
     </a>
 
     <!-- Logout Modal-->
-    @include('admin.templates.modal')
+    @include('user.templates.modal')
 
     <!-- Bootstrap core JavaScript-->
     <script src="/vendor/jquery/jquery.min.js"></script>
@@ -101,7 +101,7 @@
 
     <!-- My JS -->
     <script src="/js/script.js"></script>
-    
+
 </body>
 
 </html>
