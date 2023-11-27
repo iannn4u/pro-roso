@@ -4,104 +4,53 @@
 <head>
 
     @if (session('download'))
-    <meta http-equiv="refresh" content="0;url={{ url('/download/' . session('download')) }}">
+        <meta http-equiv="refresh" content="0;url={{ url('/download/' . session('download')) }}">
     @endif
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+    <link rel="icon" href="\vendor\fontawesome-free\svgs\solid\box.svg" type="image/svg+xml">
 
     <title>{{ config('app.name') }} | {{ $title }}</title>
 
-    <!-- Custom fonts for this template-->
+    <!-- My CSS-->
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+
+    <!-- Tailwindcss-->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome-->
     <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-
-    <!-- Custom styles for this template-->
-    <link href="/css/sb-admin-2.min.css" rel="stylesheet">
-
-    <!-- Bootstrap  -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-
-    <!-- MyCSS  -->
-    <link rel="stylesheet" href="/css/style.css">
 
 </head>
 
-<body id="page-top">
+<body class="bg-gray-100 flex h-screen pe-3 pb-4">
 
-    <!-- Page Wrapper -->
-    <div id="wrapper">
-
-        <!-- Sidebar -->
+    <aside class="h-full w-1/5 py-3 px-5">
         @include('user.templates.sidebar')
-        <!-- End of Sidebar -->
+    </aside>
 
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
+    <div class="flex flex-col w-full">
 
-            <!-- Main Content -->
-            <div id="content">
-
-                <!-- Topbar -->
+        <header class="h-[70px] pt-2">
+            <nav class="flex justify-between">
                 @include('user.templates.topbar')
-                <!-- End of Topbar -->
+            </nav>
+        </header>
 
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
-
-                    <!-- Page Heading -->
-                    {{ $slot }}
-
-                </div>
-                <!-- /.container-fluid -->
-
-            </div>
-            <!-- End of Main Content -->
-
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; {{ config('app.name') . ' ' . date('Y') }}</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
-
-        </div>
-        <!-- End of Content Wrapper -->
+        <main class="bg-white rounded-2xl p-5 grid grid-cols-4 gap-x-4 h-screen">
+            {{ $slot }}
+        </main>
 
     </div>
-    <!-- End of Page Wrapper -->
+    <div class="hidden">
+        @include('user.templates.modal')
+    </div>
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-
-    <!-- Logout Modal-->
-    @include('user.templates.modal')
-
-    <!-- Bootstrap core JavaScript-->
+    <!-- JQuery-->
     <script src="/vendor/jquery/jquery.min.js"></script>
-    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="/js/sb-admin-2.min.js"></script>
-
-    <!-- Bootstrap-->
-    <script src="/js/bootstrap.min.js"></script>
-
-    <!-- My JS -->
-    <script src="/js/script.js"></script>
-
 </body>
 
 </html>
