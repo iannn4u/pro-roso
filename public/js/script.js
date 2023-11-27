@@ -109,8 +109,11 @@ const searchUser = document.querySelector("#searchUser");
 const result = document.querySelector("#result");
 const buttonModalShare = document.querySelectorAll("#bSearch");
 const notfon = document.querySelector("#notfon");
+const pesanFile = document.querySelector("#pesan");
 let clicked = false;
 let username;
+
+pesanFile.setAttribute("disabled", "");
 
 buttonModalShare.forEach((b) => {
     b.addEventListener("click", () => {
@@ -121,6 +124,7 @@ buttonModalShare.forEach((b) => {
         form.action = "/kirimFile/" + id_file;
     });
 });
+
 searchUser.addEventListener("input", function () {
     let valueSearch = searchUser.value.trim();
     const buttonKirim = document.querySelector("#kirimUser");
@@ -133,24 +137,32 @@ searchUser.addEventListener("input", function () {
 
                 // users = User
 
-                valueSearch == username
-                    ? buttonKirim.classList.add("disabled")
-                    : buttonKirim.classList.remove("disabled");
+                if (valueSearch == username) {
+                    buttonKirim.classList.add("disabled");
+                    pesanFile.setAttribute("disabled", "");
+                } else {
+                    buttonKirim.classList.remove("disabled");
+                    pesanFile.removeAttribute("disabled");
+                }
                 result.innerHTML = "";
 
                 if (clicked) {
                     buttonKirim.classList.remove("disabled");
+                    pesanFile.removeAttribute("disabled");
                 } else {
                     buttonKirim.classList.add("disabled");
+                    pesanFile.setAttribute("disabled", "");
                 }
 
                 searchUser.addEventListener("keyup", function () {
                     clicked = false;
                     buttonKirim.classList.add("disabled");
+                    pesanFile.setAttribute("disabled", "");
                 });
 
                 if (users.length == 0) {
                     buttonKirim.classList.add("disabled");
+                    pesanFile.setAttribute("disabled", "");
                     notfon.textContent = `User '${valueSearch}' tidak ada!`;
                     notfon.classList.remove("d-none");
                     notfon.classList.add("d-block");
@@ -172,12 +184,13 @@ searchUser.addEventListener("input", function () {
                             searchUser.value = uli.innerText;
                             result.innerHTML = "";
                             clicked = true;
-                            console.log(clicked);
 
                             if (clicked) {
                                 buttonKirim.classList.remove("disabled");
+                                pesanFile.removeAttribute("disabled");
                             } else {
                                 buttonKirim.classList.add("disabled");
+                                pesanFile.setAttribute("disabled", "");
                             }
                         });
                     });

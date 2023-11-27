@@ -267,16 +267,17 @@ class FileController extends Controller
     public function detailFileKirim($id_file)
     {
         $data['jumlahPesan'] = $this->getJumlahPesan();
-        $data['pesan'] = $this->getPesan(); //getPesan()e
-        $data['pesanUser'] = Pesan::where('id_penerima', Auth::id())->first(); //object
+        $data['pesan'] = $this->getPesan();
         $data['file'] = File::find($id_file);
 
-        $fii = DB::table('files AS f')->join('users AS u', 'u.id_user', '=', 'f.id_user')->join('pesans AS p', 'f.id_file', '=', 'p.id_file')->where('p.id_file', '=', $id_file)->get();
+        $pesan = DB::table('files AS f')->join('users AS u', 'u.id_user', '=', 'f.id_user')->join('pesans AS p', 'f.id_file', '=', 'p.id_file')->where('p.id_file', '=', $id_file)->where('p.id_penerima', '=', $this->getUserId())->get('p.pesan');
 
-        if (is_null($data['file']) || count($fii) == 0) {
+        if (is_null($data['file']) || count($pesan) == 0) {
             session()->flash('errors', 'file tidak ada / tidak dibagikan');
             return redirect('/');
         }
+
+        $data['fileShare'] = $pesan;
         $data['title'] = 'File dari ' . $data['file']->user->username;
         return view('user.file.detalPublik', $data);
     }

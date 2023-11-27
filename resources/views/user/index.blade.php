@@ -144,7 +144,7 @@
           <form action="" method="POST" id="form">
             @csrf
             <div class="mb-3">
-              <input type="text" class="form-control" id="searchUser" placeholder="username penerima..."
+              <input type="text" class="form-control" id="searchUser" placeholder="username penerima..." autofocus
                 name="username">
               <ul class="list-group mt-2" id="result"></ul>
 

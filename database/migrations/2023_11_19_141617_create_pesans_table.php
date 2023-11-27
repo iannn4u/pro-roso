@@ -16,7 +16,7 @@ return new class extends Migration
             $table->integer('id_pengirim');
             $table->integer('id_penerima');
             $table->unsignedBigInteger('id_file');
-            $table->text('pesan')->default(null);
+            $table->text('pesan')->nullable()->default(null);
             $table->timestamps();
 
             $table->foreign('id_file')->references('id_file')->on('files')->cascadeOnDelete();
