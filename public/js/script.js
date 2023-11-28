@@ -101,6 +101,16 @@ bSalin.forEach((b) => {
         alert("Link file berhasil disalin!");
     });
 });
+/**
+ * Right Click by Ian
+ */
+const card = document.querySelectorAll('#card');
+card.forEach((c) => {
+  c.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    return false;
+  })
+})
 
 /**
  * ajax nyari user
