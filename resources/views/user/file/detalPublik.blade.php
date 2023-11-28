@@ -86,11 +86,12 @@
                                     <li class="list-group-item"><b>Dari</b> :
                                         <?= $file->user->username ?>
                                     </li>
-                                    @isset($pesanUser)
+                                    @if(isset($fileShare) && !is_null($fileShare[0]->pesan
+                                    ))
                                     <li class="list-group-item"><b>Pesan</b> :
-                                        <?= $pesanUser->pesan ?>
+                                        <?= $fileShare[0]->pesan ?>
                                     </li>
-                                    @endisset
+                                    @endif
                                     <li class="list-group-item"><b>Nama File</b> :
                                         <?= $file->original_filename ?>
                                     </li>

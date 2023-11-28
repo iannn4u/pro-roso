@@ -20,41 +20,43 @@
 
 <div class="w-40 me-2 flex justify-between items-center">
     <div>
-      <button id="alertButton" class="relative">
-        <i class="fas fa-bell fa-fw"></i>
-        @unless ($jumlahPesan == 0)
+        <button data-popover-target="popover-default" data-popover-trigger="click" class="relative">
+            <i class="fas fa-bell fa-fw"></i>
+            @unless ($jumlahPesan == 0)
             <!-- Counter - Alerts -->
-            <span class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-medium w-4 h-4 rounded-full">{{ $jumlahPesan }}</span>
-        @endunless
-    </button>
-    
+            <span class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-medium w-4 h-4 rounded-full">{{
+                $jumlahPesan }}</span>
+            @endunless
+        </button>
+
         <!-- Dropdown - Alerts -->
-        <div class="hidden" aria-labelledby="alertsDropdown">
-            <h6 class="dropdown-header">
+        <div data-popover id="popover-default" role="tooltip"
+            class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-150 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+            <h6 class="p-3 font-semibold">
                 Notifikasi
             </h6>
             @unless (count($pesan))
-                <div class="mr-3 my-2">
-                    <div class="text-gray-700 text-center">
-                        <span>Kamu tidak memiliki notfikasi terbaru</span>
-                    </div>
+            <div class="mr-3 my-2">
+                <div class="text-gray-700 text-center">
+                    <span>Kamu tidak memiliki notfikasi terbaru</span>
                 </div>
+            </div>
             @endunless
             @foreach ($pesan as $p)
-                <div class="dropdown-item d-flex align-items-center">
-                    <div class="mr-3">
-                        <div class="icon-circle bg-primary">
-                            <i class="fas fa-file-alt text-white"></i>
-                        </div>
-                    </div>
-                    <div>
-                        <div title="{{ $p->created_at }}" class="small text-gray-700">
-                            {{ $p->created_at->format('F d, Y h:iA') }}
-                        </div>
-                        <span>Hai {{ Auth::user()->username }}! <b>{{ $p->user->username }}</b> mengirim sebuah file
-                            kepada anda! <a href="/lihatFile/{{ $p->id_file }}">Lihat file</a></span>
+            <div class="px-3">
+                <div class="mr-3">
+                    <div class="icon-circle bg-primary">
+                        <i class="fas fa-file-alt text-white"></i>
                     </div>
                 </div>
+                <div>
+                    <div title="{{ $p->created_at }}" class="text-xs text-gray-700">
+                        {{ $p->created_at->format('F d, Y h:iA') }}
+                    </div>
+                    <span>Hai {{ Auth::user()->username }}! <b>{{ $p->user->username }}</b> mengirim sebuah file
+                        kepada anda! <a href="/lihatFile/{{ $p->id_file }}">Lihat file</a></span>
+                </div>
+            </div>
             @endforeach
             <a class="dropdown-item text-center small text-gray-500" href="#">Lihat Notifikasi Lainnya</a>
         </div>

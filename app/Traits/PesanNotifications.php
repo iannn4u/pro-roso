@@ -12,7 +12,7 @@ trait PesanNotifications
   }
   public function getJumlahPesan()
   {
-    return Pesan::where('id_penerima', $this->getUserId())->count();
+    return $this->getPesan()->count();
   }
   public function getPesan()
   {
