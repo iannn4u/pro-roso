@@ -18,15 +18,16 @@ class AuthController extends Controller
     public function signin(Request $request)
     {
         $errors = [
-            'email_or_username.required' => 'Username atau Email harus diisi',
+            'usermail.required' => 'Username atau Email harus diisi',
             'password.required' => 'Password harus diisi',
         ];
         $validasi = $request->validate([
-            'email_or_username' => 'required',
+            'usermail' => 'required',
             'password' => 'required'
         ], $errors);
         
-        $user = User::where('email', $validasi['email_or_username'])->orWhere('username', $validasi['email_or_username'])->first();
+        $user = User::where('email', $validasi['usermail'])->orWhere('username', $validasi['usermail'])->first();
+
         
         if ($user) {
             if ($user->status == 1 || $user->status == 2) {

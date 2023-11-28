@@ -37,9 +37,9 @@ Route::middleware('auth')->group(function () {
 
     Route::controller(FileController::class)->group(function () {
         Route::get('publikFile', 'index');
-        Route::get('download/{id_file}', 'download');
+        Route::get('download/{id_file}', 'download')->name('download');
         Route::get('d/{id_file}/{filename}', 'linkDownload')->middleware('auth');
-        Route::get('detail/{id_file}', 'detailPublik');
+        Route::get('detail/{id_file}', 'detailPublik')->name('detail');
         Route::get('lihatFile/{id_file}', 'detailFileKirim');
     });
 
