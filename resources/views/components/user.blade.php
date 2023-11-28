@@ -26,9 +26,9 @@
 
 </head>
 
-<body class="bg-gray-100 flex h-screen pe-3 pb-4">
+<body class="bg-gray-100 flex h-screen pe-3 pb-4 min-w-[1000px]">
 
-    <aside class="h-full w-1/5 py-3 px-5">
+    <aside class="h-full min-w-[320px] py-3 px-5">
         @include('user.templates.sidebar')
     </aside>
 
