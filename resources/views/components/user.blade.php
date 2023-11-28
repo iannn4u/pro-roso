@@ -26,7 +26,7 @@
     <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 
     <!-- Custom Font -->
-    <link href="https://fonts.cdnfonts.com/css/alliance-no1" rel="stylesheet">
+
 
 </head>
 
@@ -44,7 +44,7 @@
             </nav>
         </header>
 
-        <main class="bg-white rounded-2xl p-5">
+        <main class="bg-white rounded-2xl p-5 h-full">
             @yield('salam')
             {{ $slot }}
         </main>
