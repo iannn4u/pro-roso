@@ -26,7 +26,7 @@
     <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 
     <!-- Custom Font -->
-
+    <link href="https://fonts.cdnfonts.com/css/alliance-no1" rel="stylesheet">
 
 </head>
 
