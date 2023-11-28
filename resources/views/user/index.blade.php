@@ -17,20 +17,25 @@
   @endif
 
   @section('salam')
-  <h3 class="text-3xl font-semibold dark:text-white">{{ $salam . ', ' . Auth::user()->fullname }}</h3>
+  <h3 class="text-3xl font-semibold">{{ $salam . ', ' . Auth::user()->fullname }}</h3>
   @endsection
 
   <!-- DataTales Example -->
-  <div class="grid grid-cols-2 gap-y-[20px]  gap-x-[16px] md:grid-cols-4 2xl:grid-cols-5 mt-6">
+  <div class="grid grid-cols-2 gap-y-[20px] gap-x-[16px] md:grid-cols-4 2xl:grid-cols-5 mt-6">
 
     @foreach ($files as $file)
+    <?php $namaFile = explode('/', $file->generate_filename); ?>
+      <input type="hidden"
+        value="{{ env('APP_URL', 'http://localhost') . 'd/' . $file->id_user . '/' . end($namaFile) }}" id="link">
     <a href="file/{{ $file->id_file }}"
       class="w-full h-full max-w-sm p-2 bg-gray-100 border border-gray-200 rounded-lg shadow hover:bg-gray-200/20 duration-150 hover:shadow-md">
-      <h5 class="inline-block w-[139px] truncate font-medium text-gray-900 dark:text-white lg:w-full"
-        title="{{ $file->original_filename }}">{{ $file->original_filename }}</h5>
-      <p class="mb-1 -mt-1.5 text-sm text-gray-400">
+      <div class="flex justify-between items-center px-2 mb-2">
+        <h2 class="inline-block w-[139px] truncate font-medium text-gray-900 lg:w-full"
+        title="{{ $file->original_filename }}">{{ $file->original_filename }}</h2>
+      </div>
+      {{-- <p class="mb-1 -mt-1.5 text-sm text-gray-400">
         {{ $file->created_at->diffForHumans() }}
-      </p>
+      </p> --}}
       <div class="overflow-hidden h-40 mt-px cursor-default bg-white grid place-items-center">
         @if (explode('/', $file['mime_type'])[0] == 'image')
         <img src="{{ asset('storage/' . $file->generate_filename) }}" alt="{{ $file->judul_file }}"
@@ -202,8 +207,7 @@
       </div>
       @endforeach
     </div>
-  </div>
-  </div>
+  </div> --}}
   <div class="modal fade" id="shareUser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -211,8 +215,8 @@
           <h1 class="modal-title fs-5" id="exampleModalLabel">Bagikan Dengan User</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
+        <form action="" method="get" id="form">
         <div class="modal-body">
-          <form action="" method="POST" id="form">
             @csrf
             <div class="mb-3">
               <input type="text" class="form-control" id="searchUser" placeholder="username penerima..." autofocus
@@ -229,13 +233,13 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           <button type="submit" class="btn btn-primary disabled" id="kirimUser">Kirim</button>
-          </form>
         </div>
+      </form>
       </div>
     </div>
   </div>
 
-  <div class="modal fade" id="deleteFile" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  {{-- <div class="modal fade" id="deleteFile" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">

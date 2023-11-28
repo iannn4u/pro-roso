@@ -15,7 +15,7 @@
         </div>
     
         <!-- Nav Item - Public File -->
-        <div class="mb-3 px-3 py-1 rounded-full {{ request()->is('publikFile') ? 'bg-yellow-100' : 'hover:bg-gray-200' }}">
+        <div class="mb-3 px-3 py-1 rounded-full {{ request()->is('publikFile') ? 'bg-cyan-200' : 'hover:bg-gray-200' }}">
             <a class="flex gap-3 items-center" href="/publikFile">
                 <i class="fa-solid fa-earth-americas"></i>
                 <span style="margin-left: 2px">Publik File</span>
@@ -23,7 +23,7 @@
         </div>
     
         @if (Auth::user()->status == 2)
-        <div class="mb-3 px-3 py-1 rounded-full {{ request()->is('a/*') ? 'bg-yellow-100' : 'hover:bg-gray-200' }}">
+        <div class="mb-3 px-3 py-1 rounded-full {{ request()->is('a/*') ? 'bg-cyan-200' : 'hover:bg-gray-200' }}">
             <a class="flex gap-3 items-center" href="/a/users">
                 <i class="fa-regular fa-user"></i>
                 <span class="ml-1">Data User</span>

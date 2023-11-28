@@ -31,7 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/', [UserController::class, 'index']);
     Route::resource('user', UserController::class);
     Route::get('username', [UserController::class, 'ajax']);
-    Route::post('kirimFile/{id_file}', [PesanController::class, 'store']);
+    Route::get('kirimFile/{id_file}', [PesanController::class, 'store']);
 
     Route::resource('file', FileController::class);
 

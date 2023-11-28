@@ -25,6 +25,9 @@
     <!-- Font Awesome-->
     <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 
+    <!-- Custom Font -->
+    <link href="https://fonts.cdnfonts.com/css/alliance-no1" rel="stylesheet">
+
 </head>
 
 <body class="bg-gray-100 flex h-screen pe-3 pb-4 min-w-[1000px]">

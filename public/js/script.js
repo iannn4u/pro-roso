@@ -135,8 +135,6 @@ searchUser.addEventListener("input", function () {
             if (xhr.status == 200) {
                 const users = JSON.parse(xhr.responseText);
 
-                // users = User
-
                 if (valueSearch == username) {
                     buttonKirim.classList.add("disabled");
                     pesanFile.setAttribute("disabled", "");
