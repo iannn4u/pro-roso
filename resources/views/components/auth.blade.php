@@ -20,6 +20,9 @@
   <!-- Font Awesome-->
   <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 
+  <!-- Custom Font -->
+  <link href="https://fonts.cdnfonts.com/css/alliance-no1" rel="stylesheet">
+
 </head>
 
 <body class="bg-gray-50 grid place-items-center h-screen">

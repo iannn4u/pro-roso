@@ -18,11 +18,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('guest')->group(function () {
-    Route::get('signin', [AuthController::class, 'viewSignin'])->name('signin');
-    Route::post('signin', [AuthController::class, 'signin']);
-    Route::get('signup', [AuthController::class, 'viewSignup']);
-    Route::post('signup', [AuthController::class, 'signup']);
+Route::middleware('guest')->prefix('auth')->group(function () {
+    Route::view('signin', 'auth.signin')->name('login');
+    Route::view('signup', 'auth.signup')->name('register');
+    Route::post('signin', [AuthController::class, 'login']);
+    Route::post('signup', [AuthController::class, 'register']);
 });
 
 Route::middleware('auth')->group(function () {

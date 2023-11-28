@@ -13,6 +13,9 @@
                     </h1>
                     <form class="space-y-4 md:space-y-6" action="signup" method="post">
                         @csrf
+
+                        <x-partial.flash :flash="session()->all()"></x-partial.flash>
+
                         <x-partial.label name="fullname" type="text"></x-partial.label>
 
                         <x-partial.label name="username" type="text"></x-partial.label>
@@ -41,7 +44,7 @@
                             Account</button>
                         <p class="text-sm font-light text-gray-500">
                             Sudah punya akun? <a href="signin"
-                                class="font-medium text-red-600 hover:underline">Sign In</a>
+                                class="font-semibold leading-6 text-red-600 decoration-2 underline-offset-2 hover:underline hover:decoration-amber-700">Login here</a>
                         </p>
                     </form>
                 </div>

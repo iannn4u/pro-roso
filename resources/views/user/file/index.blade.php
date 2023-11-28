@@ -10,13 +10,13 @@
             <div class="flex justify-end px-4">
                 <!-- Dropdown menu -->
                 <div id="file-#{{ $file->id_file }}"
-                    class="z-50 hidden w-44 list-none divide-y divide-gray-100 overflow-hidden rounded-lg bg-white text-base shadow dark:bg-[#121212] dark:text-white">
+                    class="z-50 hidden w-44 list-none divide-y divide-gray-100 overflow-hidden rounded-lg bg-white text-base shadow">
                     <ul>
                         @unless ($file->id_user != Auth::id())
                         <li>
                             <a href="{{ route('file.edit', $file->id_file) }}"
-                                class="inline-flex w-full items-center px-4 py-2 text-sm dark:hover:bg-[#191919]">
-                                <svg class="mr-2 h-3 w-3 text-gray-800 dark:text-white" aria-hidden="true"
+                                class="inline-flex w-full items-center px-4 py-2 text-sm hover:bg-gray-100">
+                                <svg class="mr-2 h-3 w-3 text-gray-800" aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
                                     <path
                                         d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z" />
@@ -28,8 +28,8 @@
                         @endunless
                         <li>
                             <a href="{{ route('download', $file->id_file) }}"
-                                class="inline-flex w-full items-center px-4 py-2 text-sm dark:hover:bg-[#191919]"><svg
-                                    class="mr-2 h-3 w-3 text-gray-800 dark:text-white" aria-hidden="true"
+                                class="inline-flex w-full items-center px-4 py-2 text-sm hover:bg-gray-100"><svg
+                                    class="mr-2 h-3 w-3 text-gray-800" aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 18">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                         stroke-width="2"
@@ -38,8 +38,8 @@
                         </li>
                         <li>
                             <a href="{{ $url ?? '#' }}"
-                                class="inline-flex items-center whitespace-nowrap px-4 py-2 text-sm dark:hover:bg-[#191919]">
-                                <svg class="mr-2 h-3 w-3 text-gray-800 dark:text-white" aria-hidden="true"
+                                class="inline-flex items-center whitespace-nowrap px-4 py-2 text-sm hover:bg-gray-100">
+                                <svg class="mr-2 h-3 w-3 text-gray-800" aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 19 19">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                         stroke-width="2"
@@ -73,10 +73,10 @@
             <div class="my-1 border-b px-4 pb-1 dark:border-gray-900">
                 <div class="flex justify-between">
                     <a href="{{ route('file.show', $file->id_file) }}"
-                        class="inline-block w-[139px] truncate font-semibold text-gray-900 decoration-blue-500 decoration-2 hover:underline hover:underline-offset-2 dark:text-white lg:w-full"
+                        class="inline-block w-[139px] truncate font-medium text-gray-900 decoration-blue-500 decoration-2 hover:underline hover:underline-offset-2 lg:w-full"
                         title="{{ $file->original_filename }}">{{ $file->original_filename }}</a>
                     <button id="dropdownButton" data-dropdown-toggle="file-#{{ $file->id_file }}"
-                        class="inline-block rounded-lg p-1.5 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-[#171717]"
+                        class="inline-block rounded-lg p-1.5 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400"
                         type="button">
                         <span class="sr-only">Open dropdown</span>
                         <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
@@ -157,6 +157,7 @@
         </div>
         @endforeach
     </div>
+
     {{-- <div class="container-fluid">
 
         <!-- Page Heading -->
