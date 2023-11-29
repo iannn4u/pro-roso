@@ -44,7 +44,7 @@
       </nav>
     </header>
 
-    <main class="bg-white rounded-2xl p-5 h-full">
+    <main class="bg-white rounded-2xl p-5 h-full overflow-auto">
       @yield('salam')
       {{ $slot }}
     </main>

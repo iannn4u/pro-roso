@@ -94,22 +94,45 @@ targetDelete.forEach((target) => {
  * Nyalin link
  */
 const bSalin = document.querySelectorAll("#salin");
-bSalin.forEach((b) => {
+bSalin.forEach(b => {
     b.addEventListener("click", () => {
-        link = document.querySelector("#link");
+        const link = document.querySelector(`#link[data-id_file="${id_file}"]`)
         navigator.clipboard.writeText(link.value);
         alert("Link file berhasil disalin!");
     });
 });
+
+/**
+ * Modal Hapus File
+ */
+
+// formDeleteFile.action = "";
+// formDeleteFile.action = "/kirimFile/" + id_file;
+
 /**
  * Right Click by Ian
  */
-const card = document.querySelectorAll('#card');
-card.forEach((c) => {
-  c.addEventListener('contextmenu', (e) => {
-    e.preventDefault();
-    return false;
-  })
+const cards = document.querySelectorAll('#card');
+let visibleDropdown = null;
+let id_file;
+cards.forEach((c) => {
+    c.addEventListener('contextmenu', (e) => {
+        id_file = c.getAttribute('data-id_file');
+        const dropdown = document.querySelector(`#dropdown[data-id_file="${id_file}"]`);
+
+        if (visibleDropdown && visibleDropdown != dropdown) {
+            visibleDropdown.classList.add('hidden');
+        }
+
+        dropdown.style.left = `${e.clientX}px`;
+        dropdown.style.top = `${e.clientY}px`;
+        dropdown.classList.toggle('hidden');
+        document.querySelector('#formDelete').action = "/file/" + id_file;
+        visibleDropdown = dropdown;
+
+        e.preventDefault();
+        return false;
+    })
 })
 
 /**
@@ -172,11 +195,11 @@ searchUser.addEventListener("input", function () {
                     buttonKirim.classList.add("disabled");
                     pesanFile.setAttribute("disabled", "");
                     notfon.textContent = `User '${valueSearch}' tidak ada!`;
-                    notfon.classList.remove("d-none");
-                    notfon.classList.add("d-block");
+                    notfon.classList.remove("hidden");
+                    notfon.classList.add("block");
                 } else {
-                    notfon.classList.add("d-none");
-                    notfon.classList.remove("d-block");
+                    notfon.classList.add("hidden");
+                    notfon.classList.remove("block");
                 }
 
                 users.forEach((u) => {
@@ -209,8 +232,8 @@ searchUser.addEventListener("input", function () {
         xhr.send();
     } else {
         buttonKirim.classList.add("disabled");
-        notfon.classList.add("d-none");
-        notfon.classList.remove("d-block");
+        notfon.classList.add("hidden");
+        notfon.classList.remove("block");
         result.innerHTML = "";
     }
 });
