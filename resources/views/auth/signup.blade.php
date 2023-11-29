@@ -16,15 +16,15 @@
 
                         <x-partial.flash :flash="session()->all()"></x-partial.flash>
 
-                        <x-partial.label name="fullname" type="text"></x-partial.label>
+                        <x-partial.input name="fullname" label="Name" type="text"></x-partial.input>
 
-                        <x-partial.label name="username" type="text"></x-partial.label>
+                        <x-partial.input name="username" type="text"></x-partial.input>
 
-                        <x-partial.label name="email" type="email"></x-partial.label>
+                        <x-partial.input name="email" label="Enter your email" type="email"></x-partial.input>
 
-                        <x-partial.label name="password" type="password"></x-partial.label>
+                        <x-partial.input name="password" label="Create a password" type="password"></x-partial.input>
 
-                        <x-partial.label name="password_confirmation" type="password"></x-partial.label>
+                        <x-partial.input name="password_confirmation" label="Confirm password" type="password"></x-partial.input>
 
                         {{-- <div class="flex items-start">
                             <div class="flex items-center h-5">

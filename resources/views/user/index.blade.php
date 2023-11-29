@@ -1,7 +1,7 @@
 <x-user :$title :$user :$jumlahPesan :$files :$pesan :$pesanGrup>
 
     <!-- Page Heading -->
-    @if (session('success'))
+    @if (session('sukses'))
         <div class="alert alert-success alert-dismissible fade show w-25 m-3" role="alert"
             style="position: fixed; z-index: 1; top: 0; right: 0;">
             <strong>Berhasil!</strong> {{ session('success') }}.

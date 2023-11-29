@@ -42,7 +42,7 @@ class FileController extends Controller
         $groupedPesan = $pesan->groupBy('id_pengirim');
         $data['pesan'] = $pesan;
         $data['pesanGrup'] = $groupedPesan->all();
-        $data['title'] = 'Buat File';
+        $data['title'] = 'New file';
         return view('user.file.create', $data);
     }
 
@@ -64,7 +64,7 @@ class FileController extends Controller
             'files' => 'required|file',
             'status' => 'required',
         ];
-        
+
         if (File::where('judul_file', $request->input('judul_file'))->where('id_user', auth()->id())->count() == 0) {
             $rules['judul_file'] = 'required';
             $validatedData = $request->validate($rules, $errors);
@@ -107,45 +107,7 @@ class FileController extends Controller
         File::create($validatedData);
 
         session()->flash('sukses', 'mengupload file');
-        return redirect('/');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(File $file)
-    {
-        $data['jumlahPesan'] = $this->getJumlahPesan();
-        $data['pesan'] = $this->getPesan();
-        $data['title'] = 'Detail File';
-        if ($file->id_user != Auth::id()) abort(404);
-        $data['file'] = $file;
-        return view('user.file.detail', $data);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(File $file)
-    {
-        $data = [
-            'title' => 'Edit File',
-            'file' => $file,
-        ];
-
-        if (is_null($file)) {
-            session()->flash('errors', 'File tidak ada');
-            return redirect('/');
-        }
-
-        $data['jumlahPesan'] = $this->getJumlahPesan();
-        $pesan = $this->getPesan();
-        $groupedPesan = $pesan->groupBy('id_pengirim');
-        $data['pesan'] = $pesan;
-        $data['pesanGrup'] = $groupedPesan->all();
-
-        if ($file->id_user != Auth::id()) abort(404);
-        return view('user.file.edit', $data);
+        return to_route('dashboard');
     }
 
     /**
@@ -214,9 +176,9 @@ class FileController extends Controller
         ];
 
         $file->update($validatedData);
-
+        
         session()->flash('sukses', 'mengedit file');
-        return redirect('/');
+        return to_route('dashboard');
     }
 
 
@@ -259,13 +221,13 @@ class FileController extends Controller
 
         if ($fileDB == null) {
             session()->flash('errors', 'file tidak ditemukan');
-            return redirect('/');
+            return to_route('dashboard');
         }
         session()->flash('download', $fileDB->id_file);
-        return redirect('/');
+        return to_route('dashboard');
     }
 
-    public function detailPublik(File $file, $id_file)
+    public function detailPublik(File $file, $username, $id_file)
     {
         $data['jumlahPesan'] = $this->getJumlahPesan();
         $pesan = $this->getPesan();
@@ -273,10 +235,14 @@ class FileController extends Controller
         $data['pesan'] = $pesan;
         $data['pesanGrup'] = $groupedPesan->all();
 
-        $data['file'] = $file->find($id_file);
+        $data['file'] = $file->where('id_file', $id_file)->where('id_file', $id_file)->where('id_user', '=', function (\Illuminate\Database\Query\Builder $query) use ($username) {
+            return $query->select('id_user')->from('users')->where('username', $username)->get();
+        })->first();
+
+        // kalau file ga ada atau statusnya private
         if ($data['file'] == null || $data['file']->status != 'public') {
-            session()->flash('errors', 'file tidak ada');
-            return redirect('/');
+            session()->flash('errors', "File $username ($id_file) tidak ada");
+            return to_route('dashboard');
         }
         $data['title'] = 'Detail File';
         return view('user.file.detalPublik', $data);
@@ -293,10 +259,12 @@ class FileController extends Controller
         $data['pesanGrup'] = $groupedPesan->all();
 
         $pesan = DB::table('files AS f')->join('users AS u', 'u.id_user', '=', 'f.id_user')->join('pesans AS p', 'f.id_file', '=', 'p.id_file')->where('p.id_file', '=', $id_file)->where('p.id_penerima', '=', $this->getUserId())->get('p.pesan');
+        $pesan = DB::table('files AS f')->join('users AS u', 'u.id_user', '=', 'f.id_user')->join('pesans AS p', 'f.id_file', '=', 'p.id_file')->where('p.id_file', '=', $id_file)->where('p.id_penerima', '=', $this->getUserId())->get('p.pesan');
 
+        dd($pesan);
         if (is_null($data['file']) || count($pesan) == 0) {
             session()->flash('errors', 'file tidak ada / tidak dibagikan');
-            return redirect('/');
+            return to_route('dashboard');
         }
 
         $data['fileShare'] = $pesan;
