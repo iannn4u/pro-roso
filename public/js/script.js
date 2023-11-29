@@ -111,23 +111,46 @@ targetDelete.forEach((target) => {
  * Nyalin link
  */
 const bSalin = document.querySelectorAll("#salin");
-bSalin.forEach((b) => {
-  b.addEventListener("click", () => {
-    link = document.querySelector("#link");
-    navigator.clipboard.writeText(link.value);
-    alert("Link file berhasil disalin!");
-  });
+bSalin.forEach(b => {
+    b.addEventListener("click", () => {
+        const link = document.querySelector(`#link[data-id_file="${id_file}"]`)
+        navigator.clipboard.writeText(link.value);
+        alert("Link file berhasil disalin!");
+    });
 });
+
+/**
+ * Modal Hapus File
+ */
+
+// formDeleteFile.action = "";
+// formDeleteFile.action = "/kirimFile/" + id_file;
+
 /**
  * Right Click by Ian
  */
-const card = document.querySelectorAll("#card");
-card.forEach((c) => {
-  c.addEventListener("contextmenu", (e) => {
-    e.preventDefault();
-    return false;
-  });
-});
+const cards = document.querySelectorAll('#card');
+let visibleDropdown = null;
+let id_file;
+cards.forEach((c) => {
+    c.addEventListener('contextmenu', (e) => {
+        id_file = c.getAttribute('data-id_file');
+        const dropdown = document.querySelector(`#dropdown[data-id_file="${id_file}"]`);
+
+        if (visibleDropdown && visibleDropdown != dropdown) {
+            visibleDropdown.classList.add('hidden');
+        }
+
+        dropdown.style.left = `${e.clientX}px`;
+        dropdown.style.top = `${e.clientY}px`;
+        dropdown.classList.toggle('hidden');
+        document.querySelector('#formDelete').action = "/file/" + id_file;
+        visibleDropdown = dropdown;
+
+        e.preventDefault();
+        return false;
+    })
+})
 
 /**
  * ajax nyari user
@@ -153,22 +176,81 @@ buttonModalShare.forEach((b) => {
 });
 
 searchUser.addEventListener("input", function () {
-  let valueSearch = searchUser.value.trim();
-  const buttonKirim = document.querySelector("#kirimUser");
-  if (valueSearch != "") {
-    const xhr = new XMLHttpRequest();
-    xhr.open("GET", `/username?q=${valueSearch}`, true);
-    xhr.onload = function () {
-      if (xhr.status == 200) {
-        const users = JSON.parse(xhr.responseText);
+    let valueSearch = searchUser.value.trim();
+    const buttonKirim = document.querySelector("#kirimUser");
+    if (valueSearch != "") {
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", `/username?q=${valueSearch}`, true);
+        xhr.onload = function () {
+            if (xhr.status == 200) {
+                const users = JSON.parse(xhr.responseText);
 
-        if (valueSearch == username) {
-          buttonKirim.classList.add("disabled");
-          pesanFile.setAttribute("disabled", "");
-        } else {
-          buttonKirim.classList.remove("disabled");
-          pesanFile.removeAttribute("disabled");
-        }
+                if (valueSearch == username) {
+                    buttonKirim.classList.add("disabled");
+                    pesanFile.setAttribute("disabled", "");
+                } else {
+                    buttonKirim.classList.remove("disabled");
+                    pesanFile.removeAttribute("disabled");
+                }
+                result.innerHTML = "";
+
+                if (clicked) {
+                    buttonKirim.classList.remove("disabled");
+                    pesanFile.removeAttribute("disabled");
+                } else {
+                    buttonKirim.classList.add("disabled");
+                    pesanFile.setAttribute("disabled", "");
+                }
+
+                searchUser.addEventListener("keyup", function () {
+                    clicked = false;
+                    buttonKirim.classList.add("disabled");
+                    pesanFile.setAttribute("disabled", "");
+                });
+
+                if (users.length == 0) {
+                    buttonKirim.classList.add("disabled");
+                    pesanFile.setAttribute("disabled", "");
+                    notfon.textContent = `User '${valueSearch}' tidak ada!`;
+                    notfon.classList.remove("hidden");
+                    notfon.classList.add("block");
+                } else {
+                    notfon.classList.add("hidden");
+                    notfon.classList.remove("block");
+                }
+
+                users.forEach((u) => {
+                    const li = document.createElement("li");
+                    li.textContent = u.username;
+                    li.classList.add("list-group-item");
+                    li.classList.add("userLi");
+                    li.setAttribute("role", "button");
+                    result.appendChild(li);
+                    let liUser = document.querySelectorAll(".userLi");
+                    liUser.forEach((uli) => {
+                        uli.addEventListener("click", () => {
+                            searchUser.value = uli.innerText;
+                            result.innerHTML = "";
+                            clicked = true;
+
+                            if (clicked) {
+                                buttonKirim.classList.remove("disabled");
+                                pesanFile.removeAttribute("disabled");
+                            } else {
+                                buttonKirim.classList.add("disabled");
+                                pesanFile.setAttribute("disabled", "");
+                            }
+                        });
+                    });
+                });
+            }
+        };
+
+        xhr.send();
+    } else {
+        buttonKirim.classList.add("disabled");
+        notfon.classList.add("hidden");
+        notfon.classList.remove("block");
         result.innerHTML = "";
 
         if (clicked) {
