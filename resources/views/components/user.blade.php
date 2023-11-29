@@ -3,49 +3,50 @@
 
 <head>
 
-  <x-partial.head.meta></x-partial.head.meta>
+    <x-partial.head.meta></x-partial.head.meta>
 
-  <title>{{ config('app.name') }} | {{ $title }}</title>
+    <title>{{ config('app.name') }} | {{ $title }}</title>
 
-  <x-partial.head.css></x-partial.head.css>
+    <x-partial.head.css></x-partial.head.css>
 
 </head>
 
-<body class="bg-gray-100 flex h-screen pe-3 pb-4 min-w-[1000px]">
+<body>
 
-  <aside class="h-full w-60 sm:w-full max-w-[320px] py-3 px-5">
-    @include('user.templates.sidebar')
-  </aside>
+    <div class="bg-gray-100 flex h-screen pe-3 px-3 md:px-0 pb-4 min-w-[1000px] max-w-[2000px]">
 
-  <div class="flex flex-col w-full">
+        <aside class="hidden md:block h-full w-56 py-3 px-5">
+            @include('user.templates.sidebar')
+        </aside>
 
-    <header class="h-[70px] pt-2">
-      <nav class="flex justify-between">
-        @include('user.templates.topbar')
-      </nav>
-    </header>
+        <div class="flex flex-col w-full">
 
-    <main class="bg-white rounded-2xl h-full overflow-y-auto parent">
-      <div class="sticky top-0 w-full px-5 py-3 bg-white greeting">
-        @yield('salam')
-      </div>
-      {{ $slot }}
-    </main>
+            <header class="h-[70px] pt-2">
+                <nav class="flex justify-between">
+                    @include('user.templates.topbar')
+                </nav>
+            </header>
 
-  </div>
-  <div class="hidden">
-    @include('user.templates.modal')
-  </div>
+            <main class="bg-white rounded-2xl h-full overflow-y-auto parent px-4 md:w-full">
+                @yield('salam')
+                {{ $slot }}
+            </main>
 
-  
-  @stack('script')
+        </div>
+        <div class="hidden">
+            @include('user.templates.modal')
+        </div>
+    </div>
 
-  <!-- Main Script -->
-  <script src="{{ asset('js/script.js') }}"></script>
-  <!-- CDN Script -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
-  <!-- JQuery-->
-  <script src="/vendor/jquery/jquery.min.js"></script>
+
+    @stack('script')
+
+    <!-- Main Script -->
+    <script src="{{ asset('js/script.js') }}"></script>
+    <!-- CDN Script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
+    <!-- JQuery-->
+    <script src="/vendor/jquery/jquery.min.js"></script>
 </body>
 
 </html>

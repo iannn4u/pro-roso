@@ -20,7 +20,7 @@
         <h3 class="text-3xl font-semibold">{{ $salam . ', ' . Auth::user()->fullname }}</h3>
     @endsection
     <!-- DataTales Example -->
-    <div class="grid grid-cols-2 gap-y-[20px] gap-x-[16px] md:grid-cols-4 2xl:grid-cols-5 mt-6">
+    <div class="grid grid-cols-3 gap-y-[20px] gap-x-[16px] xl:grid-cols-5 lg:grid-cols-4 mt-6">
 
         @foreach ($files as $file)
             <?php $namaFile = explode('/', $file->generate_filename); ?>
@@ -125,7 +125,8 @@
                     </li>
                     <li>
                         <button id="bSearch" class="block px-4 py-2 hover:bg-gray-100 flex items-center gap-2 w-full"
-                            data-id_file="{{ $file->id_file }}" data-user="{{ Auth::user()->username }}"><i
+                            data-id_file="{{ $file->id_file }}" data-user="{{ Auth::user()->username }}"
+                            data-modal-target="authentication-modal" data-modal-toggle="authentication-modal"><i
                                 class="fa-solid fa-users"></i>Bagikan dengan
                             user</button>
                     </li>
@@ -141,36 +142,56 @@
         @endforeach
     </div>
 
-    <div class="modal fade" id="shareUser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Bagikan Dengan User</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div id="authentication-modal" tabindex="-1" aria-hidden="true"
+        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative p-4 w-full max-w-md max-h-full">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <!-- Modal header -->
+                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                        Share another user
+                    </h3>
+                    <button type="button"
+                        class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                        data-modal-hide="authentication-modal">
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                        </svg>
+                        <span class="sr-only">Close modal</span>
+                    </button>
                 </div>
-                <form action="" method="get" id="form">
-                    <div class="modal-body">
-                        @csrf
-                        <div class="mb-3">
-                            <input type="text" class="form-control" id="searchUser"
-                                placeholder="username penerima..." autofocus name="username">
-                            <ul class="list-group mt-2" id="result"></ul>
-
-                            <div class="mb-3 mt-1">
-                                <label for="pesan" class="form-label">Pesanmu</label>
-                                <textarea class="form-control" name="pesan" id="pesan" rows="2"></textarea>
-                            </div>
-                            <small class="mt-2 text-danger d-none" id="notfon"></small>
+                <!-- Modal body -->
+                <div class="p-4 md:p-5">
+                    <form class="space-y-4" id="form">
+                        <div class="relative">
+                            <label for="searchUser"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">To user</label>
+                            <input type="text" id="searchUser" autofocus name="username"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                placeholder="{{ Auth::user()->username }}" required>
+                                <small id="notfon"
+                            class="block ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"></small>
+                            <ul id="result" class="absolute w-full z-10 py-2 text-sm text-gray-700 bg-white"></ul>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary disabled" id="kirimUser">Kirim</button>
-                    </div>
-                </form>
+                        <div>
+                            <label for="pesan"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
+                                message</label>
+                            <textarea id="pesan" rows="2"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                                placeholder="Write a message..." required name="pesan" id="pesan"></textarea>
+                        </div>
+                        <button type="submit" id="kirimUser"
+                            class="w-full text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Send</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
+
 
     <div id="deleteFile" tabindex="-1"
         class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -210,3 +231,13 @@
         </div>
     </div>
 </x-user>
+
+
+
+<div class="fixed lg:hidden end-6 bottom-6 group">
+    <a href="/file/create" class="flex items-center justify-center text-white bg-gray-900 rounded-full w-14 h-14 hover:bg-white hover:text-gray-900 hover:border-2 hover:border-gray-900 ease-linear focus:ring-4 focus:ring-gray-300 focus:outline-none">
+        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+        </svg>
+    </a>
+</div>
