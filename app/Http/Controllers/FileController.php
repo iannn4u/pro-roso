@@ -17,13 +17,18 @@ class FileController extends Controller
     public function index()
     {
         $data['jumlahPesan'] = $this->getJumlahPesan();
-        $data['pesan'] = $this->getPesan();
+        $pesan = $this->getPesan();
+        $groupedPesan = $pesan->groupBy('id_pengirim');
+        $data['pesan'] = $pesan;
+        $data['pesanGrup'] = $groupedPesan->all();
+
         $files = File::latest()->where('status', 'public');
         if (request('search')) {
             $files->where('judul_file', 'like', '%' . request('search') . '%');
         }
         $data['files'] = $files->get();
         $data['title'] = 'File Publik';
+
         return view('user.file.index', $data);
     }
 
@@ -33,7 +38,10 @@ class FileController extends Controller
     public function create()
     {
         $data['jumlahPesan'] = $this->getJumlahPesan();
-        $data['pesan'] = $this->getPesan();
+        $pesan = $this->getPesan();
+        $groupedPesan = $pesan->groupBy('id_pengirim');
+        $data['pesan'] = $pesan;
+        $data['pesanGrup'] = $groupedPesan->all();
         $data['title'] = 'Buat File';
         return view('user.file.create', $data);
     }
@@ -43,18 +51,20 @@ class FileController extends Controller
      */
     public function store(StoreFileRequest $request)
     {
+
+        // dd($request);
         $errors = [
             'judul_file.required' => 'Judul harus diisi',
             'judul_file.unique' => 'Judul sudah digunakan',
             'files.required' => 'Files harus diisi',
             'files.file' => 'Files format harus file',
             'status.required' => 'Status harus diisi',
-            'deskripsi.required' => 'Deskripsi harus diisi'
         ];
         $rules = [
             'files' => 'required|file',
-            'status' => 'required'
+            'status' => 'required',
         ];
+        
         if (File::where('judul_file', $request->input('judul_file'))->where('id_user', auth()->id())->count() == 0) {
             $rules['judul_file'] = 'required';
             $validatedData = $request->validate($rules, $errors);
@@ -96,8 +106,8 @@ class FileController extends Controller
 
         File::create($validatedData);
 
-        session()->flash('success', 'mengupload file');
-        return redirect('/');
+        session()->flash('sukses', 'mengupload file');
+        return redirect();
     }
 
     /**
@@ -129,7 +139,10 @@ class FileController extends Controller
         }
 
         $data['jumlahPesan'] = $this->getJumlahPesan();
-        $data['pesan'] = $this->getPesan();
+        $pesan = $this->getPesan();
+        $groupedPesan = $pesan->groupBy('id_pengirim');
+        $data['pesan'] = $pesan;
+        $data['pesanGrup'] = $groupedPesan->all();
 
         if ($file->id_user != Auth::id()) abort(404);
         return view('user.file.edit', $data);
@@ -202,7 +215,7 @@ class FileController extends Controller
 
         $file->update($validatedData);
 
-        session()->flash('success', 'mengedit file');
+        session()->flash('sukses', 'mengedit file');
         return redirect('/');
     }
 
@@ -215,10 +228,13 @@ class FileController extends Controller
         Storage::delete($file->generate_filename);
         $file->destroy($file->id_file);
 
-        session()->flash('success', 'hapus file!');
-        return redirect('/');
+        session()->flash('sukses', 'Berhasil menghapus file!');
+        return redirect()->back();
     }
 
+    /**
+     * Download spesific file to internal storage user
+     */
     public function download($id_file)
     {
         $file = File::where('id_file', $id_file)->first();
@@ -231,7 +247,7 @@ class FileController extends Controller
             'Content-Type' => 'application/octet-stream'
         ];
 
-        session()->flash('success', 'download file');
+        session()->flash('sukses', 'download file');
         return response()->download($path, $file->original_filename, $headers);
     }
 
@@ -252,7 +268,11 @@ class FileController extends Controller
     public function detailPublik(File $file, $id_file)
     {
         $data['jumlahPesan'] = $this->getJumlahPesan();
-        $data['pesan'] = $this->getPesan();
+        $pesan = $this->getPesan();
+        $groupedPesan = $pesan->groupBy('id_pengirim');
+        $data['pesan'] = $pesan;
+        $data['pesanGrup'] = $groupedPesan->all();
+
         $data['file'] = $file->find($id_file);
         if ($data['file'] == null || $data['file']->status != 'public') {
             session()->flash('errors', 'file tidak ada');
@@ -265,8 +285,12 @@ class FileController extends Controller
     public function detailFileKirim($id_file)
     {
         $data['jumlahPesan'] = $this->getJumlahPesan();
-        $data['pesan'] = $this->getPesan();
         $data['file'] = File::find($id_file);
+
+        $pesan = $this->getPesan();
+        $groupedPesan = $pesan->groupBy('id_pengirim');
+        $data['pesan'] = $pesan;
+        $data['pesanGrup'] = $groupedPesan->all();
 
         $pesan = DB::table('files AS f')->join('users AS u', 'u.id_user', '=', 'f.id_user')->join('pesans AS p', 'f.id_file', '=', 'p.id_file')->where('p.id_file', '=', $id_file)->where('p.id_penerima', '=', $this->getUserId())->get('p.pesan');
 

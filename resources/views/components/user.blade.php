@@ -1,38 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="smooth-scroll">
 
 <head>
 
-  @if (session('download'))
-    <meta http-equiv="refresh" content="0;url={{ url('/download/' . session('download')) }}">
-  @endif
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <link rel="icon" href="\vendor\fontawesome-free\svgs\solid\box.svg" type="image/svg+xml">
+  <x-partial.head.meta></x-partial.head.meta>
 
   <title>{{ config('app.name') }} | {{ $title }}</title>
 
-  <!-- My CSS-->
-  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-  @stack('style')
-
-  <!-- Tailwindcss-->
-  <script src="https://cdn.tailwindcss.com"></script>
-  
-  <!-- Font Awesome-->
-  <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-
-  <!-- Custom Font -->
-  <link href="https://fonts.cdnfonts.com/css/alliance-no1" rel="stylesheet">
+  <x-partial.head.css></x-partial.head.css>
 
 </head>
 
 <body class="bg-gray-100 flex h-screen pe-3 pb-4 min-w-[1000px]">
 
-  <aside class="h-full min-w-[320px] py-3 px-5">
+  <aside class="h-full w-60 sm:w-full max-w-[320px] py-3 px-5">
     @include('user.templates.sidebar')
   </aside>
 
@@ -44,8 +25,10 @@
       </nav>
     </header>
 
-    <main class="bg-white rounded-2xl p-5 h-full">
-      @yield('salam')
+    <main class="bg-white rounded-2xl h-full overflow-y-auto parent">
+      <div class="sticky top-0 w-full px-5 py-3 bg-white greeting">
+        @yield('salam')
+      </div>
       {{ $slot }}
     </main>
 
@@ -54,7 +37,12 @@
     @include('user.templates.modal')
   </div>
 
+  
   @stack('script')
+
+  <!-- Main Script -->
+  <script src="{{ asset('js/script.js') }}"></script>
+  <!-- CDN Script -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
   <!-- JQuery-->
   <script src="/vendor/jquery/jquery.min.js"></script>

@@ -1,4 +1,4 @@
-<x-user :$title :$user :$jumlahPesan :$files :$pesan>
+<x-user :$title :$user :$jumlahPesan :$files :$pesan :$pesanGrup>
 
   <!-- Page Heading -->
   @if (session('success'))
@@ -21,17 +21,18 @@
   @endsection
 
   <!-- DataTales Example -->
-  <div class="grid grid-cols-2 gap-y-[20px] gap-x-[16px] md:grid-cols-4 2xl:grid-cols-5 mt-6">
+  <div class="grid grid-cols-2 gap-y-[20px] gap-x-[16px] md:grid-cols-4 2xl:grid-cols-5 min-[2368px]:grid-cols-6 p-5">
 
     @foreach ($files as $file)
     <?php $namaFile = explode('/', $file->generate_filename); ?>
-      <input type="hidden"
-        value="{{ env('APP_URL', 'http://localhost') . 'd/' . $file->id_user . '/' . end($namaFile) }}" id="link">
+    <input type="hidden" value="{{ env('APP_URL', 'http://localhost') . 'd/' . $file->id_user . '/' . end($namaFile) }}"
+      id="link">
     <a href="file/{{ $file->id_file }}"
-      class="w-full h-full max-w-sm p-2 bg-gray-100 border border-gray-200 rounded-lg shadow hover:bg-gray-200/20 duration-150 hover:shadow-md" id="card">
+      class="w-full h-full max-w-sm p-2 bg-gray-100 border border-gray-200 rounded-lg shadow hover:bg-gray-200/20 duration-150 hover:shadow-md"
+      id="card">
       <div class="flex justify-between items-center px-2 mb-2">
         <h2 class="inline-block w-[139px] truncate font-medium text-gray-900 lg:w-full"
-        title="{{ $file->original_filename }}">{{ $file->original_filename }}</h2>
+          title="{{ $file->original_filename }}">{{ $file->original_filename }}</h2>
       </div>
       {{-- <p class="mb-1 -mt-1.5 text-sm text-gray-400">
         {{ $file->created_at->diffForHumans() }}
@@ -103,33 +104,42 @@
     <div id="dropdown" class="absolute z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-52">
       <ul class="py-2 text-sm text-gray-700">
         <li>
-          <a href="/file/{{ $file->id_file }}/edit" class="block px-4 py-2 hover:bg-gray-100 flex items-center gap-3"><i class="fa-regular fa-pen-to-square"></i><p>Edit</p></a>
+          <a href="/file/{{ $file->id_file }}/edit" class="block px-4 py-2 hover:bg-gray-100 flex items-center gap-3"><i
+              class="fa-regular fa-pen-to-square"></i>
+            <p>Edit</p>
+          </a>
         </li>
         <li>
-          <a href="/download/{{ $file->id_file }}" class="block px-4 py-2 hover:bg-gray-100 flex items-center gap-3"><i class="fa-solid fa-download"></i><p>Download</p></a>
+          <a href="/download/{{ $file->id_file }}" class="block px-4 py-2 hover:bg-gray-100 flex items-center gap-3"><i
+              class="fa-solid fa-download"></i>
+            <p>Download</p>
+          </a>
         </li>
         <li>
-          <button class="block px-4 py-2 hover:bg-gray-100 flex items-center gap-3" id="salin"><i class="fa-solid fa-paperclip"></i><p class="ms-px">Bagikan dengan link</p></button>
+          <button class="block px-4 py-2 hover:bg-gray-100 flex items-center gap-3" id="salin"><i
+              class="fa-solid fa-paperclip"></i>
+            <p class="ms-px">Bagikan dengan link</p>
+          </button>
         </li>
         <li>
-          <button id="bSearch" class="block px-4 py-2 hover:bg-gray-100 flex items-center gap-2" data-id_file="{{ $file->id_file }}"
-            data-user="{{ Auth::user()->username }}"><i class="fa-solid fa-users"></i>Bagikan dengan
+          <button id="bSearch" class="block px-4 py-2 hover:bg-gray-100 flex items-center gap-2"
+            data-id_file="{{ $file->id_file }}" data-user="{{ Auth::user()->username }}"><i
+              class="fa-solid fa-users"></i>Bagikan dengan
             user</button>
         </li>
       </ul>
-  </div>
+    </div>
 
 
-    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                aria-labelledby="dropdownMenuLink">
-                <button id="bSearch" type="button" class="dropdown-item" data-id_file="{{ $file->id_file }}"
-                  data-bs-toggle="modal" data-bs-target="#shareUser" data-user="{{ Auth::user()->username }}">
+    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+      <button id="bSearch" type="button" class="dropdown-item" data-id_file="{{ $file->id_file }}"
+        data-bs-toggle="modal" data-bs-target="#shareUser" data-user="{{ Auth::user()->username }}">
 
-                </button>
-                <div class="dropdown-divider"></div>
-                <button type="submit" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteFile"><i
-                    class="fa-solid fa-trash" style="margin-right: 10px"></i>Hapus</button>
-              </div>
+      </button>
+      <div class="dropdown-divider"></div>
+      <button type="submit" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteFile"><i
+          class="fa-solid fa-trash" style="margin-right: 10px"></i>Hapus</button>
+    </div>
     @endforeach
 
   </div>
@@ -241,7 +251,7 @@
       @endforeach
     </div>
   </div> --}}
-  
+
   <div class="modal fade" id="shareUser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -250,10 +260,10 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <form action="" method="get" id="form">
-        <div class="modal-body">
+          <div class="modal-body">
             @csrf
             <div class="mb-3">
-              <input type="text" class="form-control" id="searchUser" placeholder="username penerima..." autofocus
+              <input type="text" class="form-control" id="searchUser" placeholder="username penerima..."
                 name="username">
               <ul class="list-group mt-2" id="result"></ul>
 
@@ -263,12 +273,12 @@
               </div>
               <small class="mt-2 text-danger d-none" id="notfon"></small>
             </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary disabled" id="kirimUser">Kirim</button>
-        </div>
-      </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary disabled" id="kirimUser">Kirim</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -295,4 +305,5 @@
       </div>
     </div>
   </div> --}}
+
 </x-user>

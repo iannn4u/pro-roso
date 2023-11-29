@@ -20,8 +20,13 @@ class UserController extends Controller
   {
     $data['title'] = 'Beranda';
     $data['user'] = User::where('id_user', auth()->id())->first();
-    $data['jumlahPesan'] = Pesan::where('id_penerima', auth()->id())->count();
-    $data['pesan'] = Pesan::where('id_penerima', auth()->id())->get();
+    $data['jumlahPesan'] = $this->getJumlahPesan();
+    $pesan = $this->getPesan();
+
+    $groupedPesan = $pesan->groupBy('id_pengirim');
+    $data['pesan'] = $pesan;
+    $data['pesanGrup'] = $groupedPesan->all();
+
     $files = File::where('id_user', auth()->id());
     if (request('search')) {
       $files->where('judul_file', 'like', '%' . request('search') . '%');
@@ -29,6 +34,17 @@ class UserController extends Controller
     $data['files'] = $files->get();
     $data['salam'] = $this->greetings('Asia/Jakarta');
 
+    // foreach ($groupedPesan as $pengirimId => $pesanPerPengirim) {
+    //   dump($pesanPerPengirim);
+    //   $pengirim = $pesanPerPengirim->first->user;
+
+    //   echo "Pesan dari $pengirim->fullname:";
+
+    //   // dump($pesanPerPengirim)
+    //   foreach ($pesanPerPengirim as $pesanItem) {
+    //     echo " $pesanItem->id_file";
+    //   }
+    // }
     return view('user.index', $data);
   }
 
@@ -68,8 +84,12 @@ class UserController extends Controller
   {
     $data['title'] = 'Profil Saya';
     $data['user'] = $user;
-    $data['jumlahPesan'] = Pesan::where('id_penerima', auth()->id())->count();
-    $data['pesan'] = Pesan::where('id_penerima', auth()->id())->take(5)->get();
+    $data['jumlahPesan'] = $this->getJumlahPesan();
+    $pesan = $this->getPesan();
+    $groupedPesan = $pesan->groupBy('id_pengirim');
+    $data['pesan'] = $pesan;
+    $data['pesanGrup'] = $groupedPesan->all();
+
     return view('user.detail', $data);
   }
 
@@ -83,7 +103,7 @@ class UserController extends Controller
       abort(404);
     }
     $data['user'] = $user;
-    $data['jumlahPesan'] = Pesan::where('id_penerima', auth()->id())->count();
+    $data['jumlahPesan'] = $this->getJumlahPesan();
     $data['pesan'] = Pesan::where('id_penerima', auth()->id())->get();
     return view('user.edit', $data);
   }

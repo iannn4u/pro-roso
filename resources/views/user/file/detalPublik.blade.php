@@ -1,4 +1,4 @@
-<x-user :$title :$jumlahPesan :$pesan :files="$file">
+<x-user :$title :$jumlahPesan :$pesan :files="$file" :$pesanGrup>
     <div class="container-fluid w-100">
         <!-- Page Heading -->
         <h1 class="h3 mb-4 text-gray-800">File Detail</h1>

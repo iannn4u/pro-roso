@@ -1,8 +1,11 @@
-<x-user :$title :$jumlahPesan :$pesan :$files>
-    <div class="grid grid-cols-2 gap-y-[20px]  gap-x-[16px] md:grid-cols-4 2xl:grid-cols-5 mt-6">
-        @if (!count($files))
+<x-user :$title :$jumlahPesan :$pesan :$files :$pesanGrup>
+    
+    <x-partial.flash :flash="session()->all()"></x-partial.flash>
+    
+    <div class="grid grid-cols-2 gap-y-[20px] gap-x-[16px] md:grid-cols-4 2xl:grid-cols-5 min-[2368px]:grid-cols-6 p-5">
+        @unless (count($files))
         <p>Tidak ada file</p>
-        @endif
+        @endunless
         @foreach ($files as $file)
         <div
             class="flex w-full max-w-full flex-col bg-gray-100 border border-gray-200 rounded-lg shadow hover:bg-gray-200/20 duration-150 hover:shadow-md pb-2">
@@ -70,13 +73,13 @@
             </div>
 
             {{-- main menu --}}
-            <div class="my-1 border-b px-4 pb-1 dark:border-gray-900">
+            <div class="my-1 px-3 py-1">
                 <div class="flex justify-between">
-                    <a href="{{ route('file.show', $file->id_file) }}"
+                    <a href="{{ route('detail', $file->id_file) }}"
                         class="inline-block w-[139px] truncate font-medium text-gray-900 decoration-blue-500 decoration-2 hover:underline hover:underline-offset-2 lg:w-full"
                         title="{{ $file->original_filename }}">{{ $file->original_filename }}</a>
-                    <button id="dropdownButton" data-dropdown-toggle="file-#{{ $file->id_file }}"
-                        class="inline-block rounded-lg p-1.5 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400"
+                    <button id="dropdw" data-dropdown-toggle="file-#{{ $file->id_file }}"
+                        class="inline-block rounded-full ml-1 -mr-1 p-1.5 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400"
                         type="button">
                         <span class="sr-only">Open dropdown</span>
                         <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
@@ -86,7 +89,7 @@
                         </svg>
                     </button>
                 </div>
-                <p class="-mt-3 text-sm text-gray-400" title="{{ $file->created_at->format('l, d F Y h:m:s') }}">
+                <p class="-mt-2 text-sm text-gray-400" title="{{ $file->created_at->format('l, d F Y h:m:s') }}">
                     {{ $file->created_at->diffForHumans() }}
                 </p>
             </div>
@@ -99,59 +102,7 @@
                 <img src="{{ asset('storage/' . $file->generate_filename) }}" alt="{{ $file->judul_file }}"
                     class="object-contain h-full">
                 @else
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
-                    width="75" viewBox="0 0 256 256" xml:space="preserve">
-
-                    <defs>
-                    </defs>
-                    <g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;"
-                        transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)">
-                        <path
-                            d="M 77.474 17.28 L 61.526 1.332 C 60.668 0.473 59.525 0 58.311 0 H 15.742 c -2.508 0 -4.548 2.04 -4.548 4.548 v 80.904 c 0 2.508 2.04 4.548 4.548 4.548 h 58.516 c 2.508 0 4.549 -2.04 4.549 -4.548 V 20.496 C 78.807 19.281 78.333 18.138 77.474 17.28 z M 61.073 5.121 l 12.611 12.612 H 62.35 c -0.704 0 -1.276 -0.573 -1.276 -1.277 V 5.121 z M 74.258 87 H 15.742 c -0.854 0 -1.548 -0.694 -1.548 -1.548 V 4.548 C 14.194 3.694 14.888 3 15.742 3 h 42.332 v 13.456 c 0 2.358 1.918 4.277 4.276 4.277 h 13.457 v 64.719 C 75.807 86.306 75.112 87 74.258 87 z"
-                            style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;"
-                            transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
-                        <path
-                            d="M 68.193 33.319 H 41.808 c -0.829 0 -1.5 -0.671 -1.5 -1.5 s 0.671 -1.5 1.5 -1.5 h 26.385 c 0.828 0 1.5 0.671 1.5 1.5 S 69.021 33.319 68.193 33.319 z"
-                            style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;"
-                            transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
-                        <path
-                            d="M 34.456 33.319 H 21.807 c -0.829 0 -1.5 -0.671 -1.5 -1.5 s 0.671 -1.5 1.5 -1.5 h 12.649 c 0.829 0 1.5 0.671 1.5 1.5 S 35.285 33.319 34.456 33.319 z"
-                            style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;"
-                            transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
-                        <linearGradient id="SVGID_1" gradientUnits="userSpaceOnUse" x1="21.8064" y1="19.2332"
-                            x2="42.2984" y2="19.2332">
-                            <stop offset="0%" style="stop-color:rgb(255,255,255);stop-opacity: 1" />
-                            <stop offset="100%" style="stop-color:rgb(0,0,0);stop-opacity: 1" />
-                        </linearGradient>
-                        <line x1="-10.246" y1="0" x2="10.246" y2="0"
-                            style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: url(#SVGID_1); fill-rule: nonzero; opacity: 1;"
-                            transform=" matrix(1 0 0 1 0 0) " />
-                        <path
-                            d="M 42.298 20.733 H 21.807 c -0.829 0 -1.5 -0.671 -1.5 -1.5 s 0.671 -1.5 1.5 -1.5 h 20.492 c 0.829 0 1.5 0.671 1.5 1.5 S 43.127 20.733 42.298 20.733 z"
-                            style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;"
-                            transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
-                        <path
-                            d="M 68.193 44.319 H 21.807 c -0.829 0 -1.5 -0.671 -1.5 -1.5 s 0.671 -1.5 1.5 -1.5 h 46.387 c 0.828 0 1.5 0.671 1.5 1.5 S 69.021 44.319 68.193 44.319 z"
-                            style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;"
-                            transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
-                        <path
-                            d="M 48.191 55.319 H 21.807 c -0.829 0 -1.5 -0.672 -1.5 -1.5 s 0.671 -1.5 1.5 -1.5 h 26.385 c 0.828 0 1.5 0.672 1.5 1.5 S 49.02 55.319 48.191 55.319 z"
-                            style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;"
-                            transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
-                        <path
-                            d="M 68.193 55.319 H 55.544 c -0.828 0 -1.5 -0.672 -1.5 -1.5 s 0.672 -1.5 1.5 -1.5 h 12.649 c 0.828 0 1.5 0.672 1.5 1.5 S 69.021 55.319 68.193 55.319 z"
-                            style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;"
-                            transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
-                        <path
-                            d="M 68.193 66.319 H 21.807 c -0.829 0 -1.5 -0.672 -1.5 -1.5 s 0.671 -1.5 1.5 -1.5 h 46.387 c 0.828 0 1.5 0.672 1.5 1.5 S 69.021 66.319 68.193 66.319 z"
-                            style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;"
-                            transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
-                        <path
-                            d="M 68.193 77.319 H 55.544 c -0.828 0 -1.5 -0.672 -1.5 -1.5 s 0.672 -1.5 1.5 -1.5 h 12.649 c 0.828 0 1.5 0.672 1.5 1.5 S 69.021 77.319 68.193 77.319 z"
-                            style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;"
-                            transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
-                    </g>
-                </svg>
+                    <x-partial.asset.svg></x-partial.asset.svg>
                 @endif
             </div>
         </div>

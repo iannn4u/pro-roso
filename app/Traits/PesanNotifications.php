@@ -16,6 +16,6 @@ trait PesanNotifications
   }
   public function getPesan()
   {
-    return Pesan::where('id_penerima', $this->getUserId())->get();
+    return Pesan::where('id_penerima', $this->getUserId())->with(['user','file'])->get();
   }
 }

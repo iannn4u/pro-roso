@@ -1,4 +1,4 @@
-<x-user :$title :$user :$jumlahPesan :$pesan>
+<x-user :$title :$user :$jumlahPesan :$pesan :$pesanGrup>
     <div class="container-fluid">
 
         <!-- Page Heading -->

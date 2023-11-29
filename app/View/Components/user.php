@@ -9,18 +9,20 @@ use Illuminate\View\Component;
 class user extends Component
 {
     public $title;
-    public $user;
     public $jumlahPesan;
     public $pesan;
+    public ?string $user = null;
+    public ?array $pesanGrup = null;
     public ?string $files;
 
     /**
      * Create a new component instance.
      */
-    public function __construct($title, $jumlahPesan, $pesan, $files = null, $user = null)
+    public function __construct($title, $jumlahPesan, $pesan, $pesanGrup = null,$files = null,$user =null)
     {
         $this->title = $title;
         $this->user = $user;
+        $this->pesanGrup = $pesanGrup;
         $this->jumlahPesan = $jumlahPesan;
         $this->pesan = $pesan;
         $this->files = $files;
