@@ -1,4 +1,4 @@
-<x-user :$title :$user :$jumlahPesan :$files :$pesan>
+<x-user :$title :$user :$jumlahPesan :$files :$pesan :$pesanGrup>
 
     <!-- Page Heading -->
     @if (session('success'))
@@ -19,7 +19,6 @@
     @section('salam')
         <h3 class="text-3xl font-semibold">{{ $salam . ', ' . Auth::user()->fullname }}</h3>
     @endsection
-
     <!-- DataTales Example -->
     <div class="grid grid-cols-2 gap-y-[20px] gap-x-[16px] md:grid-cols-4 2xl:grid-cols-5 mt-6">
 
@@ -101,7 +100,6 @@
             </a>
 
 
-
             <div id="dropdown" class="absolute hidden z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-52"
                 data-id_file="{{ $file->id_file }}">
                 <ul class="py-2 text-sm text-gray-700">
@@ -143,7 +141,6 @@
         @endforeach
     </div>
 
-
     <div class="modal fade" id="shareUser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -174,7 +171,6 @@
             </div>
         </div>
     </div>
-
 
     <div id="deleteFile" tabindex="-1"
         class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">

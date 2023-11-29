@@ -1,5 +1,5 @@
 @php
-  if ($attributes->has('flash') && count($attributes->get('flash')) > 3 && !isset($attributes->get('flash')['errors'])) {
+  if ($attributes->has('flash') && count($attributes->get('flash')) > 5 && !isset($attributes->get('flash')['errors'])) {
       $msg = null;
       $alert = null;
       $messages = [

@@ -1,4 +1,4 @@
-<x-user :$title :$jumlahPesan :$pesan :files="$file">
+<x-user :$title :$jumlahPesan :$pesan :files="$file" :$pesanGrup>
     @error('judul_file')
     <div class="alert alert-danger mt-3 mx-2" role="alert" style="position: absolute; z-index: 1; top: 0; right: 0;">
         {{ $message }}
