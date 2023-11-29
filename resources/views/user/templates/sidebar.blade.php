@@ -9,7 +9,7 @@ default =>null ,
 <a class="flex py-2 mb-6" href="/">
     <img src="\vendor\fontawesome-free\svgs\solid\box.svg" alt="{{ env('APP_NAME') }}" width="30"
         class="flex justify-center items-center">
-    <div class="text-xl font-semibold mx-3">{{ env('APP_KEY') }} <sup>❤</sup></div>
+    <div class="text-xl font-semibold mx-3">{{ env('APP_NAME') }} <sup>❤</sup></div>
 </a>
 
 <x-partial.create-file :url="$ref"></x-partial.create-file>

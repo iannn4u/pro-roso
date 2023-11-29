@@ -18,7 +18,7 @@
     </div>
 </form>
 
-<div class="w-40 me-2 flex justify-between items-center">
+<div class="w-40 me-2 justify-between items-center hidden lg:flex">
     <div>
         <button data-popover-target="popover-default" data-popover-trigger="click" class="relative">
             <i class="fas fa-bell fa-fw"></i>
