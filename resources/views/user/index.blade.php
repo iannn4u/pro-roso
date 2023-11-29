@@ -20,7 +20,7 @@
         <h3 class="text-3xl font-semibold">{{ $salam . ', ' . Auth::user()->fullname }}</h3>
     @endsection
     <!-- DataTales Example -->
-    <div class="grid grid-cols-2 gap-y-[20px] gap-x-[16px] xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 mt-6">
+    <div class="grid grid-cols-3 gap-y-[20px] gap-x-[16px] xl:grid-cols-5 lg:grid-cols-4 mt-6">
 
         @foreach ($files as $file)
             <?php $namaFile = explode('/', $file->generate_filename); ?>

@@ -1,6 +1,6 @@
 <!-- Topbar Search -->
 
-<form class="w-1/2">
+<form class="w-1/4 md:w-1/2">
     <div class="relative">
         <div
             class="absolute z-10 hover:bg-gray-200 inset-y-0 start-0 flex items-center ml-1 h-9 w-9 mt-[6px] ml-2 rounded-full">

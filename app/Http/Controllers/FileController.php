@@ -107,7 +107,7 @@ class FileController extends Controller
         File::create($validatedData);
 
         session()->flash('sukses', 'mengupload file');
-        return redirect();
+        return redirect('/');
     }
 
     /**

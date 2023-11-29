@@ -13,9 +13,9 @@
 
 <body>
 
-    <div class="bg-gray-100 flex h-screen pe-3 pb-4 min-w-[1000px] max-w-[2000px]">
+    <div class="bg-gray-100 flex h-screen pe-3 px-3 md:px-0 pb-4 min-w-[1000px] max-w-[2000px]">
 
-        <aside class="h-full w-60 sm:w-full max-w-[320px] py-3 px-5">
+        <aside class="hidden md:block h-full w-56 py-3 px-5">
             @include('user.templates.sidebar')
         </aside>
 
@@ -27,7 +27,7 @@
                 </nav>
             </header>
 
-            <main class="bg-white rounded-2xl h-full overflow-y-auto parent px-4">
+            <main class="bg-white rounded-2xl h-full overflow-y-auto parent px-4 md:w-full">
                 @yield('salam')
                 {{ $slot }}
             </main>
