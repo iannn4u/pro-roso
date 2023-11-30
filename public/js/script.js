@@ -133,6 +133,11 @@ function hideDropdown() {
   }
 }
 
+window.addEventListener('contextmenu', (e) => {
+  e.preventDefault();
+  return false;
+ })
+
 document.addEventListener('click', (e) => {
   if (visibleDropdown && !visibleDropdown.contains(e.target)) {
     hideDropdown();
@@ -145,7 +150,7 @@ cards.forEach((c) => {
     const dropdown = document.querySelector(`#dropdown[data-id_file="${id_file}"]`);
 
     if (visibleDropdown && visibleDropdown != dropdown) {
-      hideDropdown;
+      hideDropdown();
     }
 
     dropdown.style.left = `${e.clientX}px`;
