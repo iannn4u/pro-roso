@@ -84,6 +84,12 @@ document.addEventListener('click', (e) => {
   }
 });
 
+document.addEventListener('contextmenu', (e) => {
+  if (visibleDropdown && !visibleDropdown.contains(e.target)) {
+    hideDropdown();
+  }
+})
+
 cards.forEach((c) => {
   c.addEventListener('contextmenu', (e) => {
     id_file = c.getAttribute('data-id_file');

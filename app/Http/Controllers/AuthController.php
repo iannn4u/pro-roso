@@ -20,8 +20,8 @@ class AuthController extends Controller
 
         $user = User::where('email', $validated['usermail'])->orWhere('username', $validated['usermail'])->first();
 
-        if (!$user) {
-            session()->flash('gagal', 'Incorrect username or password.');
+    if (!$user) {
+        session()->flash('gagal', 'Incorrect username or password.');
             return back()->withInput(['usermail' => $validated['usermail']]);
         }
 

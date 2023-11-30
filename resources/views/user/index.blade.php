@@ -17,7 +17,9 @@
     @endif
 
     @section('salam')
+    <div class="py-3">
         <h3 class="text-3xl font-semibold">{{ $salam . ', ' . Auth::user()->fullname }}</h3>
+    </div>
     @endsection
     <!-- DataTales Example -->
     <div class="grid grid-cols-3 gap-y-[20px] gap-x-[16px] xl:grid-cols-5 lg:grid-cols-4 mt-6">
