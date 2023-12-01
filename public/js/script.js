@@ -33,61 +33,6 @@ if (
   window.location.href === "http://127.0.0.1:8000/file/create" ||
   window.location.href === "http://127.0.0.1:8000/file/1/edit"
 ) {
-  document.querySelectorAll(".dropFile").forEach((i) => {
-    const dropArea = i.closest(".dropArea");
-    dropArea.addEventListener("click", (e) => {
-      i.click();
-    });
-
-    i.addEventListener("change", (e) => {
-      if (i.files.length) {
-        thumb(dropArea, i.files[0]);
-      }
-    });
-
-    dropArea.addEventListener("dragover", (e) => {
-      e.preventDefault();
-      dropArea.classList.add("dropArea-over");
-    });
-    ["dragleave", "dragend"].forEach((type) => {
-      dropArea.addEventListener(type, (e) => {
-        dropArea.classList.remove("dropArea-over");
-      });
-    });
-    dropArea.addEventListener("drop", (e) => {
-      e.preventDefault();
-      if (e.dataTransfer.files.length) {
-        i.files = e.dataTransfer.files;
-        thumb(dropArea, e.dataTransfer.files[0]);
-      }
-      dropArea.classList.remove("dropArea-over");
-    });
-  });
-
-  function thumb(dropArea, file) {
-    let thumbElement = dropArea.querySelector(".dropArea-thumb");
-
-    if (dropArea.querySelector(".dropText")) {
-      dropArea.querySelector(".dropText").remove();
-    }
-
-    if (!thumbElement) {
-      thumbElement = document.createElement("div");
-      thumbElement.classList.add("dropArea-thumb");
-      dropArea.appendChild(thumbElement);
-    }
-    thumbElement.dataset.label = file.name;
-
-    if (file.type.startsWith("image/")) {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        thumbElement.style.backgroundImage = `url('${reader.result}')`;
-      };
-    } else {
-      thumbElement.style.backgroundImage = null;
-    }
-  }
 }
 
 /**
@@ -108,21 +53,9 @@ targetDelete.forEach((target) => {
 });
 
 /**
- * Nyalin link
- */
-const bSalin = document.querySelectorAll("#salin");
-bSalin.forEach(b => {
-  b.addEventListener("click", () => {
-    const link = document.querySelector(`#link[data-id_file="${id_file}"]`)
-    navigator.clipboard.writeText(link.value);
-    alert("Link file berhasil disalin!");
-  });
-});
-
-/**
  * Right Click by Ian
  */
-const cards = document.querySelectorAll('#card');
+const cards = document.querySelectorAll(".card-file");
 let visibleDropdown = null;
 let id_file;
 
@@ -132,18 +65,6 @@ function hideDropdown() {
     visibleDropdown = null;
   }
 }
-
-function hiddenDropdownResult() {
-  if (countResult) {
-    result.classList.add('hidden');
-    visibleDropdown = null;
-  }
-}
-
-window.addEventListener('contextmenu', (e) => {
-  e.preventDefault();
-  return false;
-})
 
 document.addEventListener('click', (e) => {
   if (visibleDropdown && !visibleDropdown.contains(e.target)) {
@@ -155,9 +76,13 @@ document.addEventListener('click', (e) => {
 });
 
 cards.forEach((c) => {
-  c.addEventListener('contextmenu', (e) => {
-    id_file = c.getAttribute('data-id_file');
-    const dropdown = document.querySelector(`#dropdown[data-id_file="${id_file}"]`);
+  c.addEventListener("contextmenu", (e) => {
+    hideDropdown();
+    id_file = c.getAttribute("data-id_file");
+    const dropdown = document.querySelector(`#dropdown`);
+    const bSalin = document.querySelector("#salin");
+    const downlaod = document.querySelector("#download");
+    const edit = document.querySelector(`#edit`);
 
     if (visibleDropdown && visibleDropdown != dropdown) {
       hideDropdown();
@@ -165,13 +90,25 @@ cards.forEach((c) => {
 
     dropdown.style.left = `${e.clientX}px`;
     dropdown.style.top = `${e.clientY}px`;
-    dropdown.classList.toggle('hidden');
-    document.querySelector('#formDelete').action = "/file/" + id_file;
+    dropdown.classList.toggle("hidden");
+
+    /**
+     * Nyalin link lewar klik kanan
+     */
+    bSalin.addEventListener("click", () => {
+      const link = document.querySelector(`#link[data-id_file="${id_file}"]`);
+      navigator.clipboard.writeText(link.value);
+      alert(`Link file #${id_file} berhasil disalin!`);
+    });
+
+    downlaod.href = `/download/${id_file}`;
+    edit.href = `/file/${id_file}/edit`;
+    document.querySelector("#formDelete").action = "/file/" + id_file;
     visibleDropdown = dropdown;
     e.preventDefault();
     return false;
-  })
-})
+  });
+});
 
 /**
  * ajax nyari user
@@ -239,7 +176,14 @@ searchUser.addEventListener("input", function () {
         users.forEach((u) => {
           const li = document.createElement("li");
           li.textContent = u.username;
-          li.classList.add("list-group-item", 'userLi', 'block', 'px-4', 'py-2', 'hover:bg-gray-100');
+          li.classList.add(
+            "list-group-item",
+            "userLi",
+            "block",
+            "px-4",
+            "py-2",
+            "hover:bg-gray-100"
+          );
           li.setAttribute("role", "button");
           result.appendChild(li);
           countResult = result;

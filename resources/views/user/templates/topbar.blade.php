@@ -26,7 +26,7 @@
     </div>
 </form>
 
-<div class="w-40 me-2 justify-between items-center hidden md:flex">
+<div class="w-40 mr-2.5 justify-around items-center hidden lg:flex">
     <div>
         <button data-popover-target="popover-default" data-popover-trigger="click" class="relative">
             <i class="fas fa-bell fa-fw"></i>
@@ -78,11 +78,11 @@
         </div>
     </div>
     <div
-        class="h-10 mt-2 w-px self-stretch bg-gradient-to-tr from-transparent via-neutral-500 to-transparent opacity-20">
+        class="h-10 w-px mx-1 bg-slate-700">
     </div>
     <div>
-        <button class="flex items-center" data-popover-target="profile" data-popover-trigger="click">
-            <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->username }}</span>
+        <button class="flex items-center group" data-popover-target="profile" data-popover-trigger="click">
+            <span class="me-3 text-gray-700 group-hover:text-red-600 text-sm md:text-base font-semibold">{{ Auth::user()->username }}</span>
             <img class="rounded-full object-cover w-7 h-7"
                 src="{{ Auth::user()->pp === 'img/defaultProfile.svg' ? asset('img/defaultProfile.svg') : asset('storage/' . Auth::user()->pp) }}"
                 width="40">

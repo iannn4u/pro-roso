@@ -21,7 +21,7 @@ class AuthController extends Controller
         $user = User::where('email', $validated['usermail'])->orWhere('username', $validated['usermail'])->first();
 
         if (!$user) {
-            session()->flash('gagal', 'Incorrect username or password.');
+            session()->flash('fail', 'Incorrect username or password.');
             return back()->withInput(['usermail' => $validated['usermail']]);
         }
 
@@ -36,10 +36,10 @@ class AuthController extends Controller
                 $request->session()->regenerate();
                 return redirect()->intended();
             }
-            session()->flash('gagal', 'Incorrect username or password.');
+            session()->flash('fail', 'Incorrect username or password.');
             return back()->withInput(['usermail' => $validated['usermail']]);
         } else {
-            session()->flash('gagal', 'Akun belum aktif silahkan hubungi admin');
+            session()->flash('fail', 'Akun belum aktif silahkan hubungi admin');
             return redirect()->back()->withInput(['usermail' => $validated['usermail']]);
         }
     }
@@ -56,7 +56,7 @@ class AuthController extends Controller
 
         $greets = 'Welcom to ' . config('app.name') . ', ' . $validated['fullname'] . '!';
 
-        session()->flash('sukses', $greets);
+        session()->flash('success', $greets);
         return to_route('login');
     }
 

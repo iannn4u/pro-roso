@@ -1,7 +1,7 @@
 <x-user :$title :$jumlahPesan :$pesan :$files :$pesanGrup>
-    
+
     <x-partial.flash :flash="session()->all()"></x-partial.flash>
-    
+
     <div class="grid grid-cols-2 gap-y-[20px] gap-x-[16px] md:grid-cols-4 2xl:grid-cols-5 min-[2368px]:grid-cols-6 p-5">
         @unless (count($files))
         <p>Tidak ada file</p>
@@ -75,7 +75,7 @@
             {{-- main menu --}}
             <div class="my-1 px-3 py-1">
                 <div class="flex justify-between">
-                    <a href="{{ route('detail', $file->id_file) }}"
+                    <a href="{{ route('detail', ['id_file' => $file->id_file,'username' => $file->user->username]) }}"
                         class="inline-block w-[139px] truncate font-medium text-gray-900 decoration-blue-500 decoration-2 hover:underline hover:underline-offset-2 lg:w-full"
                         title="{{ $file->original_filename }}">{{ $file->original_filename }}</a>
                     <button id="dropdw" data-dropdown-toggle="file-#{{ $file->id_file }}"
@@ -102,7 +102,7 @@
                 <img src="{{ asset('storage/' . $file->generate_filename) }}" alt="{{ $file->judul_file }}"
                     class="object-contain h-full">
                 @else
-                    <x-partial.asset.svg></x-partial.asset.svg>
+                <x-partial.asset.svg></x-partial.asset.svg>
                 @endif
             </div>
         </div>

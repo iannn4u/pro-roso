@@ -42,7 +42,7 @@ class FileController extends Controller
         $groupedPesan = $pesan->groupBy('id_pengirim');
         $data['pesan'] = $pesan;
         $data['pesanGrup'] = $groupedPesan->all();
-        $data['title'] = 'Buat File';
+        $data['title'] = 'New file';
         return view('user.file.create', $data);
     }
 
@@ -64,7 +64,7 @@ class FileController extends Controller
             'files' => 'required|file',
             'status' => 'required',
         ];
-        
+
         if (File::where('judul_file', $request->input('judul_file'))->where('id_user', auth()->id())->count() == 0) {
             $rules['judul_file'] = 'required';
             $validatedData = $request->validate($rules, $errors);
@@ -106,46 +106,7 @@ class FileController extends Controller
 
         File::create($validatedData);
 
-        session()->flash('sukses', 'mengupload file');
-        return redirect('/');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(File $file)
-    {
-        $data['jumlahPesan'] = $this->getJumlahPesan();
-        $data['pesan'] = $this->getPesan();
-        $data['title'] = 'Detail File';
-        if ($file->id_user != Auth::id()) abort(404);
-        $data['file'] = $file;
-        return view('user.file.detail', $data);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(File $file)
-    {
-        $data = [
-            'title' => 'Edit File',
-            'file' => $file,
-        ];
-
-        if (is_null($file)) {
-            session()->flash('errors', 'File tidak ada');
-            return redirect('/');
-        }
-
-        $data['jumlahPesan'] = $this->getJumlahPesan();
-        $pesan = $this->getPesan();
-        $groupedPesan = $pesan->groupBy('id_pengirim');
-        $data['pesan'] = $pesan;
-        $data['pesanGrup'] = $groupedPesan->all();
-
-        if ($file->id_user != Auth::id()) abort(404);
-        return view('user.file.edit', $data);
+        return $this->success('dashboard', "Berhasil mengupload file");
     }
 
     /**
@@ -215,8 +176,46 @@ class FileController extends Controller
 
         $file->update($validatedData);
 
-        session()->flash('sukses', 'mengedit file');
-        return redirect('/');
+        return $this->success('dashboard', "Berhasil mengedit file");
+    }
+
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(File $file)
+    {
+        $data['jumlahPesan'] = $this->getJumlahPesan();
+        $data['pesan'] = $this->getPesan();
+        $data['title'] = 'Detail File';
+        if ($file->id_user != Auth::id()) abort(404);
+        $data['file'] = $file;
+        return view('user.file.detail', $data);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(File $file)
+    {
+        $data = [
+            'title' => 'Edit File',
+            'file' => $file,
+        ];
+
+        if (is_null($file)) {
+            session()->flash('errors', 'File tidak ada');
+            return redirect('/');
+        }
+
+        $data['jumlahPesan'] = $this->getJumlahPesan();
+        $pesan = $this->getPesan();
+        $groupedPesan = $pesan->groupBy('id_pengirim');
+        $data['pesan'] = $pesan;
+        $data['pesanGrup'] = $groupedPesan->all();
+
+        if ($file->id_user != Auth::id()) abort(404);
+        return view('user.file.edit', $data);
     }
 
 
@@ -228,7 +227,7 @@ class FileController extends Controller
         Storage::delete($file->generate_filename);
         $file->destroy($file->id_file);
 
-        session()->flash('sukses', 'Berhasil menghapus file!');
+        session()->flash('success', 'Berhasil menghapus file!');
         return redirect()->back();
     }
 
@@ -239,33 +238,31 @@ class FileController extends Controller
     {
         $file = File::where('id_file', $id_file)->first();
         if ($file == null) {
-            session()->flash('errors', 'file tidak ditemukan');
-            return redirect()->back();
+            return $this->fail('dashboard', "File tidak ditemukan");
         }
         $path = public_path('storage/' . $file->generate_filename);
         $headers = [
             'Content-Type' => 'application/octet-stream'
         ];
 
-        session()->flash('sukses', 'download file');
+        $this->success('dashboard', "File berhasil didownload");
         return response()->download($path, $file->original_filename, $headers);
     }
 
     public function linkDownload($id_file, $filename)
     {
-        $namaFile = explode('/', $filename);
-        $filePathDB = 'users/' . $id_file . '/files/' . end($namaFile);
+        $filePathDB = 'users/' . $id_file . '/files/' . $filename;
         $fileDB = File::where('generate_filename', $filePathDB)->first();
 
         if ($fileDB == null) {
-            session()->flash('errors', 'file tidak ditemukan');
-            return redirect('/');
+            return $this->fail('dashboard', "File tidak ditemukan");
         }
+
         session()->flash('download', $fileDB->id_file);
-        return redirect('/');
+        return $this->success('dashboard', "File berhasil didownload");
     }
 
-    public function detailPublik(File $file, $id_file)
+    public function detailPublik(File $file, $username, $id_file)
     {
         $data['jumlahPesan'] = $this->getJumlahPesan();
         $pesan = $this->getPesan();
@@ -273,11 +270,19 @@ class FileController extends Controller
         $data['pesan'] = $pesan;
         $data['pesanGrup'] = $groupedPesan->all();
 
-        $data['file'] = $file->find($id_file);
-        if ($data['file'] == null || $data['file']->status != 'public') {
-            session()->flash('errors', 'file tidak ada');
-            return redirect('/');
+        $data['file'] = $file->where('id_file', $id_file)->where('id_file', $id_file)->where('id_user', '=', function (\Illuminate\Database\Query\Builder $query) use ($username) {
+            return $query->select('id_user')->from('users')->where('username', $username)->get();
+        })->first();
+
+        // kalau file ga ada atau statusnya private
+        if ($data['file'] == null) {
+            return $this->fail('dashboard', "File $username ($id_file) tidak ada");
         }
+
+        if ($data['file']->id_user != Auth::id() && $data['file']->status != 'public') {
+            return $this->fail('dashboard', "File $username ($id_file) tidak ada");
+        }
+
         $data['title'] = 'Detail File';
         return view('user.file.detalPublik', $data);
     }
@@ -293,10 +298,12 @@ class FileController extends Controller
         $data['pesanGrup'] = $groupedPesan->all();
 
         $pesan = DB::table('files AS f')->join('users AS u', 'u.id_user', '=', 'f.id_user')->join('pesans AS p', 'f.id_file', '=', 'p.id_file')->where('p.id_file', '=', $id_file)->where('p.id_penerima', '=', $this->getUserId())->get('p.pesan');
+        // $pesan = DB::table('files AS f')->join('users AS u', 'u.id_user', '=', 'f.id_user')->join('pesans AS p', 'f.id_file', '=', 'p.id_file')->where('p.id_file', '=', $id_file)->where('p.id_penerima', '=', $this->getUserId())->get('p.pesan');
 
+        dd($pesan);
         if (is_null($data['file']) || count($pesan) == 0) {
             session()->flash('errors', 'file tidak ada / tidak dibagikan');
-            return redirect('/');
+            return to_route('dashboard');
         }
 
         $data['fileShare'] = $pesan;
