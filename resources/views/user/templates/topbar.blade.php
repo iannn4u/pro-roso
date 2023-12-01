@@ -8,7 +8,7 @@
     </svg>
 </button>
 
-<form class="w-1/3 md:w-1/2">
+<form class="w-9/12 md:w-1/2">
     <div class="relative">
         <div
             class="absolute z-10 hover:bg-gray-200 inset-y-0 start-0 flex items-center ml-1 h-9 w-9 mt-[6px] ml-2 rounded-full">
@@ -26,7 +26,7 @@
     </div>
 </form>
 
-<div class="w-40 me-2 justify-between items-center hidden lg:flex">
+<div class="w-40 me-2 justify-between items-center hidden md:flex">
     <div>
         <button data-popover-target="popover-default" data-popover-trigger="click" class="relative">
             <i class="fas fa-bell fa-fw"></i>

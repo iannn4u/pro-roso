@@ -19,7 +19,7 @@
     @section('salam')
         <h3 class="text-3xl font-semibold pt-2">{{ $salam . ', ' . Auth::user()->fullname }}</h3>
     @endsection
-    <div class="grid grid-cols-3 gap-y-[20px] gap-x-[16px] xl:grid-cols-5 lg:grid-cols-4 mt-6">
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-y-[20px] gap-x-[16px] xl:grid-cols-5 lg:grid-cols-4 mt-6">
 
         @foreach ($files as $file)
             <?php $namaFile = explode('/', $file->generate_filename); ?>
@@ -173,7 +173,7 @@
                                 placeholder="{{ Auth::user()->username }}" required>
                                 <small id="notfon"
                             class="block ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"></small>
-                            <ul id="result" class="absolute w-full z-10 py-2 text-sm text-gray-700 bg-white"></ul>
+                            <ul id="result" class="hidden absolute w-full z-10 py-2 text-sm text-gray-700 bg-white border-2"></ul>
                         </div>
                         <div>
                             <label for="pesan"
@@ -184,7 +184,7 @@
                                 placeholder="Write a message..." required name="pesan" id="pesan"></textarea>
                         </div>
                         <button type="submit" id="kirimUser"
-                            class="w-full text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Send</button>
+                            class="w-full cursor-not-allowed text-white bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Send</button>
                     </form>
                 </div>
             </div>
@@ -233,7 +233,7 @@
 
 
 
-<div class="fixed lg:hidden end-6 bottom-6 group">
+<div class="fixed md:hidden end-6 bottom-6 group">
     <a href="/file/create" class="flex items-center justify-center text-white bg-gray-900 rounded-full w-14 h-14 hover:bg-white hover:text-gray-900 hover:border-2 hover:border-gray-900 ease-linear focus:ring-4 focus:ring-gray-300 focus:outline-none">
         <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
