@@ -33,7 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::get('username', [UserController::class, 'ajax']);
     Route::get('kirimFile/{id_file}', [PesanController::class, 'store']);
 
-    Route::resource('file', FileController::class)->only(['edit', 'destroy','store']);
+    Route::resource('file', FileController::class)->only(['edit', 'destroy','store','update']);
 
     Route::controller(FileController::class)->group(function () {
         Route::get('publikFile', 'index');

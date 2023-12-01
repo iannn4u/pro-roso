@@ -53,47 +53,39 @@ targetDelete.forEach((target) => {
 });
 
 /**
- * Nyalin link
- */
-const bSalin = document.querySelectorAll("#salin");
-bSalin.forEach(b => {
-  b.addEventListener("click", () => {
-    const link = document.querySelector(`#link[data-id_file="${id_file}"]`)
-    navigator.clipboard.writeText(link.value);
-    alert("Link file berhasil disalin!");
-  });
-});
-
-/**
  * Right Click by Ian
  */
-const cards = document.querySelectorAll('#card');
+const cards = document.querySelectorAll(".card-file");
 let visibleDropdown = null;
 let id_file;
 
 function hideDropdown() {
   if (visibleDropdown) {
-    visibleDropdown.classList.add('hidden');
+    visibleDropdown.classList.add("hidden");
     visibleDropdown = null;
   }
 }
 
-document.addEventListener('click', (e) => {
+document.addEventListener("click", (e) => {
   if (visibleDropdown && !visibleDropdown.contains(e.target)) {
     hideDropdown();
   }
 });
 
-document.addEventListener('contextmenu', (e) => {
-  if (visibleDropdown && !visibleDropdown.contains(e.target)) {
-    hideDropdown();
-  }
-})
+// document.addEventListener('contextmenu', (e) => {
+//   if (visibleDropdown && !visibleDropdown.contains(e.target)) {
+//     hideDropdown();
+//   }
+// })
 
 cards.forEach((c) => {
-  c.addEventListener('contextmenu', (e) => {
-    id_file = c.getAttribute('data-id_file');
-    const dropdown = document.querySelector(`#dropdown[data-id_file="${id_file}"]`);
+  c.addEventListener("contextmenu", (e) => {
+    hideDropdown();
+    id_file = c.getAttribute("data-id_file");
+    const dropdown = document.querySelector(`#dropdown`);
+    const bSalin = document.querySelector("#salin");
+    const downlaod = document.querySelector("#download");
+    const edit = document.querySelector(`#edit`);
 
     if (visibleDropdown && visibleDropdown != dropdown) {
       hideDropdown;
@@ -101,13 +93,25 @@ cards.forEach((c) => {
 
     dropdown.style.left = `${e.clientX}px`;
     dropdown.style.top = `${e.clientY}px`;
-    dropdown.classList.toggle('hidden');
-    document.querySelector('#formDelete').action = "/file/" + id_file;
+    dropdown.classList.toggle("hidden");
+
+    /**
+     * Nyalin link lewar klik kanan
+     */
+    bSalin.addEventListener("click", () => {
+      const link = document.querySelector(`#link[data-id_file="${id_file}"]`);
+      navigator.clipboard.writeText(link.value);
+      alert(`Link file #${id_file} berhasil disalin!`);
+    });
+
+    downlaod.href = `/download/${id_file}`;
+    edit.href = `/file/${id_file}/edit`;
+    document.querySelector("#formDelete").action = "/file/" + id_file;
     visibleDropdown = dropdown;
     e.preventDefault();
     return false;
-  })
-})
+  });
+});
 
 /**
  * ajax nyari user
@@ -172,7 +176,14 @@ searchUser.addEventListener("input", function () {
         users.forEach((u) => {
           const li = document.createElement("li");
           li.textContent = u.username;
-          li.classList.add("list-group-item", 'userLi', 'block', 'px-4', 'py-2', 'hover:bg-gray-100');
+          li.classList.add(
+            "list-group-item",
+            "userLi",
+            "block",
+            "px-4",
+            "py-2",
+            "hover:bg-gray-100"
+          );
           li.setAttribute("role", "button");
           result.appendChild(li);
           let liUser = document.querySelectorAll(".userLi");

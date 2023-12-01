@@ -1,12 +1,12 @@
 @php
-  if ($attributes->has('flash') && count($attributes->get('flash')) > 4 && !isset($attributes->get('flash')['errors'])) {
+  if ($attributes->has('flash') && count($attributes->get('flash')) > 5 && !isset($attributes->get('flash')['errors'])) {
       $msg = null;
       $alert = null;
       $messages = [
-          'gagal' => $attributes->get('flash')['gagal'] ?? null,
-          'sukses' => $attributes->get('flash')['sukses'] ?? null,
+          'fail' => $attributes->get('flash')['fail'] ?? null,
+          'success' => $attributes->get('flash')['success'] ?? null,
           'info' => $attributes->get('flash')['info'] ?? null,
-          'peringatan' => $attributes->get('flash')['peringatan'] ?? null,
+          'warn' => $attributes->get('flash')['warn'] ?? null,
       ];
 
       foreach ($messages as $a => $m) {
@@ -17,10 +17,10 @@
       }
 
       $alertType = match ($alert) {
-          'gagal' => 'border-red-600 bg-red-50',
-          'sukses' => 'border-green-300 bg-green-50',
+          'fail' => 'border-red-600 bg-red-50',
+          'success' => 'border-green-300 bg-green-50',
           'info' => 'border-blue-300 bg-blue-50',
-          'peringatan' => 'border-yellow-300 bg-yellow-50',
+          'warn' => 'border-yellow-300 bg-yellow-50',
           default => 'border-gray-300 bg-gray-50',
       };
   }

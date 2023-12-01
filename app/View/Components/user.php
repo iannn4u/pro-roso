@@ -18,7 +18,7 @@ class user extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct($title, $jumlahPesan, $pesan, $pesanGrup = null,$files = null,$user =null)
+    public function __construct($jumlahPesan, $pesan, $pesanGrup = null, $files = null, $user = null, $title = null)
     {
         $this->title = $title;
         $this->user = $user;
