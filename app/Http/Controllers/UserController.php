@@ -18,8 +18,6 @@ class UserController extends Controller
    */
   public function index()
   {
-    $data['title'] = 'Beranda';
-    $data['user'] = User::where('id_user', auth()->id())->first();
     $data['jumlahPesan'] = $this->getJumlahPesan();
     $pesan = $this->getPesan();
 

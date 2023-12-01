@@ -31,9 +31,9 @@
 
           <x-partial.flash :flash="session()->all()"></x-partial.flash>
 
-          <x-partial.label name="usermail" type="text"></x-partial.label>
+          <x-partial.input name="usermail" label="Username / Email" type="text"></x-partial.input>
 
-          <x-partial.label name="password" type="password"></x-partial.label>
+          <x-partial.input name="password" type="password"></x-partial.input>
 
           <button type="submit"
             class="w-full text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Login</button>
