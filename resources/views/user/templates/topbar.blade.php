@@ -31,9 +31,9 @@
         <button data-popover-target="popover-default" data-popover-trigger="click" class="relative">
             <i class="fas fa-bell fa-fw"></i>
             @unless ($jumlahPesan == 0)
-            <!-- Counter - Alerts -->
-            <span class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-medium w-4 h-4 rounded-full">{{
-                $jumlahPesan }}</span>
+                <!-- Counter - Alerts -->
+                <span
+                    class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-medium w-4 h-4 rounded-full">{{ $jumlahPesan }}</span>
             @endunless
         </button>
 
@@ -44,36 +44,36 @@
                 Notifications
             </div>
             @unless (count($pesan))
-            <div class="px-3 py-4">
-                <div class="text-gray-700 text-center">
-                    <span>Kamu tidak memiliki notfikasi terbaru</span>
+                <div class="px-3 py-4">
+                    <div class="text-gray-700 text-center">
+                        <span>Kamu tidak memiliki notfikasi terbaru</span>
+                    </div>
                 </div>
-            </div>
             @endunless
             @foreach (array_slice($pesan->all(), 0, 4) as $p)
-            <div class="px-3 py-2.5 flex">
-                <div class="mr-3">
-                    <div class="overflow-hidden">
-                        <img class="w-16 mt-2 aspect-square rounded-full object-cover"
-                            src="{{ $p->user->pp === 'img/defaultProfile.svg' ? asset('img/defaultProfile.svg') : asset('storage/' . $p->user->pp) }}"
-                            alt="{{ $p->id_pengirim }}">
+                <div class="px-3 py-2.5 flex">
+                    <div class="mr-3">
+                        <div class="overflow-hidden">
+                            <img class="w-16 mt-2 aspect-square rounded-full object-cover"
+                                src="{{ $p->user->pp === 'img/defaultProfile.svg' ? asset('img/defaultProfile.svg') : asset('storage/' . $p->user->pp) }}"
+                                alt="{{ $p->id_pengirim }}">
+                        </div>
+                    </div>
+                    <div>
+                        <div title="{{ $p->created_at }}" class="text-xs text-gray-700">
+                            {{ $p->created_at->format('F d, Y h:iA') }}
+                        </div>
+                        <span><b>{{ $p->user->username }}</b> mengirim sebuah file
+                            kepada anda! <a href="/lihatFile/{{ $p->id_file }}"
+                                class="text-red-500 font-bold hover:underline">Lihat file.</a></span>
                     </div>
                 </div>
-                <div>
-                    <div title="{{ $p->created_at }}" class="text-xs text-gray-700">
-                        {{ $p->created_at->format('F d, Y h:iA') }}
-                    </div>
-                    <span><b>{{ $p->user->username }}</b> mengirim sebuah file
-                        kepada anda! <a href="/lihatFile/{{ $p->id_file }}"
-                            class="text-red-500 font-bold hover:underline">Lihat file.</a></span>
-                </div>
-            </div>
             @endforeach
             @if (count($pesan))
-            <button data-modal-target="timeline-modal" data-modal-toggle="timeline-modal"
-                class="block py-2 w-full text-xs font-medium text-center text-gray-900 rounded-b-lg bg-gray-50 hover:bg-gray-100">Lihat
-                Notifikasi
-                Lainnya</button>
+                <button data-modal-target="timeline-modal" data-modal-toggle="timeline-modal"
+                    class="block py-2 w-full text-xs font-medium text-center text-gray-900 rounded-b-lg bg-gray-50 hover:bg-gray-100">Lihat
+                    Notifikasi
+                    Lainnya</button>
             @endif
         </div>
     </div>
@@ -102,6 +102,9 @@
     </div>
 </div>
 
+
+
+
 <div id="timeline-modal" tabindex="-1" aria-hidden="true"
     class="hidden overflow-x-hidden fixed top-2 right-0 left-0 z-50 justify-center items-center rounded w-full h-[calc(100%-1rem)] max-h-full parent">
     <div class="relative p-4 w-full max-w-6xl max-h-full">
@@ -127,91 +130,96 @@
             <div class="p-4 md:p-5">
                 <ol class="relative mb-4 md:mb-5">
                     @foreach ($pesanGrup as $index => $pesan)
-                    @php
-                    $dariPengirim = $pesan->first()->user;
-                    @endphp
-                    <li class="mb-5 shadow border-b rounded overflow-hidden">
-                        <div id="accordion-flush-{{ $index }}" data-accordion="collapse"
-                            data-active-classes="bg-white text-gray-900 dark:text-black dark:border-red-600 border-b-2"
-                            data-inactive-classes="text-gray-500 border-gray-200">
-                            <h2 id="acc-{{ $index }}">
-                                <button type="button"
-                                    class="flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 gap-3 px-3"
-                                    data-accordion-target="#acc-{{ $index . Str::mask($dariPengirim->username, '-', -15, 4) }}"
-                                    aria-expanded="false"
-                                    aria-controls="acc-{{ $index . Str::mask($dariPengirim->username, '-', -15, 4) }}">
-                                    <span>Messages by {{ $dariPengirim->fullname }}
-                                        • ({{ count($pesan) }})</span>
-                                    <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                            stroke-width="2" d="M9 5 5 1 1 5" />
-                                    </svg>
-                                </button>
-                            </h2>
-                            <div id="acc-{{ $index . Str::mask($dariPengirim->username, '-', -15, 4) }}" class="hidden"
-                                aria-labelledby="acc-{{ $index }}">
-                                <div class="py-5 border-b border-gray-200 flex flex-wrap -mx-2 dark:border-gray-700">
-                                    <div class="relative overflow-x-auto md:w-full">
-                                        <table class="w-full text-sm text-left text-gray-500">
-                                            <thead class="text-xs text-gray-700 uppercase">
-                                                <tr>
-                                                    <th scope="col" class="px-6 py-3">
-                                                        File name
-                                                    </th>
-                                                    <th scope="col" class="px-6 py-3">
-                                                        Date modified
-                                                    </th>
-                                                    <th scope="col" class="px-6 py-3">
-                                                        Type
-                                                    </th>
-                                                    <th scope="col" class="px-6 py-3">
-                                                        Size
-                                                    </th>
-                                                    <th scope="col" class="px-6 py-3">
-                                                        <span class="sr-only">lihat file</span>
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($pesan as $p)
-                                                <tr class="bg-white">
-                                                    <td class="px-6 py-4 whitespace-nowrap">
-                                                        {{ $p->file->judul_file }}
-                                                    </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap">
-                                                        {{ $p->created_at->format('d/m/Y
-                                                        h:i A') }}
-                                                    </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap">
-                                                        {{ strtoupper($p->file->ekstensi_file) }} File
-                                                    </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap">
-                                                        {{ $p->file->file_size }}
-                                                    </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap">
-                                                        <a href="/lihatFile/{{ $p->id_file }}" target="_blank"
-                                                            class="text-red-600 decoration-2 underline-offset-2 hover:underline hover:decoration-amber-700 group inline-flex items-center">Lihat
-                                                            file
-                                                            <svg class="w-4 h-4 text-red-500 group-hover:opacity-100 group-hover:translate-x-0 opacity-0 duration-150 -translate-x-4 ml-1.5"
-                                                                aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                                                fill="none" viewBox="0 0 18 18">
-                                                                <path stroke="currentColor" stroke-linecap="round"
-                                                                    stroke-linejoin="round" stroke-width="2"
-                                                                    d="M15 11v4.833A1.166 1.166 0 0 1 13.833 17H2.167A1.167 1.167 0 0 1 1 15.833V4.167A1.166 1.166 0 0 1 2.167 3h4.618m4.447-2H17v5.768M9.111 8.889l7.778-7.778" />
-                                                            </svg>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
+                        @php
+                            $dariPengirim = $pesan->first()->user;
+                        @endphp
+                        <li class="mb-5 shadow border-b rounded overflow-hidden">
+                            <div id="accordion-flush-{{ $index }}" data-accordion="collapse"
+                                data-active-classes="bg-white text-gray-900 dark:text-black dark:border-red-600 border-b-2"
+                                data-inactive-classes="text-gray-500 border-gray-200">
+                                <h2 id="acc-{{ $index }}">
+                                    <button type="button"
+                                        class="flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 gap-3 px-3"
+                                        data-accordion-target="#acc-{{ $index . Str::mask($dariPengirim->username, '-', -15, 4) }}"
+                                        aria-expanded="false"
+                                        aria-controls="acc-{{ $index . Str::mask($dariPengirim->username, '-', -15, 4) }}">
+                                        <span>Messages by {{ $dariPengirim->fullname }}
+                                            • ({{ count($pesan) }})</span>
+                                        <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0"
+                                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                            viewBox="0 0 10 6">
+                                            <path stroke="currentColor" stroke-linecap="round"
+                                                stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5" />
+                                        </svg>
+                                    </button>
+                                </h2>
+                                <div id="acc-{{ $index . Str::mask($dariPengirim->username, '-', -15, 4) }}"
+                                    class="hidden" aria-labelledby="acc-{{ $index }}">
+                                    <div
+                                        class="py-5 border-b border-gray-200 flex flex-wrap -mx-2 dark:border-gray-700">
+                                        <div class="relative overflow-x-auto md:w-full">
+                                            <table class="w-full text-sm text-left text-gray-500">
+                                                <thead class="text-xs text-gray-700 uppercase">
+                                                    <tr>
+                                                        <th scope="col" class="px-6 py-3">
+                                                            File name
+                                                        </th>
+                                                        <th scope="col" class="px-6 py-3">
+                                                            Date modified
+                                                        </th>
+                                                        <th scope="col" class="px-6 py-3">
+                                                            Type
+                                                        </th>
+                                                        <th scope="col" class="px-6 py-3">
+                                                            Size
+                                                        </th>
+                                                        <th scope="col" class="px-6 py-3">
+                                                            <span class="sr-only">lihat file</span>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($pesan as $p)
+                                                        <tr class="bg-white">
+                                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                                {{ $p->file->judul_file }}
+                                                            </td>
+                                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                                {{ $p->created_at->format('d/m/Y
+                                                                                                                        h:i A') }}
+                                                            </td>
+                                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                                {{ strtoupper($p->file->ekstensi_file) }} File
+                                                            </td>
+                                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                                {{ $p->file->file_size }}
+                                                            </td>
+                                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                                <a href="/lihatFile/{{ $p->id_file }}"
+                                                                    target="_blank"
+                                                                    class="text-red-600 decoration-2 underline-offset-2 hover:underline hover:decoration-amber-700 group inline-flex items-center">Lihat
+                                                                    file
+                                                                    <svg class="w-4 h-4 text-red-500 group-hover:opacity-100 group-hover:translate-x-0 opacity-0 duration-150 -translate-x-4 ml-1.5"
+                                                                        aria-hidden="true"
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        fill="none" viewBox="0 0 18 18">
+                                                                        <path stroke="currentColor"
+                                                                            stroke-linecap="round"
+                                                                            stroke-linejoin="round" stroke-width="2"
+                                                                            d="M15 11v4.833A1.166 1.166 0 0 1 13.833 17H2.167A1.167 1.167 0 0 1 1 15.833V4.167A1.166 1.166 0 0 1 2.167 3h4.618m4.447-2H17v5.768M9.111 8.889l7.778-7.778" />
+                                                                    </svg>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        {{-- <div class="group relative flex flex-col gap-x-6 rounded-lg p-4 hover:bg-gray-50">
+                            {{-- <div class="group relative flex flex-col gap-x-6 rounded-lg p-4 hover:bg-gray-50">
                             <div class="inline-flex items-center">
                                 <img class="aspect-square rounded-full object-cover mr-1.5"
                                     src="{{ $p->user->pp === 'img/defaultProfile.svg' ? asset('img/defaultProfile.svg') : asset('storage/' . $p->user->pp) }}"
@@ -229,7 +237,7 @@
                             class="text-xs text-gray-700 sm:gap-x-2 items-center justify-between p-2 flex">
                             <span class="text-right">{{ $p->created_at->format('F d, Y h:iA') }}</span>
                         </div> --}}
-                    </li>
+                        </li>
                     @endforeach
                 </ol>
             </div>

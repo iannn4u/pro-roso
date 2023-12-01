@@ -72,12 +72,19 @@ function hiddenDropdownResult() {
   }
 }
 
-window.addEventListener("contextmenu", (e) => {
+function hiddenDropdownResult() {
+  if (countResult) {
+    result.classList.add('hidden');
+    visibleDropdown = null;
+  }
+}
+
+window.addEventListener('contextmenu', (e) => {
   e.preventDefault();
   return false;
-});
+})
 
-document.addEventListener("click", (e) => {
+document.addEventListener('click', (e) => {
   if (visibleDropdown && !visibleDropdown.contains(e.target)) {
     hideDropdown();
   }
@@ -151,7 +158,8 @@ searchUser.addEventListener("input", function () {
     xhr.onload = function () {
       if (xhr.status == 200) {
         const users = JSON.parse(xhr.responseText);
-        result.classList.remove("hidden");
+
+        result.classList.remove('hidden');
         if (valueSearch == username) {
           buttonKirim.disabled = true;
           pesanFile.setAttribute("disabled", "");
@@ -175,8 +183,7 @@ searchUser.addEventListener("input", function () {
         if (users.length == 0) {
           buttonKirim.disabled = true;
           pesanFile.setAttribute("disabled", "");
-          notfon.textContent = `User '${valueSearch}' tidak ada!`;
-          result.classList.add("hidden");
+          result.classList.add('hidden');
           notfon.classList.remove("hidden");
           notfon.classList.add("block");
         } else {
@@ -207,8 +214,7 @@ searchUser.addEventListener("input", function () {
               clicked = true;
               if (clicked) {
                 buttonKirim.disabled = false;
-                pesanFile.removeAttribute("disabled");
-                result.classList.add("hidden");
+                result.classList.add('hidden');
               } else {
                 buttonKirim.disabled = true;
                 pesanFile.setAttribute("disabled", "");
