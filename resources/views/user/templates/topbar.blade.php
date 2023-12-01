@@ -1,6 +1,14 @@
-<!-- Topbar Search -->
+<button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar" type="button"
+    class="inline-flex items-center p-2 ms-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+    <span class="sr-only">Open sidebar</span>
+    <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+        <path clip-rule="evenodd" fill-rule="evenodd"
+            d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z">
+        </path>
+    </svg>
+</button>
 
-<form class="w-1/4 md:w-1/2">
+<form class="w-9/12 md:w-1/2">
     <div class="relative">
         <div
             class="absolute z-10 hover:bg-gray-200 inset-y-0 start-0 flex items-center ml-1 h-9 w-9 mt-[6px] ml-2 rounded-full">
@@ -42,7 +50,7 @@
                 </div>
             </div>
             @endunless
-            @foreach (array_slice($pesan->all(),0,4) as $p)
+            @foreach (array_slice($pesan->all(), 0, 4) as $p)
             <div class="px-3 py-2.5 flex">
                 <div class="mr-3">
                     <div class="overflow-hidden">
@@ -69,12 +77,12 @@
             @endif
         </div>
     </div>
-    <div
-        class="h-10 w-px mx-1 bg-slate-700">
+    <div class="h-10 w-px mx-1 bg-slate-700">
     </div>
     <div>
         <button class="flex items-center group" data-popover-target="profile" data-popover-trigger="click">
-            <span class="me-3 text-gray-700 group-hover:text-red-600 text-sm md:text-base font-semibold">{{ Auth::user()->username }}</span>
+            <span class="me-3 text-gray-700 group-hover:text-red-600 text-sm md:text-base font-semibold">{{
+                Auth::user()->username }}</span>
             <img class="rounded-full object-cover w-7 h-7"
                 src="{{ Auth::user()->pp === 'img/defaultProfile.svg' ? asset('img/defaultProfile.svg') : asset('storage/' . Auth::user()->pp) }}"
                 width="40">
@@ -93,12 +101,6 @@
         </div>
     </div>
 </div>
-
-
-
-<!-- Modal toggle -->
-
-<!-- Main modal -->
 
 <div id="timeline-modal" tabindex="-1" aria-hidden="true"
     class="hidden overflow-x-hidden fixed top-2 right-0 left-0 z-50 justify-center items-center rounded w-full h-[calc(100%-1rem)] max-h-full parent">
@@ -135,9 +137,9 @@
                             <h2 id="acc-{{ $index }}">
                                 <button type="button"
                                     class="flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 gap-3 px-3"
-                                    data-accordion-target="#acc-{{ $index . Str::mask($dariPengirim->username,'-', -15, 4) }}"
+                                    data-accordion-target="#acc-{{ $index . Str::mask($dariPengirim->username, '-', -15, 4) }}"
                                     aria-expanded="false"
-                                    aria-controls="acc-{{ $index . Str::mask($dariPengirim->username,'-', -15, 4) }}">
+                                    aria-controls="acc-{{ $index . Str::mask($dariPengirim->username, '-', -15, 4) }}">
                                     <span>Messages by {{ $dariPengirim->fullname }}
                                         • ({{ count($pesan) }})</span>
                                     <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"
@@ -147,7 +149,7 @@
                                     </svg>
                                 </button>
                             </h2>
-                            <div id="acc-{{ $index . Str::mask($dariPengirim->username,'-', -15, 4) }}" class="hidden"
+                            <div id="acc-{{ $index . Str::mask($dariPengirim->username, '-', -15, 4) }}" class="hidden"
                                 aria-labelledby="acc-{{ $index }}">
                                 <div class="py-5 border-b border-gray-200 flex flex-wrap -mx-2 dark:border-gray-700">
                                     <div class="relative overflow-x-auto md:w-full">
@@ -177,9 +179,10 @@
                                                     <td class="px-6 py-4 whitespace-nowrap">
                                                         {{ $p->file->judul_file }}
                                                     </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap">{{
-                                                        $p->created_at->format('d/m/Y
-                                                        h:i A') }}</td>
+                                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                        {{ $p->created_at->format('d/m/Y
+                                                        h:i A') }}
+                                                    </td>
                                                     <td class="px-6 py-4 whitespace-nowrap">
                                                         {{ strtoupper($p->file->ekstensi_file) }} File
                                                     </td>
