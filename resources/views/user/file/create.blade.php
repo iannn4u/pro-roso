@@ -1,93 +1,93 @@
 @push('style')
-  <style>
-    .thumbnailCard {
-      background: #ddd;
-      min-height: 200px;
-    }
+<style>
+  .thumbnailCard {
+    background: #ddd;
+    min-height: 200px;
+  }
 
-    .dropArea {
-      max-width: 100%;
-      height: 200px;
-      padding: 25px;
-      display: grid;
-      place-items: center;
-      text-align: center;
-      font-family: sans-serif;
-      font-weight: 500;
-      font-size: 1.2rem;
-      cursor: pointer;
-      color: #ccc;
-      border: 4px dashed #000;
-      border-radius: 10px;
-    }
+  .dropArea {
+    max-width: 100%;
+    height: 200px;
+    padding: 25px;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    font-family: sans-serif;
+    font-weight: 500;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: #ccc;
+    border: 4px dashed #000;
+    border-radius: 10px;
+  }
 
-    .dropArea.error {
-      border: 2px solid red
-    }
+  .dropArea.error {
+    border: 2px solid red
+  }
 
-    .dropArea-over {
-      border-style: solid;
-    }
+  .dropArea-over {
+    border-style: solid;
+  }
 
-    .dropFile {
-      display: none;
-    }
+  .dropFile {
+    display: none;
+  }
 
-    .dropArea-thumb {
-      width: 100%;
-      height: 100%;
-      border-radius: 10px;
-      overflow: hidden;
-      background: #ccc;
-      background-size: contain;
-      background-position: center;
-      background-repeat: no-repeat;
-      position: relative;
-    }
+  .dropArea-thumb {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #ccc;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+  }
 
-    .dropArea-thumb::after {
-      content: attr(data-label);
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      padding: 5px 0;
-      color: white;
-      background: rgba(0, 0, 0, .75);
-      font-size: .9rem;
-      text-align: center;
-    }
+  .dropArea-thumb::after {
+    content: attr(data-label);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 5px 0;
+    color: white;
+    background: rgba(0, 0, 0, .75);
+    font-size: .9rem;
+    text-align: center;
+  }
 
-    .thumb-card {
-      display: grid;
-      place-items: center;
-      background: #ddd;
-      height: 200px;
-    }
+  .thumb-card {
+    display: grid;
+    place-items: center;
+    background: #ddd;
+    height: 200px;
+  }
 
-    .thumb-card img {
-      width: 100%;
-      max-height: 200px;
-      object-fit: cover;
-      object-position: top;
-    }
-  </style>
+  .thumb-card img {
+    width: 100%;
+    max-height: 200px;
+    object-fit: cover;
+    object-position: top;
+  }
+</style>
 @endpush
 
-<x-user :$title :$jumlahPesan :$pesan :$pesanGrup>
+<x-user :$jumlahPesan :$pesan :$pesanGrup>
   {{-- @error('judul_file')
-    <div class="alert alert-danger mt-3 mx-2" role="alert" style="position: absolute; z-index: 1; top: 0; right: 0;">
-        {{ $message }}
-    </div>
-    @enderror
-    @error('files')
-    <div class="alert alert-danger mt-3 mx-2" role="alert" style="position: absolute; z-index: 1; top: 0; right: 0;">
-        {{ $message }}
-    </div>
-    @enderror --}}
+  <div class="alert alert-danger mt-3 mx-2" role="alert" style="position: absolute; z-index: 1; top: 0; right: 0;">
+    {{ $message }}
+  </div>
+  @enderror
+  @error('files')
+  <div class="alert alert-danger mt-3 mx-2" role="alert" style="position: absolute; z-index: 1; top: 0; right: 0;">
+    {{ $message }}
+  </div>
+  @enderror --}}
 
   <x-slot:title>
-    {{ $title }}
+    New file
     </x-slot>
 
     <div class="max-w-2xl py-5 xl:mx-auto">
@@ -116,9 +116,12 @@
       <form method="POST" action="{{ route('file.store') }}" enctype="multipart/form-data">
         @csrf
         <div class="dropArea @error('files') error animate-shake @enderror mb-4">
-          <div class="dropText">Drop disini atau click untuk memilih file</div>
+          <div class="dropText">Drop disini atau click untuk memilih
+            file</div>
           <input type="file" name="files" id="files" class="dropFile">
         </div>
+
+        <input type="hidden" name="return" value="{{ $return }}">
 
         <x-partial.input name="judul_file" label="Judul File" type="text"></x-partial.input>
 
@@ -170,52 +173,49 @@
     </div>
 
     {{-- <div class="container-fluid mb-5">
-            <!-- Page Heading -->
-            <div class="d-flex justify-content-between mb-3">
-                <h1 class="h3 text-gray-800">Tambah File</h1>
+      <!-- Page Heading -->
+      <div class="d-flex justify-content-between mb-3">
+        <h1 class="h3 text-gray-800">Tambah File</h1>
+      </div>
+      <div class="row justify-content-center mt-5">
+        <div class="col-md-6">
+          <form method="POST" action="/file" enctype="multipart/form-data">
+            @csrf
+            <div class="dropArea mb-4">
+              <div class="dropText">Drop disini atau click untuk memilih file</div>
+              <input type="file" name="files" id="files" class="dropFile @error('files') is-invalid @enderror">
             </div>
-            <div class="row justify-content-center mt-5">
-                <div class="col-md-6">
-                    <form method="POST" action="/file" enctype="multipart/form-data">
-                        @csrf
-                        <div class="dropArea mb-4">
-                            <div class="dropText">Drop disini atau click untuk memilih file</div>
-                            <input type="file" name="files" id="files"
-                                class="dropFile @error('files') is-invalid @enderror">
-                        </div>
-                        <div class="mb-3">
-                            <label for="judul_file" class="form-label">Nama File</label>
-                            <input type="text" class="form-control @error('judul_file') is-invalid @enderror"
-                                id="judul_file" placeholder="dokumen rahasia" name="judul_file"
-                                value="{{ old('judul_file') }}" autofocus required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="status" class="form-label">Status File</label>
-                            <select class="form-select" name="status" id="status">
-                                @if (old('status') == 'private')
-                                <option value="public">Public</option>
-                                <option value="private" selected>Private</option>
-                                @else
-                                <option value="public" selected>Public</option>
-                                <option value="private">Private</option>
-                                @endif
-                            </select>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <textarea class="form-control" placeholder="Tambahkan deskripsi disini"
-                                id="floatingTextarea2" style="height: 100px"
-                                name="deskripsi">{{ old('deskripsi') }}</textarea>
-                            <label for="floatingTextarea2">Deskripsi</label>
-                        </div>
-                        <button type="submit" class="btn btn-outline-primary">Tambah</button>
-                    </form>
-                </div>
+            <div class="mb-3">
+              <label for="judul_file" class="form-label">Nama File</label>
+              <input type="text" class="form-control @error('judul_file') is-invalid @enderror" id="judul_file"
+                placeholder="dokumen rahasia" name="judul_file" value="{{ old('judul_file') }}" autofocus required>
             </div>
-        </div> --}}
+            <div class="mb-3">
+              <label for="status" class="form-label">Status File</label>
+              <select class="form-select" name="status" id="status">
+                @if (old('status') == 'private')
+                <option value="public">Public</option>
+                <option value="private" selected>Private</option>
+                @else
+                <option value="public" selected>Public</option>
+                <option value="private">Private</option>
+                @endif
+              </select>
+            </div>
+            <div class="form-floating mb-3">
+              <textarea class="form-control" placeholder="Tambahkan deskripsi disini" id="floatingTextarea2"
+                style="height: 100px" name="deskripsi">{{ old('deskripsi') }}</textarea>
+              <label for="floatingTextarea2">Deskripsi</label>
+            </div>
+            <button type="submit" class="btn btn-outline-primary">Tambah</button>
+          </form>
+        </div>
+      </div>
+    </div> --}}
 
     @push('script')
-      <script>
-        document.querySelectorAll(".dropFile").forEach((i) => {
+    <script>
+      document.querySelectorAll(".dropFile").forEach((i) => {
           const dropArea = i.closest(".dropArea");
           dropArea.addEventListener("click", (e) => {
             i.click();
@@ -270,6 +270,6 @@
             thumbElement.style.backgroundImage = null;
           }
         }
-      </script>
+    </script>
     @endpush
 </x-user>

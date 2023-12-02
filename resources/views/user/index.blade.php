@@ -4,7 +4,7 @@
         Beranda
         </x-slot>
 
-        <x-partial.flash :flash="session()->all()"></x-partial.flash>
+        <x-partial.flash class="!my-2" :flash="session()->all()"></x-partial.flash>
 
         @section('salam')
         <div class="py-3">
@@ -15,12 +15,14 @@
         <div class="grid grid-cols-3 gap-y-[20px] gap-x-[16px] xl:grid-cols-5 lg:grid-cols-4 mt-6">
 
             @foreach ($files as $file)
-            <?php $namaFile = explode('/', $file->generate_filename); ?>
-            <input type="hidden"
-                value="{{ env('APP_URL', 'http://localhost') . 'd/' . $file->id_user . '/' . end($namaFile) }}"
+            @php
+                $namaFile = explode('/', $file->generate_filename);
+            @endphp
+
+            <input type="hidden" value="{{ config('app.url') . 'd/' . $file->id_user . '/' . end($namaFile) }}"
                 id="link" data-id_file="{{ $file->id_file }}">
 
-            <a href="{{ route('detail',['username'=> Auth::user()->username,'id_file' =>$file->id_file]) }}"
+            <a href="{{ route('file.detail',['username'=> Auth::user()->username,'id_file' =>$file->id_file]) }}"
                 title="{{ $file->original_filename }}"
                 class="w-full h-full max-w-sm p-2 bg-gray-100 border border-gray-200 rounded-lg shadow decoration-blue-500 decoration-2 hover:underline hover:underline-offset-2 hover:bg-gray-200/20 duration-150 hover:shadow-md card-file"
                 data-id_file="{{ $file->id_file }}">
@@ -42,6 +44,8 @@
 
 
             @endforeach
+
+
             <div id="dropdown" class="absolute hidden z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-52">
                 <ul class="py-2 text-sm text-gray-700">
                     <li>
@@ -64,7 +68,7 @@
                     </li>
                     <li>
                         <button id="bSearch" class="block px-4 py-2 hover:bg-gray-100 flex items-center gap-2 w-full"
-                            data-id_file="{{ $file->id_file }}" data-user="{{ Auth::user()->username }}"
+                            data-id_file="" data-user="{{ Auth::user()->username }}"
                             data-modal-target="authentication-modal" data-modal-toggle="authentication-modal"><i
                                 class="fa-solid fa-users"></i>Bagikan dengan
                             user</button>
@@ -136,9 +140,9 @@
         <div id="deleteFile" tabindex="-1"
             class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
             <div class="relative p-4 w-full max-w-md max-h-full">
-                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <div class="relative bg-white rounded-lg shadow">
                     <button type="button"
-                        class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                        class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
                         data-modal-hide="deleteFile">
                         <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 14 14">
@@ -148,12 +152,12 @@
                         <span class="sr-only">Close modal</span>
                     </button>
                     <div class="p-4 md:p-5 text-center">
-                        <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true"
+                        <svg class="mx-auto mb-4 text-gray-400 w-12 h-12" aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                         </svg>
-                        <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to
+                        <h3 class="mb-5 text-lg font-normal text-gray-500">Are you sure you want to
                             delete this file?</h3>
                         <form action="" id="formDelete" class="inline" method="post">
                             @method('delete')
@@ -164,7 +168,7 @@
                             </button>
                         </form>
                         <button data-modal-hide="deleteFile" type="button"
-                            class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">No,
+                            class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">No,
                             cancel</button>
                     </div>
                 </div>

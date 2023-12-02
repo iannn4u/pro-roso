@@ -1,5 +1,5 @@
 @php
-  if ($attributes->has('flash') && count($attributes->get('flash')) > 5 && !isset($attributes->get('flash')['errors'])) {
+  if (count($attributes->get('flash')) >= 6) {
       $msg = null;
       $alert = null;
       $messages = [
@@ -23,12 +23,12 @@
           'warn' => 'border-yellow-300 bg-yellow-50',
           default => 'border-gray-300 bg-gray-50',
       };
-  }
+    }
 @endphp
 
 @if (isset($messages))
   <div id="atomic-alert-1"
-    class="flex items-center p-4 mb-4 text-black border text-black {{ $alertType }} rounded-lg"
+    class="{{ $attributes->merge(['class' => 'flex items-center p-4 text-black border text-black rounded-lg ' . $alertType])['class'] }}" 
     role="alert">
     <span class="sr-only">{{ $alert }}</span>
     <div class="ms-2 text-sm font-medium">

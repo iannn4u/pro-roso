@@ -51,7 +51,7 @@
             </div>
             @endunless
             @foreach (array_slice($pesan->all(), 0, 4) as $p)
-            <div class="px-3 py-2.5 flex">
+            {{-- <div class="px-3 py-2.5 flex">
                 <div class="mr-3">
                     <div class="overflow-hidden">
                         <img class="w-16 mt-2 aspect-square rounded-full object-cover"
@@ -67,7 +67,7 @@
                         kepada anda! <a href="/lihatFile/{{ $p->id_file }}"
                             class="text-red-500 font-bold hover:underline">Lihat file.</a></span>
                 </div>
-            </div>
+            </div> --}}
             @endforeach
             @if (count($pesan))
             <button data-modal-target="timeline-modal" data-modal-toggle="timeline-modal"
@@ -130,7 +130,7 @@
                     @php
                     $dariPengirim = $pesan->first()->user;
                     @endphp
-                    <li class="mb-5 shadow border-b rounded overflow-hidden">
+                    {{-- <li class="mb-5 shadow border-b rounded overflow-hidden">
                         <div id="accordion-flush-{{ $index }}" data-accordion="collapse"
                             data-active-classes="bg-white text-gray-900 dark:text-black dark:border-red-600 border-b-2"
                             data-inactive-classes="text-gray-500 border-gray-200">
@@ -210,26 +210,7 @@
                                 </div>
                             </div>
                         </div>
-
-                        {{-- <div class="group relative flex flex-col gap-x-6 rounded-lg p-4 hover:bg-gray-50">
-                            <div class="inline-flex items-center">
-                                <img class="aspect-square rounded-full object-cover mr-1.5"
-                                    src="{{ $p->user->pp === 'img/defaultProfile.svg' ? asset('img/defaultProfile.svg') : asset('storage/' . $p->user->pp) }}"
-                                    width="25">
-                                <span>{{ $p->user->fullname }}</span>
-                            </div>
-                            <div>
-                                <p class="mt-1 text-gray-600"><b>{{ $p->user->username
-                                        }}</b> mengirim sebuah file
-                                    kepada anda! <a href="/lihatFile/{{ $p->id_file }}" class="text-red-600">Lihat
-                                        file</a></p>
-                            </div>
-                        </div>
-                        <div title="{{ $p->created_at }}"
-                            class="text-xs text-gray-700 sm:gap-x-2 items-center justify-between p-2 flex">
-                            <span class="text-right">{{ $p->created_at->format('F d, Y h:iA') }}</span>
-                        </div> --}}
-                    </li>
+                    </li> --}}
                     @endforeach
                 </ol>
             </div>
