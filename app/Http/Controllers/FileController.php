@@ -42,7 +42,8 @@ class FileController extends Controller
         $groupedPesan = $pesan->groupBy('id_pengirim');
         $data['pesan'] = $pesan;
         $data['pesanGrup'] = $groupedPesan->all();
-        $data['title'] = 'New file';
+        $data['return'] = request('return') ?? '/';
+
         return view('user.file.create', $data);
     }
 
@@ -51,8 +52,6 @@ class FileController extends Controller
      */
     public function store(StoreFileRequest $request)
     {
-
-        // dd($request);
         $errors = [
             'judul_file.required' => 'Judul harus diisi',
             'judul_file.unique' => 'Judul sudah digunakan',
@@ -91,6 +90,7 @@ class FileController extends Controller
         // Pindahkan file ke folder asli
         $path = 'users/' . Auth::user()->id_user . '/files';
         $namaFileRandom = $file->store($path);
+        $return = request('return');
 
         $validatedData = [
             'id_user' => Auth::user()->id_user,
@@ -106,6 +106,9 @@ class FileController extends Controller
 
         File::create($validatedData);
 
+        if ($return != null) {
+            return $this->rediretUrl('success', $return, "Berhasil mengupload file");
+        }
         return $this->success('dashboard', "Berhasil mengupload file");
     }
 
@@ -249,7 +252,7 @@ class FileController extends Controller
         return response()->download($path, $file->original_filename, $headers);
     }
 
-    public function linkDownload($id_file, $filename)
+    public function downloadByLink($id_file, $filename)
     {
         $filePathDB = 'users/' . $id_file . '/files/' . $filename;
         $fileDB = File::where('generate_filename', $filePathDB)->first();
@@ -262,7 +265,7 @@ class FileController extends Controller
         return $this->success('dashboard', "File berhasil didownload");
     }
 
-    public function detailPublik(File $file, $username, $id_file)
+    public function fileDetail(File $file, $username, $id_file)
     {
         $data['jumlahPesan'] = $this->getJumlahPesan();
         $pesan = $this->getPesan();
@@ -287,7 +290,7 @@ class FileController extends Controller
         return view('user.file.detalPublik', $data);
     }
 
-    public function detailFileKirim($id_file)
+    public function fileShareDetail($id_file)
     {
         $data['jumlahPesan'] = $this->getJumlahPesan();
         $data['file'] = File::find($id_file);

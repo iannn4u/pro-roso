@@ -1,6 +1,6 @@
 <x-user :$title :$jumlahPesan :$pesan :$files :$pesanGrup>
 
-    <x-partial.flash :flash="session()->all()"></x-partial.flash>
+    <x-partial.flash class="!mt-3" :flash="session()->all()"></x-partial.flash>
 
     <div class="grid grid-cols-2 gap-y-[20px] gap-x-[16px] md:grid-cols-4 2xl:grid-cols-5 min-[2368px]:grid-cols-6 p-5">
         @unless (count($files))
@@ -30,7 +30,7 @@
                         </li>
                         @endunless
                         <li>
-                            <a href="{{ route('download', $file->id_file) }}"
+                            <a href="{{ route('file.download', $file->id_file) }}"
                                 class="inline-flex w-full items-center px-4 py-2 text-sm hover:bg-gray-100"><svg
                                     class="mr-2 h-3 w-3 text-gray-800" aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 18">
@@ -75,7 +75,7 @@
             {{-- main menu --}}
             <div class="my-1 px-3 py-1">
                 <div class="flex justify-between">
-                    <a href="{{ route('detail', ['id_file' => $file->id_file,'username' => $file->user->username]) }}"
+                    <a href="{{ route('file.detail', ['id_file' => $file->id_file,'username' => $file->user->username]) }}"
                         class="inline-block w-[139px] truncate font-medium text-gray-900 decoration-blue-500 decoration-2 hover:underline hover:underline-offset-2 lg:w-full"
                         title="{{ $file->original_filename }}">{{ $file->original_filename }}</a>
                     <button id="dropdw" data-dropdown-toggle="file-#{{ $file->id_file }}"

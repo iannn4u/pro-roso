@@ -56,6 +56,8 @@ targetDelete.forEach((target) => {
  * Right Click by Ian
  */
 const cards = document.querySelectorAll(".card-file");
+const bSalin = document.querySelector("#salin");
+let countResult;
 let visibleDropdown = null;
 let id_file;
 
@@ -98,7 +100,6 @@ cards.forEach((c) => {
     hideDropdown();
     id_file = c.getAttribute("data-id_file");
     const dropdown = document.querySelector(`#dropdown`);
-    const bSalin = document.querySelector("#salin");
     const downlaod = document.querySelector("#download");
     const edit = document.querySelector(`#edit`);
 
@@ -110,15 +111,6 @@ cards.forEach((c) => {
     dropdown.style.top = `${e.clientY}px`;
     dropdown.classList.toggle("hidden");
 
-    /**
-     * Nyalin link lewar klik kanan
-     */
-    bSalin.addEventListener("click", () => {
-      const link = document.querySelector(`#link[data-id_file="${id_file}"]`);
-      navigator.clipboard.writeText(link.value);
-      alert(`Link file #${id_file} berhasil disalin!`);
-    });
-
     downlaod.href = `/download/${id_file}`;
     edit.href = `/file/${id_file}/edit`;
     document.querySelector("#formDelete").action = "/file/" + id_file;
@@ -126,6 +118,15 @@ cards.forEach((c) => {
     e.preventDefault();
     return false;
   });
+});
+
+/**
+ * Nyalin link lewar klik kanan
+ */
+bSalin.addEventListener("click", () => {
+  const link = document.querySelector(`#link[data-id_file="${id_file}"]`);
+  navigator.clipboard.writeText(link.value);
+  alert(`Link file #${id_file} berhasil disalin!`);
 });
 
 /**
@@ -138,7 +139,7 @@ const notfon = document.querySelector("#notfon");
 const pesanFile = document.querySelector("#pesan");
 let clicked = false;
 let username;
-let countResult;
+
 pesanFile.setAttribute("disabled", "");
 buttonModalShare.forEach((b) => {
   b.addEventListener("click", () => {
@@ -146,9 +147,10 @@ buttonModalShare.forEach((b) => {
     let id_file = b.getAttribute("data-id_file");
     username = b.getAttribute("data-user");
     form.action = "";
-    form.action = "/kirimFile/" + id_file;
+    form.action = "file/send/" + id_file;
   });
 });
+
 searchUser.addEventListener("input", function () {
   let valueSearch = searchUser.value.trim();
   const buttonKirim = document.querySelector("#kirimUser");

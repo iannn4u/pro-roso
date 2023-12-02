@@ -102,7 +102,11 @@ class UserController extends Controller
     }
     $data['user'] = $user;
     $data['jumlahPesan'] = $this->getJumlahPesan();
-    $data['pesan'] = Pesan::where('id_penerima', auth()->id())->get();
+    $pesan = $this->getPesan();
+    $groupedPesan = $pesan->groupBy('id_pengirim');
+    $data['pesan'] = $pesan;
+    $data['pesanGrup'] = $groupedPesan->all();
+
     return view('user.edit', $data);
   }
 

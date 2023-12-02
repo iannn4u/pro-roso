@@ -1,75 +1,91 @@
-<x-user :$title :$user :$jumlahPesan :$pesan>
-    <div class="container-fluid">
-        @error('fullname')
-        <div class="alert alert-danger mt-3 mx-2" role="alert"
-            style="position: absolute; z-index: 1; top: 0; right: 0;">
-            {{ $message }}
-        </div>
-        @enderror
-        @error('username')
-        <div class="alert alert-danger mt-3 mx-2" role="alert"
-            style="position: absolute; z-index: 1; top: 0; right: 0;">
-            {{ $message }}
-        </div>
-        @enderror
-        @error('email')
-        <div class="alert alert-danger mt-3 mx-2" role="alert"
-            style="position: absolute; z-index: 1; top: 0; right: 0;">
-            {{ $message }}
-        </div>
-        @enderror
-        @error('password')
-        <div class="alert alert-danger mt-3 mx-2" role="alert"
-            style="position: absolute; z-index: 1; top: 0; right: 0;">
-            {{ $message }}
-        </div>
-        @enderror
-        <!-- Page Heading -->
-        <div class="d-flex justify-content-between mb-3">
-            <h1 class="h3 text-gray-800">Edit Profil Saya</h1>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="w-full d-flex justify-content-center mb-3">
-                    <img src="{{ $user->pp === 'img/defaultProfile.svg' ? asset('img/defaultProfile.svg') : asset('storage/' . $user->pp) }}"
-                        height="200" width="200" id="imgPreview" style="border-radius: 100%">
+@push('style')
+<style>
+    details>summary {
+        list-style: none !important;
+    }
+
+    details>summary::-webkit-details-marker {
+        display: none !important;
+    }
+</style>
+@endpush
+
+<x-user :$title :$user :$jumlahPesan :$pesan :$pesanGrup>
+    <!-- Page Heading -->
+    {{-- <div class="row justify-content-center mt-5">
+        <div class="col-md-6">
+            <form method="post" action="/user/{{ $user->id_user }}" enctype="multipart/form-data">
+                @method('put')
+                @csrf
+                <div class="mb-3">
+                    <label for="fullname" class="form-label">Nama Lengkap</label>
+                    <input type="text" class="form-control @error('fullname') is-invalid @enderror" id="fullname"
+                        placeholder="nama lengkap" name="fullname" value="{{ old('fullname', $user->fullname) }}"
+                        autofocus required>
                 </div>
-                <form method="post" action="/user/{{ $user->id_user }}" enctype="multipart/form-data">
-                    @method('PATCH')
-                    @csrf
-                    <div class="mb-3">
-                        <label for="fullname" class="form-label">Foto Profil</label>
-                        <input type="file" class="form-control" id="pp" name="pp" accept="img/*"
-                            onchange="showPreview(event);">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control @error('username') is-invalid @enderror" id="username"
+                        placeholder="username" name="username" value="{{ old('username', $user->username) }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
+                        placeholder="email" name="email" value="{{ old('email', $user->email) }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control @error('password') is-invalid @enderror" id="password"
+                        placeholder="******" name="password">
+                </div>
+                <button type="submit" class="btn btn-outline-primary">Simpan</button>
+            </form>
+        </div>
+    </div> --}}
+    <div class="max-w-4xl py-5 xl:mx-auto">
+        <form class="flex flex-col sm:flex-row -mx-2">
+            <div class="space-y-12 w-2/3 -mx-1.5">
+                <div class="border-b border-gray-900/10 pb-12">
+                    <div class="border-b border-gray-900/20 pb-2">
+                        <h2 class="text-2xl font-medium leading-7 text-gray-900">Public profile</h2>
                     </div>
-                    <div class="mb-3">
-                        <label for="fullname" class="form-label">Nama Lengkap</label>
-                        <input type="text" class="form-control @error('fullname') is-invalid @enderror" id="fullname"
-                            placeholder="nama lengkap" name="fullname" value="{{ old('fullname', $user->fullname) }}"
-                            autofocus required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="username" class="form-label">Username</label>
-                        <input type="text" class="form-control @error('username') is-invalid @enderror" id="username"
-                            placeholder="username" name="username" value="{{ old('username', $user->username) }}"
-                            required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
-                            placeholder="email" name="email" value="{{ old('email', $user->email) }}" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control @error('password') is-invalid @enderror"
-                            id="password" name="password">
-                        <div id="password" class="form-text">
-                            *jika password terisi otomatis dan tidak ingin merubah password silahkan kosongkan password.
+
+                    <div class="mt-1.5 grid grid-cols-1 gap-x-6 sm:grid-cols-6">
+                        <div class="col-span-5">
+                            <x-partial.input name="name" label="Name" type="text"></x-partial.input>
+                        </div>
+
+                        <div class="col-span-5">
+                            <x-partial.input name="username" label="Username" type="text"></x-partial.input>
+                        </div>
+                        
+                        <div class="col-span-5 mt-5">
+                            <x-partial.textarea name="deskripsi"></x-partial.textarea>
+                            <p class="mt-3 text-sm leading-6 text-gray-600">Tell us a bit about yourself.</p>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-outline-primary">Simpan</button>
-                </form>
+                </div>
             </div>
-        </div>
+            <div class="w-1/3 -mx-1.5">
+                <div class="flex flex-col items-center">
+                    <details class="appearance-none">
+                        <summary class="p-1 relative group">
+                            <img class="w-48 h-48 rounded-full shadow-lg"
+                                src="{{ Auth::user()->pp === 'img/defaultProfile.svg' ? asset('img/defaultProfile.svg') : asset('storage/' . Auth::user()->pp) }}" />
+                            <div
+                                class="text-white bg-red-700 group-hover:bg-red-800 hover:bg-red-800 font-medium rounded text-xs px-3 py-2 text-center inline-flex items-center cursor-pointer gap-x-1.5 absolute bottom-4 left-2">
+                                <svg class="w-2.5 h-2.5 text-gray-800 dark:text-white" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 21">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M7.418 17.861 1 20l2.139-6.418m4.279 4.279 10.7-10.7a3.027 3.027 0 0 0-2.14-5.165c-.802 0-1.571.319-2.139.886l-10.7 10.7m4.279 4.279-4.279-4.279m2.139 2.14 7.844-7.844m-1.426-2.853 4.279 4.279" />
+                                </svg> Edit
+                            </div>
+                        </summary>
+                        ok
+                    </details>
+                </div>
+            </div>
+        </form>
     </div>
 </x-user>
