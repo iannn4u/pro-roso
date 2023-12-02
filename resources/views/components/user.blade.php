@@ -13,16 +13,16 @@
 
 <body>
 
-    <div class="bg-gray-100 flex h-screen pe-3 px-3 md:px-0 pb-4 min-w-[1000px] max-w-[2000px]">
+    <div class="bg-gray-100 flex h-screen pe-3 px-3 md:px-0 pb-4 md:min-w-[1000px] md:max-w-[2000px]">
 
         <aside class="hidden md:block h-full w-60 py-3 px-5">
             @include('user.templates.sidebar')
         </aside>
 
-        <div class="flex flex-col w-full">
+        <div class="flex flex-col w-full md:px-4">
 
             <header class="h-[70px] pt-2">
-                <nav class="flex justify-between">
+                <nav class="flex md:justify-between items-center gap-6 md:gap-0">
                     @include('user.templates.topbar')
                 </nav>
             </header>
