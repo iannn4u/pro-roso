@@ -36,7 +36,7 @@
 
             <p class="text-sm font-light text-gray-500 dark:text-gray-400">
               Belum punya akun? <a href="signup"
-                class="font-semibold leading-6 text-red-600 decoration-2 underline-offset-2 hover:underline hover:decoration-amber-700">Register
+                class="font-semibold leading-6 text-gray-600 decoration-2 underline-offset-2 hover:underline hover:decoration-gray-700">Register
                 here</a>
             </p>
           </form>

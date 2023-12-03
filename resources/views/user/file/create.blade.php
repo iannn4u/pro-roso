@@ -166,52 +166,9 @@
         </div>
 
         <x-partial.textarea name="deskripsi"></x-partial.textarea>
-
-        <button type="submit"
-          class="inline-block rounded-sm px-3 py-2 active:scale-[.98] dark:bg-red-600 dark:text-white dark:hover:bg-red-700">Tambah</button>
+        <button type="submit" class="text-white bg-gray-800 hover:bg-white hover:text-gray-800 hover:border-gray-800 hover:border-2 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Tambah</button>
       </form>
     </div>
-
-    {{-- <div class="container-fluid mb-5">
-      <!-- Page Heading -->
-      <div class="d-flex justify-content-between mb-3">
-        <h1 class="h3 text-gray-800">Tambah File</h1>
-      </div>
-      <div class="row justify-content-center mt-5">
-        <div class="col-md-6">
-          <form method="POST" action="/file" enctype="multipart/form-data">
-            @csrf
-            <div class="dropArea mb-4">
-              <div class="dropText">Drop disini atau click untuk memilih file</div>
-              <input type="file" name="files" id="files" class="dropFile @error('files') is-invalid @enderror">
-            </div>
-            <div class="mb-3">
-              <label for="judul_file" class="form-label">Nama File</label>
-              <input type="text" class="form-control @error('judul_file') is-invalid @enderror" id="judul_file"
-                placeholder="dokumen rahasia" name="judul_file" value="{{ old('judul_file') }}" autofocus required>
-            </div>
-            <div class="mb-3">
-              <label for="status" class="form-label">Status File</label>
-              <select class="form-select" name="status" id="status">
-                @if (old('status') == 'private')
-                <option value="public">Public</option>
-                <option value="private" selected>Private</option>
-                @else
-                <option value="public" selected>Public</option>
-                <option value="private">Private</option>
-                @endif
-              </select>
-            </div>
-            <div class="form-floating mb-3">
-              <textarea class="form-control" placeholder="Tambahkan deskripsi disini" id="floatingTextarea2"
-                style="height: 100px" name="deskripsi">{{ old('deskripsi') }}</textarea>
-              <label for="floatingTextarea2">Deskripsi</label>
-            </div>
-            <button type="submit" class="btn btn-outline-primary">Tambah</button>
-          </form>
-        </div>
-      </div>
-    </div> --}}
 
     @push('script')
     <script>

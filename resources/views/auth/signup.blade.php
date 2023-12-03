@@ -70,7 +70,7 @@
 
                         <p class="text-sm font-light text-gray-500">
                             Sudah punya akun? <a href="signin"
-                                class="font-semibold leading-6 text-red-600 decoration-2 underline-offset-2 hover:underline hover:decoration-amber-700">Login
+                                class="font-semibold leading-6 text-gray-600 decoration-2 underline-offset-2 hover:underline hover:decoration-gray-700">Login
                                 here</a>
                         </p>
                     </form>
