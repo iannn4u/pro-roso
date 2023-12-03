@@ -1,53 +1,56 @@
-<x-user :$title :$jumlahPesan :$pesan :files="$file" :$pesanGrup>
+<x-user :$title :$jumlahPesan :$pesan :$pesanGrup>
     <div class="container-fluid w-100">
         <!-- Page Heading -->
         <h1 class="h3 mb-4 text-gray-800">File Detail</h1>
 
-        <div class="row justify-content-center">
-            <div class="card mb-3" style="max-width: 800px;">
-                <div class="row g-0">
-                    <div class="col-md-5 d-flex justify-content-center align-items-center">
-                        @if (Str::contains($file->mime_type,['image','img']))
-                        <img src="{{ asset('storage/' . $file->generate_filename) }}"
-                            class="img-fluid rounded-start mr-2" alt="{{ $file->judul_file }}">
+        @foreach ($file as $f)
+        <div class="">
+            <div class="mb-3" style="max-width: 800px;">
+                <div class="">
+                    <div class="">
+                        @if (Str::contains($f->mime_type,['image','img']))
+                        <img src="{{ asset('storage/' . $f->generate_filename) }}" class="mr-2"
+                            alt="{{ $f->judul_file }}">
                         @else
                         <x-partial.asset.svg></x-partial.asset.svg>
                         @endif
                     </div>
-                    <div class="col-md-7">
+                    <div class="">
                         <div class="card-body p-0 py-4">
-                            <div class="d-flex justify-content-between position-relative">
-                                <h5 class="h3 card-title text-uppercase">{{ $file->judul_file }}</h5>
-                                @if (request()->is('file/*'))
-                                <p class="badge badge-success position-absolute top-0 end-0 ">{{ $file->status }}</p>
-                                @else
-                                <a href="/download/{{ $file->id_file }}"
-                                    class="btn btn-success position-absolute top-0 end-0 "><i
-                                        class="fa-solid fa-download"></i></a>
-                                @endif
+                            <div class="">
+                                <h5 class="uppercase">{{ $f->judul_file }}</h5>
+                                <span
+                                    class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">{{
+                                    $f->status }}</span>
+                                <a href="{{ route('file.download',$f->id_file) }}"
+                                    class="block px-4 py-2 hover:bg-gray-100 flex items-center gap-3" id="download"><i
+                                        class="fa-solid fa-download"></i>
+                                    <p>Download</p>
+                                </a>
                             </div>
-                            <div class="card">
-                                <div class="card-header">
+                            <div class="">
+                                <div class="">
                                     Detail
                                 </div>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item"><b>Dari</b> :
-                                        <?= $file->user->username ?>
-                                    </li>
-                                    @if(isset($fileShare) && !is_null($fileShare[0]->pesan
-                                    ))
-                                    <li class="list-group-item"><b>Pesan</b> :
-                                        <?= $fileShare[0]->pesan ?>
+                                <ul class="">
+                                    @if (request()->is('*/share/*'))
+                                    <li class=""><b>Dari</b> :
+                                        {{ $f->fullname }}
                                     </li>
                                     @endif
-                                    <li class="list-group-item"><b>Nama File</b> :
-                                        <?= $file->original_filename ?>
+                                    @if(isset($f) && !is_null($f->pesan))
+                                    <li class=""><b>Pesan</b> :
+                                        {{ $f->pesan }}
                                     </li>
-                                    <li class="list-group-item"><b>Size</b> :
-                                        <?= $file->file_size ?>
+                                    @endif
+                                    <li class=""><b>Nama File</b> :
+                                        {{ $f->original_filename }}
                                     </li>
-                                    <li class="list-group-item"><b>Deskripsi</b> : @if(!$file->deskripsi) - @endif
-                                        <?= $file->deskripsi ?>
+                                    <li class=""><b>Size</b> :
+                                        {{ $f->file_size }}
+                                    </li>
+                                    <li class=""><b>Deskripsi</b> : @if(!$f->deskripsi) - @endif
+                                        {{ $f->deskripsi }}
                                     </li>
                                 </ul>
                             </div>
@@ -55,7 +58,7 @@
                                 <div class="mt-3">
                                     <small><a href="{{ url()->previous() }}">&laquo; Kembali</a></small>
                                 </div>
-                                {{-- <small style="">{{ $file->created_at }}</small> --}}
+                                {{-- <small style="">{{ $f->created_at }}</small> --}}
                             </div>
                             </tr>
                         </div>
@@ -63,5 +66,7 @@
                 </div>
             </div>
         </div>
+        @endforeach
+
     </div>
 </x-user>

@@ -12,19 +12,19 @@ function showPreview(event) {
 /**
  * heading scroll
  */
-var parent = document.querySelectorAll(".parent");
+// var parent = document.querySelectorAll(".parent");
 
-parent.forEach((element) => {
-  element.onscroll = () => {
-    if (element.scrollTop > 30) {
-      document.querySelector(".greeting").classList.add("onsc");
-      document.querySelector(".msgs").classList.add("onsc");
-    } else {
-      document.querySelector(".greeting").classList.remove("onsc");
-      document.querySelector(".msgs").classList.remove("onsc");
-    }
-  };
-});
+// parent.forEach((element) => {
+//   element.onscroll = () => {
+//     if (element.scrollTop > 30) {
+//       document.querySelector(".greeting").classList.add("onsc");
+//       document.querySelector(".msgs").classList.add("onsc");
+//     } else {
+//       document.querySelector(".greeting").classList.remove("onsc");
+//       document.querySelector(".msgs").classList.remove("onsc");
+//     }
+//   };
+// });
 
 /**
  * Kalau user edit atau create tampilin dragble
@@ -57,6 +57,7 @@ targetDelete.forEach((target) => {
  */
 const cards = document.querySelectorAll(".card-file");
 const bSalin = document.querySelector("#salin");
+// const mobileDropBtn = document.querySelector(".dropBtn");
 let countResult;
 let visibleDropdown = null;
 let id_file;
@@ -87,6 +88,22 @@ document.addEventListener("click", (e) => {
     hiddenDropdownResult();
   }
 });
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    //if esc key was not pressed in combination with ctrl or alt or shift
+    const isNotCombinedKey = !(event.ctrlKey || event.altKey || event.shiftKey);
+    if (isNotCombinedKey) {
+      hideDropdown(); // https://stackoverflow.com/a/64446856
+    }
+  }
+});
+
+// mobileDropBtn.forEach(dropdown => {
+//   dropdown.addEventListener('click', () => {
+//     dropdown.setAttribute('data-dropdown-toggle',id_file)
+//   })
+// });
 
 cards.forEach((c) => {
   c.addEventListener("contextmenu", (e) => {
@@ -137,7 +154,7 @@ pesanFile.setAttribute("disabled", "");
 buttonModalShare.forEach((b) => {
   b.addEventListener("click", () => {
     const form = document.querySelector("#form");
-    let id_file = b.getAttribute("data-id_file");
+    // let id_file = b.getAttribute("data-id_file");
     username = b.getAttribute("data-user");
     form.action = "";
     form.action = "file/send/" + id_file;
@@ -154,6 +171,7 @@ searchUser.addEventListener("input", function () {
       if (xhr.status == 200) {
         const users = JSON.parse(xhr.responseText);
         result.classList.remove("hidden");
+
         if (valueSearch == username) {
           buttonKirim.disabled = true;
           pesanFile.setAttribute("disabled", "");
@@ -161,7 +179,9 @@ searchUser.addEventListener("input", function () {
           buttonKirim.disabled = false;
           pesanFile.removeAttribute("disabled");
         }
+
         result.innerHTML = "";
+
         if (clicked) {
           buttonKirim.disabled = false;
           pesanFile.removeAttribute("disabled");
@@ -169,11 +189,13 @@ searchUser.addEventListener("input", function () {
           buttonKirim.disabled = true;
           pesanFile.setAttribute("disabled", "");
         }
+
         searchUser.addEventListener("keyup", function () {
           clicked = false;
           buttonKirim.disabled = false;
           pesanFile.setAttribute("disabled", "");
         });
+
         if (users.length == 0) {
           buttonKirim.disabled = true;
           pesanFile.setAttribute("disabled", "");
@@ -200,6 +222,7 @@ searchUser.addEventListener("input", function () {
           li.setAttribute("role", "button");
           result.appendChild(li);
           countResult = result;
+
           let liUser = document.querySelectorAll(".userLi");
           liUser.forEach((uli) => {
             uli.addEventListener("click", () => {
@@ -207,6 +230,7 @@ searchUser.addEventListener("input", function () {
               result.innerHTML = "";
               countResult = null;
               clicked = true;
+
               if (clicked) {
                 buttonKirim.disabled = false;
                 pesanFile.removeAttribute("disabled");
@@ -220,6 +244,7 @@ searchUser.addEventListener("input", function () {
         });
       }
     };
+
     xhr.send();
   } else {
     buttonKirim.disabled = true;
