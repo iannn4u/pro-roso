@@ -25,7 +25,7 @@ class UserController extends Controller
     $data['pesan'] = $pesan;
     $data['pesanGrup'] = $groupedPesan->all();
 
-    $files = File::where('id_user', auth()->id());
+    $files = File::where('id_user', Auth::id());
     if (request('search')) {
       $files->where('judul_file', 'like', '%' . request('search') . '%');
     }
@@ -97,8 +97,8 @@ class UserController extends Controller
   public function edit(User $user)
   {
     $data['title'] = 'Edit Profil Saya';
-    if ($user->id_user != auth()->id()) {
-      abort(404);
+    if ($user->id_user != Auth::id()) {
+      return to_route('user.edit', Auth::id());
     }
     $data['user'] = $user;
     $data['jumlahPesan'] = $this->getJumlahPesan();
@@ -115,7 +115,8 @@ class UserController extends Controller
    */
   public function update(UpdateUserRequest $request, User $user)
   {
-    if ($user->id_user != Auth::id()) {
+    $idEdit = Auth::id();
+    if ($user->id_user != $idEdit) {
       abort(404);
     }
     $data['title'] = 'Edit Profil Saya';
@@ -126,18 +127,18 @@ class UserController extends Controller
     // dd($validasiData);
 
     $namaPP = session()->get('namaPP');
-    
+
     $validasiData['pp'] = $namaPP;
-    
+
     if (isset($validasiData['password'])) {
       $validasiData['password'] = Hash::make($request->input('password'));
     }
-    
+
     $user->update($validasiData);
-    
+
     session()->forget('namaPP');
-    session()->flash('success', 'update data user');
-    return redirect('/user/' . auth()->id());
+
+    return $this->flashMessage('success', ['user.edit', $idEdit], "Profile updated successfully — <a href='/user/$idEdit' class='underline hover:no-underline'>view your profile.</a>");
   }
 
   /**

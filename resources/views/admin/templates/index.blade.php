@@ -1,108 +1,69 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="smooth-scroll">
 
 <head>
 
     @if (session('download'))
-        <meta http-equiv="refresh" content="0;url={{ url('/download/' . session('download')) }}">
+        <meta http-equiv="refresh" content="0; url={{ url('/download/' . session('download')) }}">
     @endif
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
+    <link rel="shortcut icon" rel="icon" href="\vendor\fontawesome-free\svgs\solid\box.svg" type="image/svg+xml">
     <meta name="author" content="">
-    <link rel="icon" href="\vendor\fontawesome-free\svgs\solid\box.svg" type="image/svg+xml">
 
     <title>{{ config('app.name') }} | {{ $title }}</title>
 
-    <!-- Custom fonts for this template-->
+    <!-- Main Style-->
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <!-- Tailwindcss-->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome-->
     <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <!-- Custom Font -->
+    <link href="https://fonts.cdnfonts.com/css/alliance-no1" rel="stylesheet">
 
-    <!-- Custom styles for this template-->
-    <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+    @stack('style')
 
-    <!-- Bootstrap  -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    
-    <!-- MyCSS  -->
-    <link rel="stylesheet" href="/css/style.css">
 
 </head>
 
-<body id="page-top">
+<body>
 
-    <!-- Page Wrapper -->
-    <div id="wrapper">
+    <div class="bg-gray-100 h-screen md:pe-3 px-3 md:px-0 pb-4 md:min-w-[1000px] md:max-w-[2000px]">
 
-        <!-- Sidebar -->
-        @include('admin.templates.sidebar')
-        <!-- End of Sidebar -->
+        <header class="h-[70px]">
+            <nav class="flex md:justify-between items-center gap-6 md:gap-0">
+                @include('user.templates.topbar')
+            </nav>
+        </header>
 
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
+        <div class="flex w-full h-[90%]">
+            <aside class="hidden md:block h-full w-60 py-3 px-5">
+                @include('user.templates.sidebar')
+            </aside>
 
-            <!-- Main Content -->
-            <div id="content">
 
-                <!-- Topbar -->
-                @include('admin.templates.topbar')
-                <!-- End of Topbar -->
-
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
-
-                    <!-- Page Heading -->
-                    @yield('content')
-
-                </div>
-                <!-- /.container-fluid -->
-
-            </div>
-            <!-- End of Main Content -->
-
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; My Company {{ date('Y') }}</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
+            <main class="bg-white rounded-2xl h-full overflow-y-auto parent px-4 w-full md:mr-3">
+                @yield('content')
+            </main>
 
         </div>
-        <!-- End of Content Wrapper -->
-
+        <div class="hidden">
+            @include('user.templates.modal')
+        </div>
     </div>
-    <!-- End of Page Wrapper -->
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
 
-    <!-- Logout Modal-->
-    @include('admin.templates.modal')
+    @stack('script')
 
-    <!-- Bootstrap core JavaScript-->
+    <!-- Main Script -->
+    <script src="{{ asset('/js/script.js') }}"></script>
+    <!-- CDN Script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
+    <!-- JQuery-->
     <script src="/vendor/jquery/jquery.min.js"></script>
-    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="/js/sb-admin-2.min.js"></script>
-
-    <!-- Bootstrap-->
-    <script src="/js/bootstrap.min.js"></script>
-
-    <!-- My JS -->
-    <script src="/js/script.js"></script>
-    
 </body>
 
 </html>

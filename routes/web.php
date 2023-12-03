@@ -30,7 +30,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/', [UserController::class, 'index'])->name('dashboard');
     Route::get('username', [UserController::class, 'ajax']);
-    Route::get('/file/send/{id_file}', [PesanController::class, 'store']);
+    Route::post('/file/send/{id_file}', [PesanController::class, 'store']);
 
     Route::resource('user', UserController::class);
     Route::resource('file', FileController::class)->only(['edit', 'destroy', 'store', 'update']);

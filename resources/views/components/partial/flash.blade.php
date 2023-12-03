@@ -34,7 +34,7 @@ if ($attributes->get('flash') != null) {
     role="alert">
     <span class="sr-only">{{ $alert }}</span>
     <div class="ms-2 text-sm font-medium">
-      {{ $msg }}
+      {!! $msg !!}
     </div>
     <button type="button"
       class="ms-auto -mx-1.5 -my-1.5 text-black rounded-lg focus:ring-2 focus:ring-slate-800 p-1.5 inline-flex items-center justify-center h-8 w-8 hover:rotate-180 duration-150"
