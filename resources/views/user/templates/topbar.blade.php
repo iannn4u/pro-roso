@@ -1,8 +1,9 @@
 <div class="flex flex-wrap items-center justify-between mx-auto p-5 md:px-5 px-0 pt-3 w-full">
     <a href="/" class="hidden md:flex items-center space-x-3 rtl:space-x-reverse">
-        <img src="\vendor\fontawesome-free\svgs\solid\box.svg" class="h-8" alt="{{ env('APP_NAME') }}" />
-        <span
-            class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">{{ env('APP_NAME') }}<sup>❤</sup></span>
+        <img src="\vendor\fontawesome-free\svgs\solid\box.svg" class="h-8"
+            alt="{{ config('database.connections.mysql.database') }}" />
+        <span class="self-center text-2xl font-semibold truncate">{{ config('database.connections.mysql.database')
+            }}<sup>❤</sup></span>
     </a>
     <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar"
         type="button"
@@ -20,8 +21,8 @@
             <div
                 class="absolute z-10 hover:bg-gray-200 inset-y-0 start-0 flex items-center ml-1 h-9 w-9 mt-[6px] ml-2 rounded-full">
                 <button type="submit" class="mx-auto" title="Search something">
-                    <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                        fill="none" viewBox="0 0 20 20">
+                    <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 20 20">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                     </svg>
@@ -38,8 +39,9 @@
             id="dropdownDefaultButton" data-dropdown-toggle="notif">
             <i class="fas fa-bell fa-fw"></i>
             @unless ($jumlahPesan == 0)
-                <span
-                    class="absolute inline-flex items-center justify-center w-4 h-4 text-[10px] font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2">{{ $jumlahPesan }}</span>
+            <span
+                class="absolute inline-flex items-center justify-center w-4 h-4 text-[10px] font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2">{{
+                $jumlahPesan }}</span>
             @endunless
         </button>
         <div class="z-50 w-80 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
@@ -49,65 +51,64 @@
             </div>
             <div>
                 @unless (count($pesan))
-                    <div class="px-3 py-4">
-                        <div class="text-gray-700 text-center">
-                            <span>Kamu tidak memiliki notfikasi terbaru</span>
-                        </div>
+                <div class="px-3 py-4">
+                    <div class="text-gray-700 text-center">
+                        <span>Kamu tidak memiliki notfikasi terbaru</span>
                     </div>
+                </div>
                 @endunless
                 @foreach (array_slice($pesan->all(), 0, 4) as $p)
-                    <div class="px-3 py-2.5 flex">
-                        <div class="mr-3">
-                            <div class="overflow-hidden">
-                                <img class="w-16 mt-2 aspect-square rounded-full object-cover"
-                                    src="{{ $p->user->pp === 'img/defaultProfile.svg' ? asset('img/defaultProfile.svg') : asset('storage/' . $p->user->pp) }}"
-                                    alt="{{ $p->id_pengirim }}">
-                            </div>
-                        </div>
-                        <div>
-                            <div title="{{ $p->created_at }}" class="text-xs text-gray-700">
-                                {{ $p->created_at->format('F d, Y h:iA') }}
-                            </div>
-                            <span class="text-[0.85rem]"><b>{{ $p->user->username }}</b> mengirim sebuah file
-                                kepada anda! <a href="/lihatFile/{{ $p->id_file }}"
-                                    class="text-red-500 font-bold hover:underline">Lihat file.</a></span>
+                <div class="px-3 py-2.5 flex">
+                    <div class="mr-3">
+                        <div class="overflow-hidden">
+                            <img class="w-16 mt-2 aspect-square rounded-full object-cover"
+                                src="{{ $p->user->pp === 'img/defaultProfile.svg' ? asset('img/defaultProfile.svg') : asset('storage/' . $p->user->pp) }}"
+                                alt="{{ $p->id_pengirim }}">
                         </div>
                     </div>
+                    <div>
+                        <div title="{{ $p->created_at }}" class="text-xs text-gray-700">
+                            {{ $p->created_at->format('F d, Y h:iA') }}
+                        </div>
+                        <span class="text-[0.85rem]"><b>{{ $p->user->username }}</b> mengirim sebuah file
+                            kepada anda! <a href="{{ route('file.share.detail',[$p->user->username ,$p->id_file]) }}"
+                                class="text-red-500 font-bold hover:underline">Lihat file.</a></span>
+                    </div>
+                </div>
                 @endforeach
                 @if (count($pesan))
-                    <button data-modal-target="timeline-modal" data-modal-toggle="timeline-modal"
-                        class="block py-2 w-full text-xs font-medium text-center text-gray-900 rounded-b-lg bg-gray-50 hover:bg-gray-100">Lihat
-                        Notifikasi
-                        Lainnya</button>
+                <button data-modal-target="timeline-modal" data-modal-toggle="timeline-modal"
+                    class="block py-2 w-full text-xs font-medium text-center text-gray-900 rounded-b-lg bg-gray-50 hover:bg-gray-100">Lihat
+                    Notifikasi
+                    Lainnya</button>
                 @endif
             </div>
         </div>
         <div class="inline-block h-8 w-0.5 self-stretch bg-gray-300 opacity-100">
         </div>
-        <button type="button" class="flex justify-center items-center gap-2 text-sm rounded-full md:me-0"
-            id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown"
-            data-dropdown-placement="bottom">
-            <img class="w-8 h-8 rounded-full"
+        <button class="flex items-center group" aria-expanded="false" data-dropdown-toggle="user-dropdown"
+            data-dropdown-placement="bottom" data-popover-trigger="click">
+            <span class="me-3 text-gray-700 group-hover:text-gray-600/80 text-sm md:text-base font-semibold">{{
+                Auth::user()->username }}</span>
+            <img class="rounded-full object-cover w-7 h-7"
                 src="{{ Auth::user()->pp === 'img/defaultProfile.svg' ? asset('img/defaultProfile.svg') : asset('storage/' . Auth::user()->pp) }}"
-                alt="{{ Auth::user()->username }}">
-            <p class="hidden md:block">{{ Auth::user()->username }}</p>
+                width="40">
         </button>
         <!-- Dropdown menu -->
-        <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
+        <div class="z-20 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-md"
             id="user-dropdown">
             <div class="px-4 py-3">
-                <span class="block text-sm text-gray-900 dark:text-white">{{ Auth::user()->username }}</span>
-                <span
-                    class="block text-sm  text-gray-500 truncate dark:text-gray-400">{{ Auth::user()->email }}</span>
+                <span class="block text-sm text-gray-900">{{ Auth::user()->username }}</span>
+                <span class="block text-sm  text-gray-500 truncate">{{ Auth::user()->email }}</span>
             </div>
             <ul class="py-2" aria-labelledby="user-menu-button">
                 <li>
-                    <a href="#"
-                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Profile</a>
+                    <a href="{{ route('user.show',Auth::id()) }}"
+                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
                 </li>
                 <li>
                     <button data-modal-target="signout" data-modal-toggle="signout" type="button"
-                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign
+                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign
                         out</button>
                 </li>
             </ul>
@@ -136,7 +137,7 @@
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                 </svg>
-                <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to
+                <h3 class="mb-5 text-lg font-normal text-gray-500">Are you sure you want to
                     signout?</h3>
                 <form action="/signout" method="get" class="inline">
                     <button type="submit"

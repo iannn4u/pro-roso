@@ -1,15 +1,11 @@
 <x-user :$title :$user :$jumlahPesan :$pesan :$pesanGrup>
+
+    <x-partial.flash class="!my-2" :flash="session()->all()"></x-partial.flash>
+
     <div class="container-fluid">
 
         <!-- Page Heading -->
         <h1 class="h3 mb-4 text-gray-800">My Profile</h1>
-        @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show w-25 m-3" role="alert"
-            style="position: fixed; z-index: 1; top: 0; right: 0;">
-            <strong>Berhasil!</strong> {{ session('success') }}.
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        @endif
 
         <!-- DataTales Example -->
         <div class="row justify-content-center">
