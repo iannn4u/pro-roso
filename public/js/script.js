@@ -12,19 +12,19 @@ function showPreview(event) {
 /**
  * heading scroll
  */
-// var parent = document.querySelectorAll(".parent");
+// // var parent = document.querySelectorAll(".parent");
 
-// parent.forEach((element) => {
-//   element.onscroll = () => {
-//     if (element.scrollTop > 30) {
-//       document.querySelector(".greeting").classList.add("onsc");
-//       document.querySelector(".msgs").classList.add("onsc");
-//     } else {
-//       document.querySelector(".greeting").classList.remove("onsc");
-//       document.querySelector(".msgs").classList.remove("onsc");
-//     }
-//   };
-// });
+// // parent.forEach((element) => {
+// //   element.onscroll = () => {
+// //     if (element.scrollTop > 30) {
+// //       document.querySelector(".greeting").classList.add("onsc");
+// //       document.querySelector(".msgs").classList.add("onsc");
+// //     } else {
+// //       document.querySelector(".greeting").classList.remove("onsc");
+// //       document.querySelector(".msgs").classList.remove("onsc");
+// //     }
+// //   };
+// // });
 
 /**
  * Kalau user edit atau create tampilin dragble
@@ -57,7 +57,6 @@ targetDelete.forEach((target) => {
  */
 const cards = document.querySelectorAll(".card-file");
 const bSalin = document.querySelector("#salin");
-// const mobileDropBtn = document.querySelector(".dropBtn");
 let countResult;
 let visibleDropdown = null;
 let id_file;
@@ -133,10 +132,13 @@ cards.forEach((c) => {
 /**
  * Nyalin link lewar klik kanan
  */
-bSalin.addEventListener("click", () => {
-  const link = document.querySelector(`#link[data-id_file="${id_file}"]`);
-  navigator.clipboard.writeText(link.value);
-  alert(`Link file #${id_file} berhasil disalin!`);
+bSalin.forEach(b => {
+  b.addEventListener("click", () => {
+    id_file = b.getAttribute('data-id_file');
+    const link = document.querySelector(`#link[data-id_file="${id_file}"]`);
+    navigator.clipboard.writeText(link.value);
+    alert(`Link file #${id_file} berhasil disalin!`);
+  });
 });
 
 /**
@@ -253,3 +255,5 @@ searchUser.addEventListener("input", function () {
     result.innerHTML = "";
   }
 });
+
+

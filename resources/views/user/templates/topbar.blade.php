@@ -151,3 +151,42 @@
         </div>
     </div>
 </div>
+
+
+<div id="logo-sidebar"
+    class="md:hidden fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full md:translate-x-0"
+    aria-label="Sidebar">
+    <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+        <a href="https://flowbite.com/" class="flex items-center ps-2.5 mb-5">
+            <img src="\vendor\fontawesome-free\svgs\solid\box.svg" alt="{{ env('APP_NAME') }}"
+                class="flex justify-center items-center w-8">
+            <p class="text-xl font-semibold mx-3">{{ env('APP_NAME') }} <sup>❤</sup></p>
+        </a>
+        <ul class="space-y-2 font-medium">
+            <li>
+                <a class="flex gap-3 items-center mb-3 px-4 py-2.5 rounded-full {{ request()->is('/') ? 'bg-gray-300' : 'hover:bg-gray-200' }}"
+                    href="/">
+                    <img src="\vendor\fontawesome-free\svgs\solid\folder-closed.svg" alt="{{ env('APP_NAME') }}"
+                        width="20">
+                    <span>File Saya</span>
+                </a>
+            </li>
+            <li>
+                <a class="flex gap-3 items-center mb-3 px-4 py-2.5 rounded-full {{ request()->is('publikFile') ? 'bg-gray-300' : 'hover:bg-gray-200' }}"
+                    href="/publikFile">
+                    <i class="fa-solid fa-earth-americas"></i>
+                    <span style="margin-left: 2px">Publik File</span>
+                </a>
+            </li>
+            @if (Auth::user()->status == 2)
+            <li>
+                <a class="flex gap-3 items-center mb-3 px-4 py-2.5 rounded-full {{ request()->is('a/*') ? 'bg-gray-300' : 'hover:bg-gray-200' }}"
+                    href="/a/users">
+                    <i class="fa-regular fa-user"></i>
+                    <span class="ml-1">Data User</span>
+                </a>
+            </li>
+            @endif
+        </ul>
+    </div>
+</div>
