@@ -115,56 +115,27 @@ class UserController extends Controller
    */
   public function update(UpdateUserRequest $request, User $user)
   {
-    $data['title'] = 'Edit Profil Saya';
-    if ($user->id_user != auth()->id()) {
+    if ($user->id_user != Auth::id()) {
       abort(404);
     }
-    $errors = [
-      'fullname.required' => 'Nama panjang harus diisi!',
-      'fullname.regex' => 'Nama panjang hanya boleh mengandung huruf!',
-      'fullname.min' => 'Nama panjang harus memiliki minimal 5 karekter!',
-      'username.required' => 'Username harus diisi!',
-      'username.min' => 'Username harus memiliki minimal 5 karakter!',
-      'username.unique' => 'Username sudah digunakan!',
-      'email.required' => 'Email harus diisi!',
-      'email.email' => 'Format email tidak sesuai!',
-      'email.unique' => 'Email sudah digunakan!',
-      'password.required' => 'Password harus diisi!',
-      'password.min' => 'Password harus memiliki minimal 6 karakter!',
-      'password.confirmed' => 'Ulangi password tidak sesuai!',
-      'pp.mimes' => 'Format gambar harus GIF, JPEG, JPG, SVG, PNG',
-      'pp.max' => 'Size gambar terlalu besar'
-    ];
-    $rules = [
-      'fullname' => 'required|regex:/^[a-zA-Z\s]+$/|min:5',
-      'username' => $user->username == $request->input('username') ? 'required' : 'required|min:5|unique:users',
-      'email' => $user->email == $request->input('email') ? 'required' : 'required|email|unique:users'
-    ];
+    $data['title'] = 'Edit Profil Saya';
 
-    if ($request->file('pp')) {
-      if (asset('storage/' . $user->pp)) {
-        Storage::delete($user->pp);
-      }
-      $rules['pp'] = 'mimes:gif,jpeg,jpg,svg,png';
-      $rules['pp'] = 'max:2048';
-      $pp = $request->file('pp');
-      $path = 'users/' . $user->id_user;
-      $namaPP = $pp->store($path);
-    } else {
-      $namaPP = $user->pp;
-    }
-    if (!$request->input('password') || Hash::check($request->input('password'), $user->password)) {
-      $validasiData = $request->validate($rules, $errors);
-      $validasiData['pp'] = $namaPP;
-    } else {
-      $rules['password'] = 'required|min:6';
-      $validasiData = $request->validate($rules, $errors);
-      $validasiData['password'] = Hash::make($validasiData['password']);
-      $validasiData['pp'] = $namaPP;
-    }
+    $validasiData = $request->validated();
 
+    $validasiData = $request->safe()->only(['fullname', 'username', 'email', 'password', 'pp']);
+    // dd($validasiData);
+
+    $namaPP = session()->get('namaPP');
+    
+    $validasiData['pp'] = $namaPP;
+    
+    if (isset($validasiData['password'])) {
+      $validasiData['password'] = Hash::make($request->input('password'));
+    }
+    
     $user->update($validasiData);
-
+    
+    session()->forget('namaPP');
     session()->flash('success', 'update data user');
     return redirect('/user/' . auth()->id());
   }

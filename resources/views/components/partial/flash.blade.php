@@ -1,5 +1,6 @@
 @php
-  if (count($attributes->get('flash')) >= 6) {
+if ($attributes->get('flash') != null) {
+  if (isset($attributes->get('flash')['fail']) || isset($attributes->get('flash')['success']) || isset($attributes->get('flash')['info']) || isset($attributes->get('flash')['warn'])) {
       $msg = null;
       $alert = null;
       $messages = [
@@ -24,6 +25,7 @@
           default => 'border-gray-300 bg-gray-50',
       };
     }
+}
 @endphp
 
 @if (isset($messages))
