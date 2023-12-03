@@ -1,17 +1,4 @@
 <x-auth>
-  {{-- @if (session('gagal'))
-  <div class="absolute top-5 right-5 p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
-    <span class="font-medium">Error!</span> {{ session('gagal') }}
-  </div>
-  @endif
-  @if (session('success'))
-  <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50" role="alert">
-    <span class="font-medium">Success alert!</span> Change a few things up and try submitting again.
-  </div>
-  <div class="alert alert-success mt-3 mx-2" role="alert" style="position: absolute; z-index: 1; top: 0; right: 0;">
-    {{ session('success') }}
-  </div>
-  @endif --}}
 
   <x-slot:title>
     Login

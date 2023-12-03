@@ -54,11 +54,11 @@
                         {{-- <div class="flex items-start">
                             <div class="flex items-center h-5">
                                 <input id="terms" aria-describedby="terms" type="checkbox"
-                                    class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-red-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-red-600 dark:ring-offset-gray-800"="">
+                                    class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-gray-600 dark:ring-offset-gray-800"="">
                             </div>
                             <div class="ml-3 text-sm">
                                 <label for="terms" class="font-light text-gray-500 dark:text-gray-300">I accept the <a
-                                        class="font-medium text-red-600 hover:underline dark:text-red-500"
+                                        class="font-medium text-gray-600 hover:underline dark:text-gray-500"
                                         href="#">Terms
                                         and Conditions</a></label>
                             </div>
