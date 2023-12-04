@@ -160,6 +160,8 @@ class UserController extends Controller
   {
     $query = request('q');
     $users = User::where('username', 'like', "%$query%")->where('username', '!=', Auth::user()->username)->take(5)->get();
-    return response()->json($users);
+    return response()->json([
+      'dataUsers' => $users
+    ]);
   }
 }

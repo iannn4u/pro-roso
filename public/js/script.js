@@ -60,6 +60,7 @@ const bSalin = document.querySelector("#salin");
 let countResult;
 let visibleDropdown = null;
 let id_file;
+let file_name;
 
 function hideDropdown() {
   if (visibleDropdown) {
@@ -108,9 +109,12 @@ cards.forEach((c) => {
   c.addEventListener("contextmenu", (e) => {
     hideDropdown();
     id_file = c.getAttribute("data-id_file");
+    file_name = c.querySelector("a").textContent;
+
     const dropdown = document.querySelector(`#dropdown`);
     const downlaod = document.querySelector("#download");
     const edit = document.querySelector(`#edit`);
+    // const filnm = document.querySelector(`#edit`);
 
     if (visibleDropdown && visibleDropdown != dropdown) {
       hideDropdown();
@@ -132,13 +136,10 @@ cards.forEach((c) => {
 /**
  * Nyalin link lewar klik kanan
  */
-bSalin.forEach(b => {
-  b.addEventListener("click", () => {
-    id_file = b.getAttribute('data-id_file');
-    const link = document.querySelector(`#link[data-id_file="${id_file}"]`);
-    navigator.clipboard.writeText(link.value);
-    alert(`Link file #${id_file} berhasil disalin!`);
-  });
+bSalin.addEventListener("click", () => {
+  const link = document.querySelector(`#link[data-id_file="${id_file}"]`);
+  navigator.clipboard.writeText(link.value);
+  alert(`Link file #${id_file} berhasil disalin!`);
 });
 
 /**
@@ -155,9 +156,13 @@ let username;
 pesanFile.setAttribute("disabled", "");
 buttonModalShare.forEach((b) => {
   b.addEventListener("click", () => {
+    hideDropdown();
     const form = document.querySelector("#form");
-    // let id_file = b.getAttribute("data-id_file");
+    let file_share_name = form.querySelector(".filenm");
     username = b.getAttribute("data-user");
+
+    file_share_name.textContent = file_name;
+    file_share_name.title = file_name;
     form.action = "";
     form.action = "file/send/" + id_file;
   });
@@ -166,13 +171,111 @@ buttonModalShare.forEach((b) => {
 searchUser.addEventListener("input", function () {
   let valueSearch = searchUser.value.trim();
   const buttonKirim = document.querySelector("#kirimUser");
+
+  // if (valueSearch != "") {
+  //   const xhr = new XMLHttpRequest();
+  //   xhr.open("GET", `/username?q=${valueSearch}`, true);
+  //   xhr.onload = function () {
+  //     if (xhr.status == 200) {
+  //       const users = JSON.parse(xhr.responseText);
+  //       result.classList.remove("hidden");
+
+  //       if (valueSearch == username) {
+  //         buttonKirim.disabled = true;
+  //         pesanFile.setAttribute("disabled", "");
+  //       } else {
+  //         buttonKirim.disabled = false;
+  //         pesanFile.removeAttribute("disabled");
+  //       }
+
+  //       result.innerHTML = "";
+
+  //       if (clicked) {
+  //         buttonKirim.disabled = false;
+  //         pesanFile.removeAttribute("disabled");
+  //       } else {
+  //         buttonKirim.disabled = true;
+  //         pesanFile.setAttribute("disabled", "");
+  //       }
+
+  //       searchUser.addEventListener("keyup", function () {
+  //         clicked = false;
+  //         buttonKirim.disabled = false;
+  //         pesanFile.setAttribute("disabled", "");
+  //       });
+
+  //       if (users.length == 0) {
+  //         buttonKirim.disabled = true;
+  //         pesanFile.setAttribute("disabled", "");
+  //         notfon.textContent = `User '${valueSearch}' tidak ada!`;
+  //         result.classList.add("hidden");
+  //         notfon.classList.remove("hidden");
+  //         notfon.classList.add("block");
+  //       } else {
+  //         notfon.classList.add("hidden");
+  //         notfon.classList.remove("block");
+  //       }
+
+  //       users.forEach((u) => {
+  //         const li = document.createElement("li");
+  //         li.textContent = u.username;
+  //         li.classList.add(
+  //           "list-group-item",
+  //           "userLi",
+  //           "block",
+  //           "px-4",
+  //           "py-2",
+  //           "hover:bg-gray-100"
+  //         );
+  //         li.setAttribute("role", "button");
+  //         result.appendChild(li);
+  //         countResult = result;
+
+  //         let liUser = document.querySelectorAll(".userLi");
+  //         liUser.forEach((uli) => {
+  //           uli.addEventListener("click", () => {
+  //             searchUser.value = uli.innerText;
+  //             result.innerHTML = "";
+  //             countResult = null;
+  //             clicked = true;
+
+  //             if (clicked) {
+  //               buttonKirim.disabled = false;
+  //               pesanFile.removeAttribute("disabled");
+  //               result.classList.add("hidden");
+  //             } else {
+  //               buttonKirim.disabled = true;
+  //               pesanFile.setAttribute("disabled", "");
+  //             }
+  //           });
+  //         });
+  //       });
+  //     }
+  //   };
+
+  //   xhr.send();
+  // } else {
+  //   buttonKirim.disabled = true;
+  //   notfon.classList.add("hidden");
+  //   notfon.classList.remove("block");
+  //   result.innerHTML = "";
+  // }
   if (valueSearch != "") {
-    const xhr = new XMLHttpRequest();
-    xhr.open("GET", `/username?q=${valueSearch}`, true);
-    xhr.onload = function () {
-      if (xhr.status == 200) {
-        const users = JSON.parse(xhr.responseText);
-        result.classList.remove("hidden");
+    result.innerHTML = "<span class='block px-4 py-2'>Loading...</span>";
+
+    const userPromise = fetch(`/username?q=${valueSearch}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    userPromise
+      .then((response) => {
+        return response.json();
+      })
+      .then((dataUsers) => {
+        const users = dataUsers.dataUsers;
 
         if (valueSearch == username) {
           buttonKirim.disabled = true;
@@ -200,21 +303,26 @@ searchUser.addEventListener("input", function () {
 
         if (users.length == 0) {
           buttonKirim.disabled = true;
+          searchUser.classList.add("rounded-lg");
+          searchUser.classList.remove("rounded-t-lg");
           pesanFile.setAttribute("disabled", "");
           notfon.textContent = `User '${valueSearch}' tidak ada!`;
           result.classList.add("hidden");
           notfon.classList.remove("hidden");
           notfon.classList.add("block");
         } else {
+          searchUser.classList.remove("rounded-lg");
+          searchUser.classList.add("rounded-t-lg");
           notfon.classList.add("hidden");
+          result.classList.remove("hidden");
+          result.classList.add("block");
           notfon.classList.remove("block");
         }
 
-        users.forEach((u) => {
+        users.forEach((user) => {
           const li = document.createElement("li");
-          li.textContent = u.username;
+          li.textContent = user.username;
           li.classList.add(
-            "list-group-item",
             "userLi",
             "block",
             "px-4",
@@ -223,7 +331,6 @@ searchUser.addEventListener("input", function () {
           );
           li.setAttribute("role", "button");
           result.appendChild(li);
-          countResult = result;
 
           let liUser = document.querySelectorAll(".userLi");
           liUser.forEach((uli) => {
@@ -244,16 +351,99 @@ searchUser.addEventListener("input", function () {
             });
           });
         });
-      }
-    };
+      })
+      .catch((error) => {
+        console.error(`Error: ${error.message}`);
+      });
+    // const xhr = new XMLHttpRequest();
+    // xhr.open("GET", `/username?q=${valueSearch}`, true);
+    // xhr.onload = function () {
+    //   if (xhr.status == 200) {
+    //     const users = JSON.parse(xhr.responseText);
+    //     result.classList.remove("hidden");
 
-    xhr.send();
+    //     if (valueSearch == username) {
+    //       buttonKirim.disabled = true;
+    //       pesanFile.setAttribute("disabled", "");
+    //     } else {
+    //       buttonKirim.disabled = false;
+    //       pesanFile.removeAttribute("disabled");
+    //     }
+
+    //     result.innerHTML = "";
+
+    //     if (clicked) {
+    //       buttonKirim.disabled = false;
+    //       pesanFile.removeAttribute("disabled");
+    //     } else {
+    //       buttonKirim.disabled = true;
+    //       pesanFile.setAttribute("disabled", "");
+    //     }
+
+    //     searchUser.addEventListener("keyup", function () {
+    //       clicked = false;
+    //       buttonKirim.disabled = false;
+    //       pesanFile.setAttribute("disabled", "");
+    //     });
+
+    //     if (users.length == 0) {
+    //       buttonKirim.disabled = true;
+    //       pesanFile.setAttribute("disabled", "");
+    //       notfon.textContent = `User '${valueSearch}' tidak ada!`;
+    //       result.classList.add("hidden");
+    //       notfon.classList.remove("hidden");
+    //       notfon.classList.add("block");
+    //     } else {
+    //       notfon.classList.add("hidden");
+    //       notfon.classList.remove("block");
+    //     }
+
+    //     users.forEach((u) => {
+    //       const li = document.createElement("li");
+    //       li.textContent = u.username;
+    //       li.classList.add(
+    //         "list-group-item",
+    //         "userLi",
+    //         "block",
+    //         "px-4",
+    //         "py-2",
+    //         "hover:bg-gray-100"
+    //       );
+    //       li.setAttribute("role", "button");
+    //       result.appendChild(li);
+    //       countResult = result;
+
+    //       let liUser = document.querySelectorAll(".userLi");
+    //       liUser.forEach((uli) => {
+    //         uli.addEventListener("click", () => {
+    //           searchUser.value = uli.innerText;
+    //           result.innerHTML = "";
+    //           countResult = null;
+    //           clicked = true;
+
+    //           if (clicked) {
+    //             buttonKirim.disabled = false;
+    //             pesanFile.removeAttribute("disabled");
+    //             result.classList.add("hidden");
+    //           } else {
+    //             buttonKirim.disabled = true;
+    //             pesanFile.setAttribute("disabled", "");
+    //           }
+    //         });
+    //       });
+    //     });
+    //   }
+    // };
+
+    // xhr.send();
   } else {
+    searchUser.classList.add("rounded-lg");
+    searchUser.classList.remove("rounded-t-lg");
     buttonKirim.disabled = true;
     notfon.classList.add("hidden");
     notfon.classList.remove("block");
+    result.classList.add("hidden");
+    result.classList.remove("block");
     result.innerHTML = "";
   }
 });
-
-
