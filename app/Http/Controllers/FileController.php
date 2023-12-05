@@ -22,12 +22,14 @@ class FileController extends Controller
         $data['pesan'] = $pesan;
         $data['pesanGrup'] = $groupedPesan->all();
 
-        $files = File::latest()->where('status', 'public');
+        $files = File::with('user')->latest()->where('status', 'public');
+
         if (request('search')) {
             $files->where('judul_file', 'like', '%' . request('search') . '%');
         }
+        
         $data['files'] = $files->get();
-        $data['title'] = 'File Publik';
+        $data['title'] = 'Discover';
 
         return view('user.file.index', $data);
     }

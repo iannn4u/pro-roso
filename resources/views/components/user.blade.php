@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="smooth-scroll">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="smooth-scroll" dir="ltr">
 
 <head>
 
     <x-partial.head.meta></x-partial.head.meta>
 
-    <title>{{ config('app.name') }} | {{ $title }}</title>
+    <title>{{ config('app.name') }} - {{ $title }}</title>
 
     <x-partial.head.css></x-partial.head.css>
 
 </head>
 
-<body>
+<body class="antialiased">
 
     <div class="bg-gray-100 h-screen md:pe-3 px-3 md:px-0 pb-4 md:min-w-[1000px] md:max-w-[2000px]">
 
@@ -22,12 +22,12 @@
         </header>
         
         <div class="flex w-full h-[90%]">
-            <aside class="hidden md:block h-full w-60 py-3 px-5">
+            <aside class="hidden md:block h-full w-64 2xl:w-[339px] py-3 px-5">
                 @include('user.templates.sidebar')
             </aside>
             
 
-            <main class="bg-white rounded-2xl h-full overflow-y-auto parent px-4 w-full md:mr-3">
+            <main class="bg-white rounded-2xl h-full overflow-y-auto parent px-1.5 sm:px-4 w-full md:mr-3">
                 @yield('salam')
                 {{ $slot }}
             </main>

@@ -6,7 +6,7 @@ px-2',' py-1.5',' text-gray-900',' shadow-sm',' ring-1',' ring-inset',' ring-gra
 focus:ring-2',' focus:ring-inset',' focus:ring-gray-600',' sm:text-sm',' sm:leading-6' ,'outline-none']) !!}>
 
 @if($error)
-<ul class="text-gray-500 text-xs space-y-1 text-gray-500 list-disc list-inside mt-1.5">
+<ul class="text-red-500 text-xs space-y-1 list-disc list-inside mt-1.5">
   @foreach ((array) $error as $err)
   <li>
     {{ $err }}
