@@ -13,36 +13,32 @@
     </div>
     @endif
 
-    <div class="flex">
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-primary shadow h-100 py-2 px-3">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Total User</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ count($usersC) }}</div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fa-solid fa-user fa-2x text-gray-300"></i>
-                        </div>
+    <div class="flex gap-3 py-4">
+        <div class="w-48 bg-gray-100 border-l-8 border-gray-500">
+            <div class="card-body p-3">
+                <div class="flex items-center justify-between">
+                    <div class="col mr-2">
+                        <div class="text-medium font-weight-bold text-primary text-uppercase mb-1">
+                            Total User</div>
+                        <div class="mb-0 font-bold text-gray-800">{{ count($usersC) }}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fa-solid fa-user fa-2x text-gray-300"></i>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-success shadow h-100 py-2 px-3">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                Total File</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ count($files) }}</div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fa-solid fa-file fa-2x text-gray-300"></i>
-                        </div>
+        <div class="w-48 bg-gray-100 border-l-8 border-gray-500">
+            <div class="card-body p-3">
+                <div class="flex items-center justify-between">
+                    <div class="col mr-2">
+                        <div class="text-medium font-weight-bold text-success text-uppercase mb-1">
+                            Total File</div>
+                        <div class="mb-0 font-bold text-gray-800">{{ count($files) }}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fa-solid fa-file fa-2x text-gray-300"></i>
                     </div>
                 </div>
             </div>
@@ -57,13 +53,13 @@
                     <th scope="col" class="px-6 py-3">
                         #
                     </th>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" class="px-6 py-3 text-center">
                         Nama
                     </th>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" class="px-6 py-3 text-center">
                         Username
                     </th>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" class="px-6 py-3 text-center">
                         Email
                     </th>
                     <th scope="col" class="px-6 py-3 text-center">
