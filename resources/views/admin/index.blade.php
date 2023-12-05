@@ -1,50 +1,53 @@
-@extends('admin.templates.index')
-@section('content')
+
+<x-user :$jumlahPesan :$files :$pesan>
+
+    <x-slot:title>
+        Data user (Admin)
+    </x-slot>
+
     @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show w-25 m-3" role="alert"
-            style="position: fixed; z-index: 1; top: 0; right: 0;">
-            <strong>Berhasil!</strong> {{ session('success') }}.
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+    <div class="alert alert-success alert-dismissible fade show w-25 m-3" role="alert"
+        style="position: fixed; z-index: 1; top: 0; right: 0;">
+        <strong>Berhasil!</strong> {{ session('success') }}.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
     @endif
 
-
-
-        <div class="flex">
-            <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-primary shadow h-100 py-2 px-3">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                    Total User</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ count($usersC) }}</div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fa-solid fa-user fa-2x text-gray-300"></i>
-                            </div>
+    <div class="flex">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2 px-3">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Total User</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ count($usersC) }}</div>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-success shadow h-100 py-2 px-3">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                    Total File</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ count($files) }}</div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fa-solid fa-file fa-2x text-gray-300"></i>
-                            </div>
+                        <div class="col-auto">
+                            <i class="fa-solid fa-user fa-2x text-gray-300"></i>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2 px-3">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                Total File</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ count($files) }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fa-solid fa-file fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -72,57 +75,58 @@
                 </tr>
             </thead>
             <tbody>
-                @if (count($users) == 0)
-                    <tr
-                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap" colspan="6">
-                            Tidak ada data user
-                        </th>
-                    </tr>
+                @if (count($usersC) == 0)
+                <tr
+                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap" colspan="6">
+                        Tidak ada data user
+                    </th>
+                </tr>
                 @endif
-                @foreach ($users as $user)
-                    <tr
-                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ $loop->iteration }}
-                        </th>
-                        <td class="px-6 py-4">
-                            {{ $user->fullname }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ $user->username }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ $user->email }}
-                        </td>
-                        <td class="px-6 py-4 text-center">
-                            @if ($user->status == 0)
-                                <span
-                                    class="bg-yellow-100 text-yellow-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded">pending</span>
-                            @else
-                                <span
-                                    class="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded">verified</span>
-                            @endif
-                        </td>
-                        <td class="px-6 py-4 text-right">
-                            <a href="{{ route('verify', $user->id_user) }}"
-                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline @if ($user->status == 1) disabled @endif">
-                                Verified
-                            </a>
-                            <a href="{{ route('editUser', $user->id_user) }}"
-                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                            <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline deleteA"
-                                data-toggle="modal" data-user="{{ $user->id_user }}" data-acc="{{ $user->fullname }}"
-                                data-target="#adminDeleteModal">
-                                Hapus
-                            </button>
-                        </td>
-                    </tr>
+                @foreach ($usersC as $user)
+                <tr
+                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {{ $loop->iteration }}
+                    </th>
+                    <td class="px-6 py-4">
+                        {{ $user->fullname }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ $user->username }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ $user->email }}
+                    </td>
+                    <td class="px-6 py-4 text-center">
+                        @if ($user->status == 0)
+                        <span
+                            class="bg-yellow-100 text-yellow-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded">pending</span>
+                        @else
+                        <span
+                            class="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded">verified</span>
+                        @endif
+                    </td>
+                    <td class="px-6 py-4 text-right">
+                        <a href="{{ route('verify', $user->id_user) }}"
+                            class="font-medium text-blue-600 dark:text-blue-500 hover:underline @if ($user->status == 1) disabled @endif">
+                            Verified
+                        </a>
+                        <a href="{{ route('editUser', $user->id_user) }}"
+                            class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                        <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline deleteA"
+                            data-toggle="modal" data-user="{{ $user->id_user }}" data-acc="{{ $user->fullname }}"
+                            data-target="#adminDeleteModal">
+                            Hapus
+                        </button>
+                    </td>
+                </tr>
                 @endforeach
             </tbody>
         </table>
+
         <div class="ml-3">
-            {{ $users->links() }}
+            {{ $usersC->links('components.pagination') }}
         </div>
     </div>
-@endsection
+</x-user>

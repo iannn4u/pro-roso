@@ -2,7 +2,7 @@
 
     <x-partial.flash class="!mt-3" :flash="session()->all()"></x-partial.flash>
 
-    <div class="grid grid-cols-2 gap-y-[20px] gap-x-[16px] md:grid-cols-4 2xl:grid-cols-5 min-[2368px]:grid-cols-6 p-5">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-[20px] gap-x-[16px] md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 min-[2368px]:grid-cols-6 p-3 sm:p-5">
         @unless (count($files))
         <p>Tidak ada file</p>
         @endunless
@@ -75,9 +75,20 @@
             {{-- main menu --}}
             <div class="my-1 px-3 py-1">
                 <div class="flex justify-between">
-                    <a href="{{ route('file.detail', ['id_file' => $file->id_file,'username' => $file->user->username]) }}"
-                        class="inline-block w-[139px] truncate font-medium text-gray-900 decoration-blue-500 decoration-2 hover:underline hover:underline-offset-2 lg:w-full"
-                        title="{{ $file->original_filename }}">{{ $file->original_filename }}</a>
+                    <div class="flex items-center gap-1 flex-1 min-w-0">
+                        <img alt=""
+                            src="{{ $file->user->pp === 'img/defaultProfile.svg' ? asset('img/defaultProfile.svg') : asset('storage/' . $file->user->pp) }}"
+                            class="relative inline-block h-9 w-9 !rounded-full  border-2 border-white object-cover object-center hover:z-10" />
+                        <div class="min-w-[inherit] lg:w-full">
+                            <h6
+                                class="block font-sans text-sm antialiased font-medium leading-relaxed tracking-normal text-inherit w-[95%] lg:max-w-full truncate">
+                                {{ $file->user->fullname }}</h6>
+                            <p
+                                class="block font-sans text-xs antialiased font-normal leading-normal text-gray-500 -mt-1.5">
+                                {{ $file->user->username }}
+                            </p>
+                        </div>
+                    </div>
                     <button id="dropdw" data-dropdown-toggle="file-#{{ $file->id_file }}"
                         class="inline-block rounded-full ml-1 -mr-1 p-1.5 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400"
                         type="button">
@@ -89,21 +100,29 @@
                         </svg>
                     </button>
                 </div>
-                <p class="-mt-2 text-sm text-gray-400" title="{{ $file->created_at->format('l, d F Y h:m:s') }}">
-                    {{ $file->created_at->diffForHumans() }}
-                </p>
             </div>
 
-            <div class="overflow-hidden h-40 mt-px cursor-default bg-white grid place-items-center">
-                @php
-                $mime = explode('/', $file->mime_type);
-                @endphp
-                @if (explode('/', $file['mime_type'])[0] == 'image')
-                <img src="{{ asset('storage/' . $file->generate_filename) }}" alt="{{ $file->judul_file }}"
-                    class="object-contain h-full">
-                @else
-                <x-partial.asset.svg></x-partial.asset.svg>
-                @endif
+            <div class="mt-px cursor-default">
+                <a href="{{ route('file.detail', ['id_file' => $file->id_file,'username' => $file->user->username]) }}" class="overflow-hidden h-40  bg-white grid place-items-center">
+                    @php $mime=explode('/', $file->mime_type);
+                    @endphp
+                    @if (explode('/', $file['mime_type'])[0] == 'image')
+                    <img src="{{ asset('storage/' . $file->generate_filename) }}" alt="{{ $file->judul_file }}"
+                        class="object-contain h-full">
+                    @else
+                    <x-partial.asset.svg></x-partial.asset.svg>
+                    @endif
+                </a>
+            </div>
+
+            <div class="pt-1 px-3 space-y-px">
+                <a href="{{ route('file.detail', ['id_file' => $file->id_file,'username' => $file->user->username]) }}"
+                    class="inline-block font-medium text-gray-900 decoration-blue-500 decoration-2 hover:underline hover:underline-offset-2 lg:w-full"
+                    title="{{ $file->judul_file }}">{{ $file->judul_file }}</a>
+                <p class="-mt-2 text-sm w-[calc(95%_+_1rem)] truncate text-gray-400"
+                    title="{{ $file->created_at->format('l, d F Y h:m:s') }}">
+                    {{ $file->original_filename }}
+                </p>
             </div>
         </div>
         @endforeach

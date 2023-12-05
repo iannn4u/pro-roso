@@ -18,18 +18,18 @@
 
             <x-partial.flash :flash="session()->all()"></x-partial.flash>
 
-            <div class="mt-6">
-              <x-partial.form.label for="usermail" :value="__('Username / Email')"></x-partial.form.label>
+            <div class="mt-6 ">
+              <x-partial.form.label for="usermail" :value="__('Username / Email')" />
 
-              <x-partial.form.input id="usermail" type="text" name="usermail" :error="$errors->get('usermail')" :value="old('usermail')" autofocus ></x-partial.form.input>
+              <x-partial.form.input id="usermail" type="text" name="usermail" :error="$errors->get('usermail')" :value="old('usermail')" autofocus />
             </div>
-            
+
             <div class="mt-6">
-              <x-partial.form.label for="password" :value="__('Password')"></x-partial.form.label>
-  
-              <x-partial.form.input id="password" type="password" name="password" :error="$errors->get('password')"></x-partial.form.input>
+              <x-partial.form.label for="password" :value="__('Password')" />
+
+              <x-partial.form.input id="password" type="password" name="password" :error="$errors->get('password')" />
             </div>
-            
+
             <x-partial.primary-button class="w-full justify-center">
               Login
             </x-partial.primary-button>

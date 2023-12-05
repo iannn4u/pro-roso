@@ -10,6 +10,7 @@
             height: 200px;
             padding: 25px;
             display: grid;
+            background-color: #f7f9fe;
             place-items: center;
             text-align: center;
             font-family: sans-serif;
@@ -75,16 +76,6 @@
 @endpush
 
 <x-user :$jumlahPesan :$pesan :$pesanGrup>
-    {{-- @error('judul_file')
-  <div class="alert alert-danger mt-3 mx-2" role="alert" style="position: absolute; z-index: 1; top: 0; right: 0;">
-    {{ $message }}
-  </div>
-  @enderror
-  @error('files')
-  <div class="alert alert-danger mt-3 mx-2" role="alert" style="position: absolute; z-index: 1; top: 0; right: 0;">
-    {{ $message }}
-  </div>
-  @enderror --}}
 
     <x-slot:title>
         New file
@@ -117,17 +108,21 @@
         <form method="POST" action="{{ route('file.store') }}" enctype="multipart/form-data">
             @csrf
             <div class="dropArea @error('files') error animate-shake @enderror mb-4">
-                <div class="dropText">Drop disini atau click untuk memilih
-                    file</div>
+                <div class="dropText">
+                    <p class="mb-1 text-sm text-gray-500"><span class="font-semibold">Click to upload</span> or drag and drop the file</p>
+                    @error('files')
+                    <p class="text-xs text-red-500">{{ $message }}</p>
+                    @enderror
+                </div>
                 <input type="file" name="files" id="files" class="dropFile">
             </div>
 
             <input type="hidden" name="return" value="{{ $return }}">
 
             <div class="mt-6">
-              <x-partial.form.label for="judul_file" :value="__('Judul File')"></x-partial.form.label>
+                <x-partial.form.label for="judul_file" :value="__('Judul File')"></x-partial.form.label>
 
-              <x-partial.form.input id="judul_file" type="text" name="judul_file" :error="$errors->get('judul_file')" :value="old('judul_file')" autofocus ></x-partial.form.input>
+                <x-partial.form.input id="judul_file" type="text" name="judul_file" :error="$errors->get('judul_file')" :value="old('judul_file')" autofocus ></x-partial.form.input>
             </div>
 
             <div class="my-4">
