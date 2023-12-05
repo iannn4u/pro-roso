@@ -20,7 +20,7 @@
                     <div class="col mr-2">
                         <div class="text-medium font-weight-bold text-primary text-uppercase mb-1">
                             Total User</div>
-                        <div class="mb-0 font-bold text-gray-800">{{ $users }}</div>
+                        <div class="mb-0 font-bold text-gray-800">{{ $usersC }}</div>
                     </div>
                     <div class="col-auto">
                         <i class="fa-solid fa-user fa-2x text-gray-300"></i>
@@ -73,7 +73,7 @@
             <tbody>
                 @if (count($usersC) == 0)
                 <tr
-                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                    class="bg-white border-b hover:bg-gray-50">
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap" colspan="6">
                         Tidak ada data user
                     </th>
@@ -81,8 +81,8 @@
                 @endif
                 @foreach ($usersC as $user)
                 <tr
-                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    class="bg-white border-b hover:bg-gray-50">
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                         {{ $loop->iteration }}
                     </th>
                     <td class="px-6 py-4">
