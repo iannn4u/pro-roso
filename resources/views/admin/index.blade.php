@@ -44,8 +44,8 @@
 
 
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-200">
                 <tr>
                     <th scope="col" class="px-6 py-3">
                         #
@@ -70,7 +70,7 @@
             <tbody>
                 @if (count($users) == 0)
                     <tr
-                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        class="bg-white border-b">
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap" colspan="6">
                             Tidak ada data user
                         </th>
@@ -78,8 +78,8 @@
                 @endif
                 @foreach ($users as $user)
                     <tr
-                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        class="bg-white border-b">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                             {{ $loop->iteration }}
                         </th>
                         <td class="px-6 py-4">
@@ -102,14 +102,14 @@
                         </td>
                         <td class="px-6 py-4 text-center flex justify-center items-center gap-2">
                             <a href="{{ route('verify', $user->id_user) }}"
-                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline @if ($user->status == 1) disabled @endif">
+                                class="font-medium text-blue-600 hover:underline @if ($user->status == 1) disabled @endif">
                                 Verified
                             </a>
                             <div class="inline-block h-5 w-0.5 self-stretch bg-gray-300 opacity-100"></div>
                             <a href="{{ route('editUser', $user->id_user) }}"
-                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                                class="font-medium text-blue-600 hover:underline">Edit</a>
                             <div class="inline-block h-5 w-0.5 self-stretch bg-gray-300 opacity-100"></div>
-                            <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline deleteA"
+                            <button class="font-medium text-blue-600 hover:underline deleteA"
                                 data-toggle="modal" data-user="{{ $user->id_user }}" data-acc="{{ $user->fullname }}"
                                 data-target="#adminDeleteModal">
                                 Hapus

@@ -50,7 +50,7 @@
     <div class="max-w-4xl py-5 xl:mx-auto mt-4">
 
         <x-partial.flash class="!mb-5 !-ml-3" :flash="session()->all()"></x-partial.flash>
-        
+
         <form action="{{ route('user.update',$user->id_user) }}" method="POST" enctype="multipart/form-data">
             @method('put')
             @csrf
@@ -103,7 +103,7 @@
                                     src="{{ Auth::user()->pp === 'img/defaultProfile.svg' ? asset('img/defaultProfile.svg') : asset('storage/' . Auth::user()->pp) }}" />
                                 <div
                                     class="text-white bg-red-700 group-hover:bg-red-800 hover:bg-red-800 font-medium rounded text-xs px-3 py-2 text-center inline-flex items-center gap-x-1.5 absolute bottom-4 left-2">
-                                    <svg class="w-2.5 h-2.5 text-gray-800 dark:text-white" aria-hidden="true"
+                                    <svg class="w-2.5 h-2.5 text-gray-800" aria-hidden="true"
                                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 21">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                             stroke-width="2"

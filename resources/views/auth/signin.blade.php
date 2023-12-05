@@ -23,18 +23,18 @@
 
               <x-partial.form.input id="usermail" type="text" name="usermail" :error="$errors->get('usermail')" :value="old('usermail')" autofocus ></x-partial.form.input>
             </div>
-            
+
             <div class="mt-6">
               <x-partial.form.label for="password" :value="__('Password')"></x-partial.form.label>
-  
+
               <x-partial.form.input id="password" type="password" name="password" :error="$errors->get('password')"></x-partial.form.input>
             </div>
-            
+
             <x-partial.primary-button class="w-full justify-center">
               Login
             </x-partial.primary-button>
 
-            <p class="text-sm font-light text-gray-500 dark:text-gray-400">
+            <p class="text-sm font-light text-gray-500">
               Belum punya akun? <a href="signup"
                 class="font-semibold leading-6 text-gray-600 decoration-2 underline-offset-2 hover:underline hover:decoration-gray-700">Register
                 here</a>

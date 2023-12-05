@@ -20,7 +20,7 @@
                             <div class="">
                                 <h5 class="uppercase">{{ $f->judul_file }}</h5>
                                 <span
-                                    class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">{{
+                                    class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded">{{
                                     $f->status }}</span>
                                 <a href="{{ route('file.download',$f->id_file) }}"
                                     class="block px-4 py-2 hover:bg-gray-100 flex items-center gap-3" id="download"><i

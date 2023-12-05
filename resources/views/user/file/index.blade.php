@@ -58,7 +58,7 @@
                                 <button type="submit"
                                     class="inline-flex w-full items-center bg-red-500 px-4 py-2 text-left text-sm text-white hover:bg-red-600"
                                     onclick="return confirm('yakin ingin hapus?')">
-                                    <svg class="mr-2 h-3 w-3 text-gray-800 dark:text-white" aria-hidden="true"
+                                    <svg class="mr-2 h-3 w-3 text-gray-800" aria-hidden="true"
                                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                             stroke-width="2"
@@ -79,7 +79,7 @@
                         class="inline-block w-[139px] truncate font-medium text-gray-900 decoration-blue-500 decoration-2 hover:underline hover:underline-offset-2 lg:w-full"
                         title="{{ $file->original_filename }}">{{ $file->original_filename }}</a>
                     <button id="dropdw" data-dropdown-toggle="file-#{{ $file->id_file }}"
-                        class="inline-block rounded-full ml-1 -mr-1 p-1.5 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400"
+                        class="inline-block rounded-full ml-1 -mr-1 p-1.5 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
                         type="button">
                         <span class="sr-only">Open dropdown</span>
                         <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
