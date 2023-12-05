@@ -20,7 +20,7 @@
                     <div class="col mr-2">
                         <div class="text-medium font-weight-bold text-primary text-uppercase mb-1">
                             Total User</div>
-                        <div class="mb-0 font-bold text-gray-800">{{ count($usersC) }}</div>
+                        <div class="mb-0 font-bold text-gray-800">{{ $users }}</div>
                     </div>
                     <div class="col-auto">
                         <i class="fa-solid fa-user fa-2x text-gray-300"></i>
@@ -47,8 +47,8 @@
 
 
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-200">
                 <tr>
                     <th scope="col" class="px-6 py-3">
                         #
