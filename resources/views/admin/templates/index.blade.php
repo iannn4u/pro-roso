@@ -31,27 +31,27 @@
 
 <body>
 
-    <div class="bg-gray-100 h-screen md:pe-3 px-3 md:px-0 pb-4 md:min-w-[1000px] md:max-w-[2000px]">
+    <div class="bg-gray-100 h-screen md:pe-3 px-3 pb-4 md:min-w-[1000px] md:max-w-[2000px]">
 
         <header class="h-[70px]">
             <nav class="flex md:justify-between items-center gap-6 md:gap-0">
-                @include('user.templates.topbar')
+                @include('admin.templates.topbar')
             </nav>
         </header>
 
         <div class="flex w-full h-[90%]">
-            <aside class="hidden md:block h-full w-60 py-3 px-5">
-                @include('user.templates.sidebar')
+            <aside class="hidden h-full w-60 py-3 px-5">
+                @include('admin.templates.sidebar')
             </aside>
 
 
-            <main class="bg-white rounded-2xl h-full overflow-y-auto parent px-4 w-full md:mr-3">
+            <main class="bg-white rounded-2xl h-full overflow-y-auto parent px-4 w-full">
                 @yield('content')
             </main>
 
         </div>
         <div class="hidden">
-            @include('user.templates.modal')
+            @include('admin.templates.modal')
         </div>
     </div>
 
