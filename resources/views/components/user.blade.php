@@ -5,7 +5,7 @@
 
     <x-partial.head.meta></x-partial.head.meta>
 
-    <title>{{ config('app.name') }} - {{ $title }}</title>
+    <title>{{ $title }}</title>
 
     <x-partial.head.css></x-partial.head.css>
 
@@ -20,12 +20,12 @@
                 @include('user.templates.topbar')
             </nav>
         </header>
-        
+
         <div class="flex w-full h-[90%]">
             <aside class="hidden md:block h-full w-64 2xl:w-[339px] py-3 px-5">
                 @include('user.templates.sidebar')
             </aside>
-            
+
 
             <main class="bg-white rounded-2xl h-full overflow-y-auto parent px-1.5 sm:px-4 w-full md:mr-3">
                 @yield('salam')
@@ -43,6 +43,8 @@
 
     <!-- Main Script -->
     <script src="{{ asset('js/script.js') }}"></script>
+    <!-- Additonal Script -->
+    <script src="{{ asset('js/buffer.js') }}" async=""></script>
     <!-- CDN Script -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
     <!-- JQuery-->

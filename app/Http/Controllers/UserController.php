@@ -80,13 +80,13 @@ class UserController extends Controller
    */
   public function show(User $user)
   {
-    $data['title'] = 'Profil Saya';
     $data['user'] = $user;
     $data['jumlahPesan'] = $this->getJumlahPesan();
     $pesan = $this->getPesan();
     $groupedPesan = $pesan->groupBy('id_pengirim');
     $data['pesan'] = $pesan;
     $data['pesanGrup'] = $groupedPesan->all();
+    $data['title'] = $user->username . " ($user->fullname)";
 
     return view('user.detail', $data);
   }
