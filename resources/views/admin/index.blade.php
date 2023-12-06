@@ -73,7 +73,7 @@
             <tbody>
                 @unless (count($users))
                 <tr
-                    class="bg-white border-b">
+                    class="bg-white border-b hover:bg-gray-50">
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap" colspan="6">
                         Tidak ada data user
                     </th>
@@ -81,7 +81,7 @@
                 @endunless
                 @foreach ($users as $user)
                 <tr
-                    class="bg-white border-b">
+                    class="bg-white border-b hover:bg-gray-50">
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                         {{ $loop->iteration }}
                     </th>
