@@ -1,13 +1,13 @@
 @push('style')
-<style>
-    details>summary {
-        list-style: none !important;
-    }
+    <style>
+        details>summary {
+            list-style: none !important;
+        }
 
-    details>summary::-webkit-details-marker {
-        display: none !important;
-    }
-</style>
+        details>summary::-webkit-details-marker {
+            display: none !important;
+        }
+    </style>
 @endpush
 
 <x-user :$user :$jumlahPesan :$pesan :$pesanGrup>
@@ -51,7 +51,7 @@
 
         <x-partial.flash class="!mb-5 !-ml-3" :flash="session()->all()"></x-partial.flash>
 
-        <form action="{{ route('user.update',$user->id_user) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('user.update', $user->id_user) }}" method="POST" enctype="multipart/form-data">
             @method('put')
             @csrf
             <div class="flex flex-col sm:flex-row -mx-2">
@@ -95,12 +95,12 @@
                 </div>
                 <div class="w-1/3 -mx-1.5">
                     <div class="flex flex-col items-center">
-                        <details class="appearance-none relative" {{ ($errors && $errors->get('pp') != null) ?
-                            'open' : ''
-                            }}>
+                        <details class="appearance-none relative"
+                            {{ $errors && $errors->get('pp') != null ? 'open' : '' }}>
                             <summary class="p-1 relative group cursor-pointer ">
                                 <img class="w-48 h-48 rounded-full object-cover shadow-lg"
-                                    src="{{ Auth::user()->pp === 'img/defaultProfile.svg' ? asset('img/defaultProfile.svg') : asset('storage/' . Auth::user()->pp) }}" />
+                                    src="{{ Auth::user()->pp === 'img/defaultProfile.svg' ? asset('img/defaultProfile.svg') : asset('storage/' . Auth::user()->pp) }}"
+                                    id="imgPreview" />
                                 <div
                                     class="text-white bg-red-700 group-hover:bg-red-800 hover:bg-red-800 font-medium rounded text-xs px-3 py-2 text-center inline-flex items-center gap-x-1.5 absolute bottom-4 left-2">
                                     <svg class="w-2.5 h-2.5 text-gray-800" aria-hidden="true"
@@ -118,8 +118,9 @@
                                     Upload a photo...
                                 </label>
                                 <div class="px-1.5">
-                                    <x-partial.form.input id="pp" type="file" name="pp" :error="$errors->get('pp')"
-                                        class="!hidden !invisible !p-1.5" :value="$user->pp">
+                                    <x-partial.form.input id="pp" type="file" name="pp"
+                                        :error="$errors->get('pp')" class="!hidden !invisible !p-1.5" :value="$user->pp"
+                                        accept="img/*" onchange="showPreview(event);">
                                     </x-partial.form.input>
                                 </div>
                             </div>

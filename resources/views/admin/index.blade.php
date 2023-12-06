@@ -5,13 +5,7 @@
         Data user (Admin)
     </x-slot>
 
-    @if (session('success'))
-    <div class="alert alert-success alert-dismissible fade show w-25 m-3" role="alert"
-        style="position: fixed; z-index: 1; top: 0; right: 0;">
-        <strong>Berhasil!</strong> {{ session('success') }}.
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    @endif
+    <x-partial.flash class="!my-2" :flash="session()->all()"></x-partial.flash>
 
     <div class="flex gap-3 py-4">
         <div class="w-48 bg-gray-100 border-l-8 border-gray-500">

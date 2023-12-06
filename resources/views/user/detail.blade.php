@@ -64,7 +64,6 @@
             <div class="hidden sm:block header-sec absolute inset-y-0 left-0 w-1/2 h-full absolute">
             </div>
         </div>
-        <div class="bg-gradient-to-t absolute from-gray-800 h-6 bottom-0 left-0 hidden sm:block w-full"></div>
     </section>
 
     <section class="mt-2 py-6 px-2">

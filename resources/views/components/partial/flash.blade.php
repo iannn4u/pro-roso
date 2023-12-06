@@ -30,7 +30,7 @@ if ($attributes->get('flash') != null) {
 
 @if (isset($messages))
   <div id="atomic-alert-1"
-    class="{{ $attributes->merge(['class' => 'flex items-center p-4 text-black border text-black rounded-lg ' . $alertType])['class'] }}" 
+    class="{{ $attributes->merge(['class' => 'flex items-center p-4 text-black border text-black rounded-lg absolute min-w-[18rem] top-20 right-10 z-10 shadow-md' . $alertType])['class'] }}"
     role="alert">
     <span class="sr-only">{{ $alert }}</span>
     <div class="ms-2 text-sm font-medium">
