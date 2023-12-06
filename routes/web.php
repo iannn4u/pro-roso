@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\PesanController;
 use App\Http\Controllers\UserController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -43,6 +44,10 @@ Route::middleware('auth')->group(function () {
         Route::get('{username}/file/{id_file}', 'fileDetail')->name('file.detail');
         Route::get('{username}/share/{id_file}', 'fileShareDetail')->name('file.share.detail');
     });
+
+    Route::get('/{username}', function (string $username) {
+        return to_route('user.show', $username);
+    })->name('profile');
 
     Route::controller(AdminController::class)->prefix('a/users')->middleware('admin')->group(function () {
         Route::get('/', 'index');

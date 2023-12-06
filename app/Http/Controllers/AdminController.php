@@ -4,13 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\File;
 use App\Models\User;
-use App\Models\Pesan;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use App\Http\Requests\UpdateUserRequest;
-use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
@@ -18,7 +15,7 @@ class AdminController extends Controller
     public function index()
     {
         $data['title'] = 'Data User (Admin)';
-        $users = User::whereIn('status', [0, 1])->count();
+        $users = User::whereIn('status', [0, 1])->paginate(10);
         $data['files'] = File::all();
         $data['jumlahPesan'] = $this->getJumlahPesan();
         $data['pesan'] = $this->getPesan();
@@ -31,7 +28,7 @@ class AdminController extends Controller
             });
         }
 
-
+        $data['users'] = $users;
         $data['usersC'] = User::whereIn('status', [0, 1])->paginate(10);
         return view('admin.index', $data);
     }
@@ -61,7 +58,7 @@ class AdminController extends Controller
         return view('admin.edit', $data);
     }
 
-    public function update(UpdateUserRequest $request, $id_user)
+    public function update(Request $request, $id_user)
     {
         $data['title'] = 'Edit Profil User';
         $user = User::where('id_user', $id_user)->first();

@@ -2,7 +2,12 @@
 
     <x-partial.flash class="!mt-3" :flash="session()->all()"></x-partial.flash>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-[20px] gap-x-[16px] md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 min-[2368px]:grid-cols-6 p-3 sm:p-5">
+    <div class="py-3">
+        <h3 class="text-2xl sm:text-3xl font-semibold">Discover all files</h3>
+    </div>
+
+    <div
+        class="grid grid-cols-1 sm:grid-cols-2 gap-y-[20px] gap-x-[16px] md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 min-[2368px]:grid-cols-6 p-3 sm:p-5">
         @unless (count($files))
         <p>Tidak ada file</p>
         @endunless
@@ -79,10 +84,10 @@
                         <img alt=""
                             src="{{ $file->user->pp === 'img/defaultProfile.svg' ? asset('img/defaultProfile.svg') : asset('storage/' . $file->user->pp) }}"
                             class="relative inline-block h-9 w-9 !rounded-full  border-2 border-white object-cover object-center hover:z-10" />
-                        <div class="min-w-[inherit] lg:w-full">
-                            <h6
-                                class="block font-sans text-sm antialiased font-medium leading-relaxed tracking-normal text-inherit w-[95%] lg:max-w-full truncate">
-                                {{ $file->user->fullname }}</h6>
+                        <div class="w-[90%] sm:min-w-[inherit] lg:w-full">
+                            <a href="{{ route('profile', $file->user->id_user) }}"
+                                class="block font-sans text-sm antialiased font-medium leading-relaxed tracking-normal text-inherit w-[95%] lg:max-w-full truncate decoration-blue-500 decoration-2 hover:underline hover:underline-offset-2">
+                                {{ $file->user->fullname }}</a>
                             <p
                                 class="block font-sans text-xs antialiased font-normal leading-normal text-gray-500 -mt-1.5">
                                 {{ $file->user->username }}
@@ -103,11 +108,12 @@
             </div>
 
             <div class="mt-px cursor-default">
-                <a href="{{ route('file.detail', ['id_file' => $file->id_file,'username' => $file->user->username]) }}" class="overflow-hidden h-40  bg-white grid place-items-center">
+                <a href="{{ route('file.detail', ['id_file' => $file->id_file,'username' => $file->user->username]) }}"
+                    class="overflow-hidden h-40 bg-white grid place-items-center">
                     @php $mime=explode('/', $file->mime_type);
                     @endphp
                     @if (explode('/', $file['mime_type'])[0] == 'image')
-                    <img src="{{ asset('storage/' . $file->generate_filename) }}" alt="{{ $file->judul_file }}"
+                    <img data-src="{{ asset('storage/' . $file->generate_filename) }}" alt="{{ $file->judul_file }}"
                         class="object-contain h-full">
                     @else
                     <x-partial.asset.svg></x-partial.asset.svg>
