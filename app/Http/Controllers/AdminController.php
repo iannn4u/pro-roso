@@ -4,31 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Models\File;
 use App\Models\User;
-use App\Models\Pesan;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use App\Http\Requests\UpdateUserRequest;
+use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    protected $jumlahPesan;
-    protected $pesan;
-
-    public function __construct()
-    {
-        $this->jumlahPesan = Pesan::where('id_penerima', Auth::id())->count();
-        $this->pesan = Pesan::where('id_penerima', Auth::id())->get();
-    }
 
     public function index()
     {
         $data['title'] = 'Data User (Admin)';
-        $users = User::whereIn('status', [0, 1]);
+        $users = User::whereIn('status', [0, 1])->paginate(10);
         $data['files'] = File::all();
-        $data['jumlahPesan'] = $this->jumlahPesan;
-        $data['pesan'] = $this->pesan;
+        $data['jumlahPesan'] = $this->getJumlahPesan();
+        $data['pesan'] = $this->getPesan();
 
         if (request('search')) {
             $users->where(function ($q) {
@@ -61,14 +51,14 @@ class AdminController extends Controller
 
     public function edit($id_user)
     {
-        $data['jumlahPesan'] = $this->jumlahPesan;
-        $data['pesan'] = $this->pesan;
+        $data['jumlahPesan'] = $this->getJumlahPesan();
+        $data['pesan'] = $this->getPesan();
         $data['title'] = 'Edit Profil User';
         $data['user'] = User::where('id_user', $id_user)->first();
         return view('admin.edit', $data);
     }
 
-    public function update(UpdateUserRequest $request, $id_user)
+    public function update(Request $request, $id_user)
     {
         $data['title'] = 'Edit Profil User';
         $user = User::where('id_user', $id_user)->first();

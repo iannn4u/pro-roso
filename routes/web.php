@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\PesanController;
 use App\Http\Controllers\UserController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,26 +30,30 @@ Route::middleware('auth')->group(function () {
     Route::get('signout', [AuthController::class, 'signout']);
 
     Route::get('/', [UserController::class, 'index'])->name('dashboard');
-    Route::resource('user', UserController::class);
     Route::get('username', [UserController::class, 'ajax']);
-    Route::get('kirimFile/{id_file}', [PesanController::class, 'store']);
+    Route::post('/file/send/{id_file}', [PesanController::class, 'store']);
 
-    Route::resource('file', FileController::class)->only(['edit', 'destroy','store','update']);
+    Route::resource('user', UserController::class);
+    Route::resource('file', FileController::class)->only(['edit', 'destroy', 'store', 'update']);
 
     Route::controller(FileController::class)->group(function () {
         Route::get('publikFile', 'index');
         Route::get('/file/new', 'create')->name('new');
-        Route::get('download/{id_file}', 'download')->name('download');
-        Route::get('d/{id_file}/{filename}', 'linkDownload');
-        Route::get('{username}/file/{id_file}', 'detailPublik')->name('detail');
-        Route::get('lihatFile/{id_file}', 'detailFileKirim');
+        Route::get('download/{id_file}', 'download')->name('file.download');
+        Route::get('d/{id_file}/{filename}', 'downloadByLink');
+        Route::get('{username}/file/{id_file}', 'fileDetail')->name('file.detail');
+        Route::get('{username}/share/{id_file}', 'fileShareDetail')->name('file.share.detail');
     });
-});
 
-Route::middleware(['admin', 'auth'])->controller(AdminController::class)->prefix('a/users')->group(function () {
-    Route::get('/', 'index');
-    Route::get('verified/{id_user}', 'verified')->name('verify');
-    Route::delete('hapus/{id_user}', 'destroy')->name('hapusUser');
-    Route::get('/{id_user}/edit', 'edit')->name('editUser');
-    Route::put('/{id_user}/edit', 'update')->name('editAction');
+    Route::get('/{username}', function (string $username) {
+        return to_route('user.show', $username);
+    })->name('profile');
+
+    Route::controller(AdminController::class)->prefix('a/users')->middleware('admin')->group(function () {
+        Route::get('/', 'index');
+        Route::get('verified/{id_user}', 'verified')->name('verify');
+        Route::delete('hapus/{id_user}', 'destroy')->name('hapusUser');
+        Route::get('/{id_user}/edit', 'edit')->name('editUser');
+        Route::put('/{id_user}/edit', 'update')->name('editAction');
+    });
 });

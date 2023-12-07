@@ -4,9 +4,20 @@ namespace App\Traits;
 
 trait FlasherMessages
 {
-  public function flashMessage($type, $route, $msg)
+  public function rediretUrl($type, $to, $msg)
   {
     session()->flash($type, $msg);
+    return redirect($to);
+  }
+
+  public function flashMessage($type, array|string $route, $msg)
+  {
+    session()->flash($type, $msg);
+
+    if (is_array($route)) {
+      return to_route(...$route); // splat operator
+    }
+
     return to_route($route);
   }
 

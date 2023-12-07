@@ -1,39 +1,30 @@
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+@php
+    $ref = match (request()->path()) {
+        'publikFile' => 'publikFile',
+        default => null,
+    };
+@endphp
 
-    <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
-        <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fa-regular fa-building"></i>
-        </div>
-        <div class="sidebar-brand-text mx-3">MyCom <sup>❤</sup></div>
+<x-partial.create-file :url="$ref"></x-partial.create-file>
+
+<div class="hidden md:block mt-5">
+    <a class="flex gap-3 items-center mb-3 px-4 py-2.5 rounded-full {{ request()->is('/') ? 'bg-gray-300' : 'hover:bg-gray-200' }}"
+        href="/">
+        <img src="\vendor\fontawesome-free\svgs\solid\folder-closed.svg" alt="{{ env('APP_NAME') }}" width="20">
+        <span>File Saya</span>
     </a>
 
-    <!-- Divider -->
-    <hr class="sidebar-divider my-0">
-
-    <!-- Nav Item - Dashboard -->
-    <li class="nav-item {{ request()->is('/') ? 'active' : '' }}">
-        <a class="nav-link" href="/">
-            <i class="fa-solid fa-house"></i>
-            <span>Beranda</span>
-        </a>
-    </li>
-
-    <!-- Nav Item - Public File -->
-    <li class="nav-item {{ request()->is('publikFile') ? 'active' : '' }}">
-        <a class="nav-link" href="/publikFile">
-            <i class="fa-solid fa-earth-americas"></i>
-            <span>Publik File</span>
-        </a>
-    </li>
+    <a class="flex gap-3 items-center mb-3 px-4 py-2.5 rounded-full {{ request()->is('publikFile') ? 'bg-gray-300' : 'hover:bg-gray-200' }}"
+        href="/publikFile">
+        <i class="fa-solid fa-earth-americas"></i>
+        <span style="margin-left: 2px">Publik File</span>
+    </a>
 
     @if (Auth::user()->status == 2)
-    <li class="nav-item {{ request()->is('a/*') ? 'active' : '' }}">
-        <a class="nav-link" href="/a/users">
+        <a class="flex gap-3 items-center mb-3 px-4 py-2.5 rounded-full {{ request()->is('a/*') ? 'bg-gray-300' : 'hover:bg-gray-200' }}"
+            href="/a/users">
             <i class="fa-regular fa-user"></i>
-            <span>Data User</span>
+            <span class="ml-1">Data User</span>
         </a>
-    </li>
     @endif
-
-</ul>
+</div>

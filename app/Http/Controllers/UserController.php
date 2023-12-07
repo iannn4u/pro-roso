@@ -25,7 +25,7 @@ class UserController extends Controller
     $data['pesan'] = $pesan;
     $data['pesanGrup'] = $groupedPesan->all();
 
-    $files = File::where('id_user', auth()->id());
+    $files = File::where('id_user', Auth::id());
     if (request('search')) {
       $files->where('judul_file', 'like', '%' . request('search') . '%');
     }
@@ -80,13 +80,13 @@ class UserController extends Controller
    */
   public function show(User $user)
   {
-    $data['title'] = 'Profil Saya';
     $data['user'] = $user;
     $data['jumlahPesan'] = $this->getJumlahPesan();
     $pesan = $this->getPesan();
     $groupedPesan = $pesan->groupBy('id_pengirim');
     $data['pesan'] = $pesan;
     $data['pesanGrup'] = $groupedPesan->all();
+    $data['title'] = $user->username . " ($user->fullname)";
 
     return view('user.detail', $data);
   }
@@ -97,12 +97,16 @@ class UserController extends Controller
   public function edit(User $user)
   {
     $data['title'] = 'Edit Profil Saya';
-    if ($user->id_user != auth()->id()) {
-      abort(404);
+    if ($user->id_user != Auth::id()) {
+      return to_route('user.edit', Auth::id());
     }
     $data['user'] = $user;
     $data['jumlahPesan'] = $this->getJumlahPesan();
-    $data['pesan'] = Pesan::where('id_penerima', auth()->id())->get();
+    $pesan = $this->getPesan();
+    $groupedPesan = $pesan->groupBy('id_pengirim');
+    $data['pesan'] = $pesan;
+    $data['pesanGrup'] = $groupedPesan->all();
+
     return view('user.edit', $data);
   }
 
@@ -111,58 +115,30 @@ class UserController extends Controller
    */
   public function update(UpdateUserRequest $request, User $user)
   {
-    $data['title'] = 'Edit Profil Saya';
-    if ($user->id_user != auth()->id()) {
+    $idEdit = Auth::id();
+    if ($user->id_user != $idEdit) {
       abort(404);
     }
-    $errors = [
-      'fullname.required' => 'Nama panjang harus diisi!',
-      'fullname.regex' => 'Nama panjang hanya boleh mengandung huruf!',
-      'fullname.min' => 'Nama panjang harus memiliki minimal 5 karekter!',
-      'username.required' => 'Username harus diisi!',
-      'username.min' => 'Username harus memiliki minimal 5 karakter!',
-      'username.unique' => 'Username sudah digunakan!',
-      'email.required' => 'Email harus diisi!',
-      'email.email' => 'Format email tidak sesuai!',
-      'email.unique' => 'Email sudah digunakan!',
-      'password.required' => 'Password harus diisi!',
-      'password.min' => 'Password harus memiliki minimal 6 karakter!',
-      'password.confirmed' => 'Ulangi password tidak sesuai!',
-      'pp.mimes' => 'Format gambar harus GIF, JPEG, JPG, SVG, PNG',
-      'pp.max' => 'Size gambar terlalu besar'
-    ];
-    $rules = [
-      'fullname' => 'required|regex:/^[a-zA-Z\s]+$/|min:5',
-      'username' => $user->username == $request->input('username') ? 'required' : 'required|min:5|unique:users',
-      'email' => $user->email == $request->input('email') ? 'required' : 'required|email|unique:users'
-    ];
+    $data['title'] = 'Edit Profil Saya';
 
-    if ($request->file('pp')) {
-      if (asset('storage/' . $user->pp)) {
-        Storage::delete($user->pp);
-      }
-      $rules['pp'] = 'mimes:gif,jpeg,jpg,svg,png';
-      $rules['pp'] = 'max:2048';
-      $pp = $request->file('pp');
-      $path = 'users/' . $user->id_user;
-      $namaPP = $pp->store($path);
-    } else {
-      $namaPP = $user->pp;
-    }
-    if (!$request->input('password') || Hash::check($request->input('password'), $user->password)) {
-      $validasiData = $request->validate($rules, $errors);
-      $validasiData['pp'] = $namaPP;
-    } else {
-      $rules['password'] = 'required|min:6';
-      $validasiData = $request->validate($rules, $errors);
-      $validasiData['password'] = Hash::make($validasiData['password']);
-      $validasiData['pp'] = $namaPP;
+    $validasiData = $request->validated();
+
+    $validasiData = $request->safe()->only(['fullname', 'username', 'email', 'password', 'pp']);
+    // dd($validasiData);
+
+    $namaPP = session()->get('namaPP');
+
+    $validasiData['pp'] = $namaPP;
+
+    if (isset($validasiData['password'])) {
+      $validasiData['password'] = Hash::make($request->input('password'));
     }
 
     $user->update($validasiData);
 
-    session()->flash('success', 'update data user');
-    return redirect('/user/' . auth()->id());
+    session()->forget('namaPP');
+
+    return $this->flashMessage('success', ['user.edit', $idEdit], "Profile updated successfully — <a href='/user/$idEdit' class='underline hover:no-underline'>view your profile.</a>");
   }
 
   /**
@@ -184,6 +160,8 @@ class UserController extends Controller
   {
     $query = request('q');
     $users = User::where('username', 'like', "%$query%")->where('username', '!=', Auth::user()->username)->take(5)->get();
-    return response()->json($users);
+    return response()->json([
+      'dataUsers' => $users
+    ]);
   }
 }

@@ -22,12 +22,14 @@ class FileController extends Controller
         $data['pesan'] = $pesan;
         $data['pesanGrup'] = $groupedPesan->all();
 
-        $files = File::latest()->where('status', 'public');
+        $files = File::with('user')->latest()->where('status', 'public');
+
         if (request('search')) {
             $files->where('judul_file', 'like', '%' . request('search') . '%');
         }
+        
         $data['files'] = $files->get();
-        $data['title'] = 'File Publik';
+        $data['title'] = 'Discover';
 
         return view('user.file.index', $data);
     }
@@ -42,7 +44,8 @@ class FileController extends Controller
         $groupedPesan = $pesan->groupBy('id_pengirim');
         $data['pesan'] = $pesan;
         $data['pesanGrup'] = $groupedPesan->all();
-        $data['title'] = 'New file';
+        $data['return'] = request('return') ?? '/';
+
         return view('user.file.create', $data);
     }
 
@@ -51,8 +54,6 @@ class FileController extends Controller
      */
     public function store(StoreFileRequest $request)
     {
-
-        // dd($request);
         $errors = [
             'judul_file.required' => 'Judul harus diisi',
             'judul_file.unique' => 'Judul sudah digunakan',
@@ -91,6 +92,7 @@ class FileController extends Controller
         // Pindahkan file ke folder asli
         $path = 'users/' . Auth::user()->id_user . '/files';
         $namaFileRandom = $file->store($path);
+        $return = request('return');
 
         $validatedData = [
             'id_user' => Auth::user()->id_user,
@@ -106,6 +108,9 @@ class FileController extends Controller
 
         File::create($validatedData);
 
+        if ($return != null) {
+            return $this->rediretUrl('success', $return, "Berhasil mengupload file");
+        }
         return $this->success('dashboard', "Berhasil mengupload file");
     }
 
@@ -249,7 +254,7 @@ class FileController extends Controller
         return response()->download($path, $file->original_filename, $headers);
     }
 
-    public function linkDownload($id_file, $filename)
+    public function downloadByLink($id_file, $filename)
     {
         $filePathDB = 'users/' . $id_file . '/files/' . $filename;
         $fileDB = File::where('generate_filename', $filePathDB)->first();
@@ -262,7 +267,7 @@ class FileController extends Controller
         return $this->success('dashboard', "File berhasil didownload");
     }
 
-    public function detailPublik(File $file, $username, $id_file)
+    public function fileDetail(File $file, $username, $id_file)
     {
         $data['jumlahPesan'] = $this->getJumlahPesan();
         $pesan = $this->getPesan();
@@ -272,14 +277,15 @@ class FileController extends Controller
 
         $data['file'] = $file->where('id_file', $id_file)->where('id_file', $id_file)->where('id_user', '=', function (\Illuminate\Database\Query\Builder $query) use ($username) {
             return $query->select('id_user')->from('users')->where('username', $username)->get();
-        })->first();
+        })->get(['original_filename','generate_filename','judul_file','status','mime_type','id_file','file_size','deskripsi','created_at','id_user'])->all();
+
 
         // kalau file ga ada atau statusnya private
-        if ($data['file'] == null) {
+        if (!count($data['file'])) {
             return $this->fail('dashboard', "File $username ($id_file) tidak ada");
         }
 
-        if ($data['file']->id_user != Auth::id() && $data['file']->status != 'public') {
+        if ($data['file'][0]->id_user != Auth::id() && $data['file'][0]->status != 'public') {
             return $this->fail('dashboard', "File $username ($id_file) tidak ada");
         }
 
@@ -287,27 +293,30 @@ class FileController extends Controller
         return view('user.file.detalPublik', $data);
     }
 
-    public function detailFileKirim($id_file)
+    public function fileShareDetail($username, $id_file)
     {
         $data['jumlahPesan'] = $this->getJumlahPesan();
-        $data['file'] = File::find($id_file);
-
         $pesan = $this->getPesan();
         $groupedPesan = $pesan->groupBy('id_pengirim');
         $data['pesan'] = $pesan;
         $data['pesanGrup'] = $groupedPesan->all();
+        
+        $shareFile = DB::table('files AS f')
+                    ->join('users AS u', 'u.id_user', '=', 'f.id_user')
+                    ->join('pesans AS p', 'f.id_file', '=', 'p.id_file')
+                    ->where('p.id_file', '=', $id_file)
+                    ->where('p.id_penerima', '=', $this->getUserId())
+                    ->where('p.id_pengirim', '=' , function (\Illuminate\Database\Query\Builder $query) use ($username) {
+                        return $query->select('id_user')->from('users')->where('username', $username)->get();
+                    })
+                    ->get(['p.pesan','f.original_filename','f.generate_filename','f.judul_file','f.status','f.mime_type','f.id_file','u.fullname','f.file_size','f.deskripsi','f.created_at'])->all();
 
-        $pesan = DB::table('files AS f')->join('users AS u', 'u.id_user', '=', 'f.id_user')->join('pesans AS p', 'f.id_file', '=', 'p.id_file')->where('p.id_file', '=', $id_file)->where('p.id_penerima', '=', $this->getUserId())->get('p.pesan');
-        // $pesan = DB::table('files AS f')->join('users AS u', 'u.id_user', '=', 'f.id_user')->join('pesans AS p', 'f.id_file', '=', 'p.id_file')->where('p.id_file', '=', $id_file)->where('p.id_penerima', '=', $this->getUserId())->get('p.pesan');
-
-        dd($pesan);
-        if (is_null($data['file']) || count($pesan) == 0) {
-            session()->flash('errors', 'file tidak ada / tidak dibagikan');
-            return to_route('dashboard');
+        if (count($shareFile) == 0) {
+            return $this->fail('dashboard',"File tidak ada");
         }
 
-        $data['fileShare'] = $pesan;
-        $data['title'] = 'File dari ' . $data['file']->user->username;
+        $data['file'] = $shareFile;
+        $data['title'] = 'File dari ' . $data['file'][0]->fullname;
         return view('user.file.detalPublik', $data);
     }
 }
