@@ -18,31 +18,10 @@
                     </div>
                     <div class="col-auto">
                         <i class="fa-solid fa-user fa-2x text-gray-300"></i>
-
-<x-user :$jumlahPesan :$files :$pesan>
-
-    <x-slot:title>
-        Data user (Admin)
-    </x-slot>
-
-    <x-partial.flash class="!my-2" :flash="session()->all()"></x-partial.flash>
-
-    <div class="flex gap-3 py-4">
-        <div class="w-48 bg-gray-100 border-l-8 border-gray-500">
-            <div class="card-body p-3">
-                <div class="flex items-center justify-between">
-                    <div class="col mr-2">
-                        <div class="text-medium font-weight-bold text-primary text-uppercase mb-1">
-                            Total User</div>
-                        <div class="mb-0 font-bold text-gray-800">{{ count($users) }}</div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="fa-solid fa-user fa-2x text-gray-300"></i>
                     </div>
                 </div>
             </div>
         </div>
-
         <div class="w-48 bg-gray-100 border-l-8 border-gray-500">
             <div class="card-body p-3">
                 <div class="flex items-center justify-between">
