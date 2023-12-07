@@ -38,8 +38,8 @@ class AdminController extends Controller
             });
         }
 
-        $data['usersC'] = User::whereIn('status', [0, 1])->get();
-        $data['users'] = $users->paginate(10);
+        $data['countUsers'] = $users->count();
+        $data['dataUsers'] = $users->paginate(10);
         return view('admin.index', $data);
     }
 

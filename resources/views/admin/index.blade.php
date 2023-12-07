@@ -1,36 +1,23 @@
-@extends('admin.templates.index')
-@section('content')
-@if (session('success'))
-<div class="alert alert-success alert-dismissible fade show w-25 m-3" role="alert"
-    style="position: fixed; z-index: 1; top: 0; right: 0;">
-    <strong>Berhasil!</strong> {{ session('success') }}.
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-@endif
 
-<div class="container-fluid">
+<x-user :$jumlahPesan :$files :$pesan>
 
-    <!-- Page Heading -->
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Data User</h1>
-    </div>
+    <x-slot:title>
+        Data user (Admin)
+    </x-slot>
 
-    <!-- Content Row -->
-    <div class="row">
+    <x-partial.flash class="!my-2" :flash="session()->all()"></x-partial.flash>
 
-        <!-- Earnings (Monthly) Card Example -->
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-primary shadow h-100 py-2 px-3">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Total User</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ count($usersC) }}</div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fa-solid fa-user fa-2x text-gray-300"></i>
-                        </div>
+    <div class="flex gap-3 py-4">
+        <div class="w-48 bg-gray-100 border-l-8 border-gray-500">
+            <div class="card-body p-3">
+                <div class="flex items-center justify-between">
+                    <div class="col mr-2">
+                        <div class="text-medium font-weight-bold text-primary text-uppercase mb-1">
+                            Total User</div>
+                        <div class="mb-0 font-bold text-gray-800">{{ $countUsers }}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fa-solid fa-user fa-2x text-gray-300"></i>
                     </div>
                 </div>
             </div>
@@ -55,62 +42,84 @@
         </div>
     </div>
 
-    <div class="row">
-        <!-- DataTales Example -->
-        <div class="card shadow p-0">
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered" width="100%" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th class="text-center">#</th>
-                                <th class="text-center">Nama</th>
-                                <th class="text-center">Username</th>
-                                <th class="text-center">Email</th>
-                                <th class="text-center">Status</th>
-                                <th class="text-center visually-hidden">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (count($users) == 0)
-                            <tr>
-                                <td colspan="6" class="text-center">
-                                    Tidak ada data user
-                                </td>
-                            </tr>
-                            @endif
-                            @foreach ($users as $user)
-                            <tr>
-                                <td class="text-center pt-3">{{ $loop->iteration }}</td>
-                                <td class="text-center pt-3">{{ $user->fullname }}</td>
-                                <td class="text-center pt-3">{{ $user->username }}</td>
-                                <td class="text-center pt-3">{{ $user->email }}</td>
-                                <td class="text-center pt-3">
-                                    @if ($user->status == 0)
-                                    <span class="badge badge-pill badge-warning text-dark">pending</span>
-                                    @else
-                                    <span class="badge badge-pill badge-success">verified</span>
-                                    @endif
-                                </td>
-                                <td class="text-center">
-                                    <a href="{{ route('verify',$user->id_user) }}"
-                                        class="btn btn-success @if ($user->status == 1) disabled @endif">
-                                        verified
-                                    </a>
-                                    <a href="{{ route('editUser',$user->id_user) }}" class="btn btn-info">edit</a>
-                                    <button class="btn btn-danger deleteA" data-toggle="modal" data-user="{{ $user->id_user }}" data-acc="{{ $user->fullname }}" data-target="#adminDeleteModal">
-                                        hapus
-                                    </button>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="ml-3">
-                {{ $users->links() }}
-            </div>
+
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table class="w-full text-sm text-left text-gray-500">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-200">
+                <tr>
+                    <th scope="col" class="px-6 py-3">
+                        #
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center">
+                        Nama
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center">
+                        Username
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center">
+                        Email
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center">
+                        Status
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center">
+                        Aksi
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @unless ($countUsers > 0)
+                <tr
+                    class="bg-white border-b hover:bg-gray-50">
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap" colspan="6">
+                        Tidak ada data user
+                    </th>
+                </tr>
+                @endunless
+                @foreach ($dataUsers as $user)
+                <tr
+                    class="bg-white border-b hover:bg-gray-50">
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                        {{ $loop->iteration }}
+                    </th>
+                    <td class="px-6 py-4">
+                        {{ $user->fullname }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ $user->username }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ $user->email }}
+                    </td>
+                    <td class="px-6 py-4 text-center">
+                        @if ($user->status == 0)
+                        <span
+                            class="bg-yellow-100 text-yellow-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded">pending</span>
+                        @else
+                        <span
+                            class="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded">verified</span>
+                        @endif
+                    </td>
+                    <td class="px-6 py-4 text-right">
+                        <a href="{{ route('verify', $user->id_user) }}"
+                            class="font-medium text-blue-600 hover:underline @if ($user->status == 1) disabled @endif">
+                            Verified
+                        </a>
+                        <a href="{{ route('editUser', $user->id_user) }}"
+                            class="font-medium text-blue-600 hover:underline">Edit</a>
+                        <button class="font-medium text-blue-600 hover:underline deleteA"
+                            data-toggle="modal" data-user="{{ $user->id_user }}" data-acc="{{ $user->fullname }}"
+                            data-target="#adminDeleteModal">
+                            Hapus
+                        </button>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+
+        <div class="ml-3">
+            {{ $dataUsers->links('components.pagination') }}
         </div>
     </div>
 </div>
