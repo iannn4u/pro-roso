@@ -1,126 +1,69 @@
-@extends('admin.templates.index')
-@section('content')
-    @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show w-25 m-3" role="alert"
-            style="position: fixed; z-index: 1; top: 0; right: 0;">
-            <strong>Berhasil!</strong> {{ session('success') }}.
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="smooth-scroll">
+
+<head>
+
+    @if (session('download'))
+        <meta http-equiv="refresh" content="0; url={{ url('/download/' . session('download')) }}">
     @endif
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <link rel="shortcut icon" rel="icon" href="\vendor\fontawesome-free\svgs\solid\box.svg" type="image/svg+xml">
+    <meta name="author" content="">
+
+    <title>{{ config('app.name') }} | {{ $title }}</title>
+
+    <!-- Main Style-->
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <!-- Tailwindcss-->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome-->
+    <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <!-- Custom Font -->
+    <link href="https://fonts.cdnfonts.com/css/alliance-no1" rel="stylesheet">
+
+    @stack('style')
 
 
+</head>
 
-    <div class="flex gap-3 py-4">
-        <div class="w-48 bg-gray-100 border-l-8 border-gray-500">
-            <div class="card-body p-3">
-                <div class="flex items-center justify-between">
-                    <div class="col mr-2">
-                        <div class="text-medium font-weight-bold text-primary text-uppercase mb-1">
-                            Total User</div>
-                        <div class="mb-0 font-bold text-gray-800">{{ count($usersC) }}</div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="fa-solid fa-user fa-2x text-gray-300"></i>
-                    </div>
-                </div>
-            </div>
+<body>
+
+    <div class="bg-gray-100 h-screen md:pe-3 px-3 pb-4 md:min-w-[1000px] md:max-w-[2000px]">
+
+        <header class="h-[70px]">
+            <nav class="flex md:justify-between items-center gap-6 md:gap-0">
+                @include('admin.templates.topbar')
+            </nav>
+        </header>
+
+        <div class="flex w-full h-[90%]">
+            <aside class="hidden h-full w-60 py-3 px-5">
+                @include('admin.templates.sidebar')
+            </aside>
+
+
+            <main class="bg-white rounded-2xl h-full overflow-y-auto parent px-4 w-full">
+                @yield('content')
+            </main>
+
         </div>
-
-        <div class="w-48 bg-gray-100 border-l-8 border-gray-500">
-            <div class="card-body p-3">
-                <div class="flex items-center justify-between">
-                    <div class="col mr-2">
-                        <div class="text-medium font-weight-bold text-success text-uppercase mb-1">
-                            Total File</div>
-                        <div class="mb-0 font-bold text-gray-800">{{ count($files) }}</div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="fa-solid fa-file fa-2x text-gray-300"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                    <th scope="col" class="px-6 py-3">
-                        #
-                    </th>
-                    <th scope="col" class="px-6 py-3 text-center">
-                        Nama
-                    </th>
-                    <th scope="col" class="px-6 py-3 text-center">
-                        Username
-                    </th>
-                    <th scope="col" class="px-6 py-3 text-center">
-                        Email
-                    </th>
-                    <th scope="col" class="px-6 py-3 text-center">
-                        Status
-                    </th>
-                    <th scope="col" class="px-6 py-3 text-center">
-                        Aksi
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (count($usersC) == 0)
-                    <tr
-                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap" colspan="6">
-                            Tidak ada data user
-                        </th>
-                    </tr>
-                @endif
-                @foreach ($usersC as $user)
-                    <tr
-                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ $loop->iteration }}
-                        </th>
-                        <td class="px-6 py-4">
-                            {{ $user->fullname }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ $user->username }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ $user->email }}
-                        </td>
-                        <td class="px-6 py-4 text-center">
-                            @if ($user->status == 0)
-                                <span
-                                    class="bg-yellow-100 text-yellow-800 text-sm font-medium px-2.5 py-0.5 rounded">pending</span>
-                            @else
-                                <span
-                                    class="bg-green-100 text-green-800 text-sm font-medium px-2.5 py-0.5 rounded">verified</span>
-                            @endif
-                        </td>
-                        <td class="px-6 py-4 text-center flex justify-center items-center gap-2">
-                            <a href="{{ route('verify', $user->id_user) }}"
-                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline @if ($user->status == 1) disabled @endif">
-                                Verified
-                            </a>
-                            <div class="inline-block h-5 w-0.5 self-stretch bg-gray-300 opacity-100"></div>
-                            <a href="{{ route('editUser', $user->id_user) }}"
-                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                            <div class="inline-block h-5 w-0.5 self-stretch bg-gray-300 opacity-100"></div>
-                            <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline deleteA"
-                                data-toggle="modal" data-user="{{ $user->id_user }}" data-acc="{{ $user->fullname }}"
-                                data-target="#adminDeleteModal">
-                                Hapus
-                            </button>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-        <div class="ml-3">
-            {{ $usersC->links('components.pagination') }}
+        <div class="hidden">
+            @include('admin.templates.modal')
         </div>
     </div>
-@endsection
+
+
+    @stack('script')
+
+    <!-- Main Script -->
+    <script src="{{ asset('/js/script.js') }}"></script>
+    <!-- CDN Script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
+    <!-- JQuery-->
+    <script src="/vendor/jquery/jquery.min.js"></script>
+</body>
+
+</html>
