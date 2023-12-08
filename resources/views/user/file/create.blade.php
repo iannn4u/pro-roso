@@ -121,7 +121,7 @@
 
             <div class="mt-6">
                 <x-partial.form.label for="judul_file" :value="__('Judul File')"></x-partial.form.label>
-
+                
                 <x-partial.form.input id="judul_file" type="text" name="judul_file" :error="$errors->get('judul_file')" :value="old('judul_file')" autofocus ></x-partial.form.input>
             </div>
 

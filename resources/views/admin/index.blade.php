@@ -17,7 +17,7 @@
                     <div class="col mr-2">
                         <div class="text-medium font-weight-bold text-primary text-uppercase mb-1">
                             Total User</div>
-                        <div class="mb-0 font-bold text-gray-800">{{ count($usersC) }}</div>
+                        <div class="mb-0 font-bold text-gray-800">{{ $usersC }}</div>
                     </div>
                     <div class="col-auto">
                         <i class="fa-solid fa-user fa-2x text-gray-300"></i>
@@ -68,7 +68,7 @@
                 </tr>
             </thead>
             <tbody>
-                @if (count($users) == 0)
+                @if ($usersC == 0)
                     <tr
                         class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap" colspan="6">
@@ -120,7 +120,7 @@
             </tbody>
         </table>
         <div class="ml-3">
-            {{ $usersC->links('components.pagination') }}
+            {{ $users->links('components.pagination') }}
         </div>
     </div>
 @endsection
