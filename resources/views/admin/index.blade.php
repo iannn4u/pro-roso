@@ -1,11 +1,13 @@
-<x-user :$jumlahPesan :$files :$pesan>
-
-    <x-slot:title>
-        Data user (Admin)
-    </x-slot>
-
+@extends('admin.templates.index')
+@section('content')
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show w-25 m-3" role="alert"
+            style="position: fixed; z-index: 1; top: 0; right: 0;">
+            <strong>Berhasil!</strong> {{ session('success') }}.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
     <x-partial.flash class="!my-2 absolute min-w-[18rem] top-20 right-10 z-10 shadow-md" :flash="session()->all()"/>
-
     <div class="flex gap-3 py-4">
         <div class="w-48 bg-gray-100 border-l-8 border-gray-500">
             <div class="card-body p-3">
@@ -40,8 +42,8 @@
 
 
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table class="w-full text-sm text-left text-gray-500">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-200">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th scope="col" class="px-6 py-3">
                         #
@@ -113,9 +115,8 @@
                 @endforeach
             </tbody>
         </table>
-
         <div class="ml-3">
             {{ $dataUsers->links('components.pagination') }}
         </div>
     </div>
-</x-user>
+@endsection
