@@ -1,11 +1,10 @@
-
 <x-user :$jumlahPesan :$files :$pesan>
 
     <x-slot:title>
         Data user (Admin)
     </x-slot>
 
-    <x-partial.flash class="!my-2" :flash="session()->all()"></x-partial.flash>
+    <x-partial.flash class="!my-2 absolute min-w-[18rem] top-20 right-10 z-10 shadow-md" :flash="session()->all()"/>
 
     <div class="flex gap-3 py-4">
         <div class="w-48 bg-gray-100 border-l-8 border-gray-500">

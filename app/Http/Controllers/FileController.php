@@ -57,6 +57,7 @@ class FileController extends Controller
         $errors = [
             'judul_file.required' => 'Judul harus diisi',
             'judul_file.unique' => 'Judul sudah digunakan',
+            'judul_file.max' => 'Max 255 huruf',
             'files.required' => 'Files harus diisi',
             'files.file' => 'Files format harus file',
             'status.required' => 'Status harus diisi',
@@ -70,7 +71,7 @@ class FileController extends Controller
             $rules['judul_file'] = 'required';
             $validatedData = $request->validate($rules, $errors);
         } else {
-            $rules['judul_file'] = 'required|unique:files';
+            $rules['judul_file'] = 'required|unique:files|max:255';
             $validatedData = $request->validate($rules, $errors);
         }
 
@@ -135,7 +136,7 @@ class FileController extends Controller
             $rules['judul_file'] = 'required';
             $validatedData = $request->validate($rules, $errors);
         } else {
-            $rules['judul_file'] = 'required|unique:files';
+            $rules['judul_file'] = 'required|unique:files|max:255';
             $validatedData = $request->validate($rules, $errors);
         }
 
@@ -182,20 +183,6 @@ class FileController extends Controller
         $file->update($validatedData);
 
         return $this->success('dashboard', "Berhasil mengedit file");
-    }
-
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(File $file)
-    {
-        $data['jumlahPesan'] = $this->getJumlahPesan();
-        $data['pesan'] = $this->getPesan();
-        $data['title'] = 'Detail File';
-        if ($file->id_user != Auth::id()) abort(404);
-        $data['file'] = $file;
-        return view('user.file.detail', $data);
     }
 
     /**
@@ -267,29 +254,29 @@ class FileController extends Controller
         return $this->success('dashboard', "File berhasil didownload");
     }
 
-    public function fileDetail(File $file, $username, $id_file)
+    public function fileDetail($username, $id_file)
     {
+        dd($username);
         $data['jumlahPesan'] = $this->getJumlahPesan();
         $pesan = $this->getPesan();
         $groupedPesan = $pesan->groupBy('id_pengirim');
         $data['pesan'] = $pesan;
         $data['pesanGrup'] = $groupedPesan->all();
 
-        $data['file'] = $file->where('id_file', $id_file)->where('id_file', $id_file)->where('id_user', '=', function (\Illuminate\Database\Query\Builder $query) use ($username) {
+        $data['file'] = File::where('id_file', $id_file)->where('id_file', $id_file)->where('id_user', '=', function (\Illuminate\Database\Query\Builder $query) use ($username) {
             return $query->select('id_user')->from('users')->where('username', $username)->get();
-        })->get(['original_filename','generate_filename','judul_file','status','mime_type','id_file','file_size','deskripsi','created_at','id_user'])->all();
+        })->first(['original_filename','generate_filename','judul_file','status','mime_type','id_file','file_size','deskripsi','created_at','id_user','ekstensi_file']);
 
 
         // kalau file ga ada atau statusnya private
-        if (!count($data['file'])) {
+        if (!$data['file']) {
             return $this->fail('dashboard', "File $username ($id_file) tidak ada");
         }
 
-        if ($data['file'][0]->id_user != Auth::id() && $data['file'][0]->status != 'public') {
+        if ($data['file']->id_user != Auth::id() && $data['file']->status != 'public') {
             return $this->fail('dashboard', "File $username ($id_file) tidak ada");
         }
 
-        $data['title'] = 'Detail File';
         return view('user.file.detalPublik', $data);
     }
 

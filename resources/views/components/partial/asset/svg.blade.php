@@ -1,53 +1,68 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
-width="75" viewBox="0 0 256 256" xml:space="preserve">
+@props(['ext' => 'other'])
+@php
+$ext = strtolower($ext);
 
-<defs>
-</defs>
-<g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;"
-    transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)">
-    <path
-        d="M 77.474 17.28 L 61.526 1.332 C 60.668 0.473 59.525 0 58.311 0 H 15.742 c -2.508 0 -4.548 2.04 -4.548 4.548 v 80.904 c 0 2.508 2.04 4.548 4.548 4.548 h 58.516 c 2.508 0 4.549 -2.04 4.549 -4.548 V 20.496 C 78.807 19.281 78.333 18.138 77.474 17.28 z M 61.073 5.121 l 12.611 12.612 H 62.35 c -0.704 0 -1.276 -0.573 -1.276 -1.277 V 5.121 z M 74.258 87 H 15.742 c -0.854 0 -1.548 -0.694 -1.548 -1.548 V 4.548 C 14.194 3.694 14.888 3 15.742 3 h 42.332 v 13.456 c 0 2.358 1.918 4.277 4.276 4.277 h 13.457 v 64.719 C 75.807 86.306 75.112 87 74.258 87 z"
-        style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;"
-        transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
-    <path
-        d="M 68.193 33.319 H 41.808 c -0.829 0 -1.5 -0.671 -1.5 -1.5 s 0.671 -1.5 1.5 -1.5 h 26.385 c 0.828 0 1.5 0.671 1.5 1.5 S 69.021 33.319 68.193 33.319 z"
-        style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;"
-        transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
-    <path
-        d="M 34.456 33.319 H 21.807 c -0.829 0 -1.5 -0.671 -1.5 -1.5 s 0.671 -1.5 1.5 -1.5 h 12.649 c 0.829 0 1.5 0.671 1.5 1.5 S 35.285 33.319 34.456 33.319 z"
-        style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;"
-        transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
-    <linearGradient id="SVGID_1" gradientUnits="userSpaceOnUse" x1="21.8064" y1="19.2332"
-        x2="42.2984" y2="19.2332">
-        <stop offset="0%" style="stop-color:rgb(255,255,255);stop-opacity: 1" />
-        <stop offset="100%" style="stop-color:rgb(0,0,0);stop-opacity: 1" />
-    </linearGradient>
-    <line x1="-10.246" y1="0" x2="10.246" y2="0"
-        style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: url(#SVGID_1); fill-rule: nonzero; opacity: 1;"
-        transform=" matrix(1 0 0 1 0 0) " />
-    <path
-        d="M 42.298 20.733 H 21.807 c -0.829 0 -1.5 -0.671 -1.5 -1.5 s 0.671 -1.5 1.5 -1.5 h 20.492 c 0.829 0 1.5 0.671 1.5 1.5 S 43.127 20.733 42.298 20.733 z"
-        style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;"
-        transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
-    <path
-        d="M 68.193 44.319 H 21.807 c -0.829 0 -1.5 -0.671 -1.5 -1.5 s 0.671 -1.5 1.5 -1.5 h 46.387 c 0.828 0 1.5 0.671 1.5 1.5 S 69.021 44.319 68.193 44.319 z"
-        style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;"
-        transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
-    <path
-        d="M 48.191 55.319 H 21.807 c -0.829 0 -1.5 -0.672 -1.5 -1.5 s 0.671 -1.5 1.5 -1.5 h 26.385 c 0.828 0 1.5 0.672 1.5 1.5 S 49.02 55.319 48.191 55.319 z"
-        style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;"
-        transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
-    <path
-        d="M 68.193 55.319 H 55.544 c -0.828 0 -1.5 -0.672 -1.5 -1.5 s 0.672 -1.5 1.5 -1.5 h 12.649 c 0.828 0 1.5 0.672 1.5 1.5 S 69.021 55.319 68.193 55.319 z"
-        style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;"
-        transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
-    <path
-        d="M 68.193 66.319 H 21.807 c -0.829 0 -1.5 -0.672 -1.5 -1.5 s 0.671 -1.5 1.5 -1.5 h 46.387 c 0.828 0 1.5 0.672 1.5 1.5 S 69.021 66.319 68.193 66.319 z"
-        style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;"
-        transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
-    <path
-        d="M 68.193 77.319 H 55.544 c -0.828 0 -1.5 -0.672 -1.5 -1.5 s 0.672 -1.5 1.5 -1.5 h 12.649 c 0.828 0 1.5 0.672 1.5 1.5 S 69.021 77.319 68.193 77.319 z"
-        style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;"
-        transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
-</g>
+$code = ['c', 'cpp', 'h', 'hpp','java', 'py', 'js', 'jsx','json', 'html', 'htm', 'css', 'php', 'rb', 'swift', 'go',
+'ts', 'tsx', 'sh', 'pl', 'r', 'm', 'kt', 'scala', 'rs', 'dart','sql'
+];
+$img = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'tiff', 'tif','webp'];
+$vid = ['mp4', 'avi', 'mkv', 'mov'];
+$music = ['mp3', 'wav', 'flac', 'aac'];
+@endphp
+
+@if (in_array($ext,['docx','doc']))
+<svg class="w-14 h-14 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+    viewBox="0 0 16 20">
+    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M6 1v4a1 1 0 0 1-1 1H1m4 4 1 6 2-4 2 4 1-6m4-8v16a.97.97 0 0 1-.933 1H1.933A.97.97 0 0 1 1 18V5.828a2 2 0 0 1 .586-1.414l2.828-2.828A2 2 0 0 1 5.828 1h8.239A.97.97 0 0 1 15 2Z" />
 </svg>
+@elseif (in_array($ext,$code))
+<svg class="w-14 h-14 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+    viewBox="0 0 16 20">
+    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M6 1v4a1 1 0 0 1-1 1H1m5 8.514L4 12.5l2-2m4 4.014 2-2.014-2-2m5 7.5a.97.97 0 0 1-.933 1H1.933A.97.97 0 0 1 1 18V5.828a2 2 0 0 1 .586-1.414l2.828-2.828A2 2 0 0 1 5.828 1h8.239A.97.97 0 0 1 15 2v16Z" />
+</svg>
+@elseif (in_array($ext,$vid))
+<svg class="w-14 h-14 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+    viewBox="0 0 16 20">
+    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M6 1v4a1 1 0 0 1-1 1H1m14 12a.97.97 0 0 1-.933 1H1.933A.97.97 0 0 1 1 18V5.828a2 2 0 0 1 .586-1.414l2.828-2.828A2 2 0 0 1 5.828 1h8.239A.97.97 0 0 1 15 2v16ZM5 10h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1Zm5.697 2.395v-.733l1.268-1.219v2.984l-1.268-1.032Z" />
+</svg>
+@elseif (in_array($ext,$music))
+<svg class="w-14 h-14 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+    viewBox="0 0 16 20">
+    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M6 1v4a1 1 0 0 1-1 1H1m8 7.5V5s3 1 3 4m3 9a.97.97 0 0 1-.933 1H1.933A.97.97 0 0 1 1 18V5.828a2 2 0 0 1 .586-1.414l2.828-2.828A2 2 0 0 1 5.828 1h8.239A.97.97 0 0 1 15 2v16Zm-6-4c0 1.105-1.12 2-2.5 2S4 15.105 4 14s1.12-2 2.5-2 2.5.895 2.5 2Z" />
+</svg>
+@elseif (in_array($ext,['ppt','pptx']))
+<svg class="w-14 h-14 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+    viewBox="0 0 16 20">
+    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M1 18a.969.969 0 0 0 .933 1h12.134A.97.97 0 0 0 15 18M1 7V5.828a2 2 0 0 1 .586-1.414l2.828-2.828A2 2 0 0 1 5.828 1h8.239A.97.97 0 0 1 15 2v5M6 1v4a1 1 0 0 1-1 1H1m0 9v-5h1.5a1.5 1.5 0 1 1 0 3H1m6 2v-5h1.5a1.5 1.5 0 1 1 0 3H7m7-3v5m-1-5h2" />
+</svg>
+@elseif (in_array($ext,['zip','rar']))
+<svg class="w-14 h-14 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+    viewBox="0 0 16 20">
+    <path
+        d="M15 2L14.0006 1.96734C14.0002 1.97822 14 1.98911 14 2H15ZM15 18H14C14 18.0109 14.0002 18.0218 14.0006 18.0327L15 18ZM14.067 19V20C14.0792 20 14.0914 19.9998 14.1036 19.9993L14.067 19ZM1.93303 19L1.89641 19.9993C1.90861 19.9998 1.92082 20 1.93303 20V19ZM1.00003 18L1.9995 18.0327C1.99985 18.0218 2.00003 18.0109 2.00003 18H1.00003ZM1.00003 5.828L2.93255e-05 5.82779V5.828H1.00003ZM1.58603 4.414L2.29303 5.12121L2.29314 5.12111L1.58603 4.414ZM4.41403 1.586L5.12114 2.29311L5.12124 2.293L4.41403 1.586ZM5.82803 1V0H5.82782L5.82803 1ZM14.067 1L14.1036 0.000670671C14.0914 0.000223577 14.0792 0 14.067 0V1ZM7.00003 1C7.00003 0.447715 6.55231 0 6.00003 0C5.44774 0 5.00003 0.447715 5.00003 1H7.00003ZM1.00003 5C0.447744 5 2.90871e-05 5.44772 2.90871e-05 6C2.90871e-05 6.55228 0.447744 7 1.00003 7V5ZM8.50003 2.5V1.5H7.50003V2.5H8.50003ZM9.50003 2.5H10.5V1.5H9.50003V2.5ZM9.50003 3.5V4.5H10.5V3.5H9.50003ZM8.50003 3.5H7.50003V4.5H8.50003V3.5ZM10.5 4.5V3.5H9.50003V4.5H10.5ZM11.5 4.5H12.5V3.5H11.5V4.5ZM11.5 5.5V6.5H12.5V5.5H11.5ZM10.5 5.5H9.50003V6.5H10.5V5.5ZM8.50003 6.5V5.5H7.50003V6.5H8.50003ZM9.50003 6.5H10.5V5.5H9.50003V6.5ZM9.50003 7.5V8.5H10.5V7.5H9.50003ZM8.50003 7.5H7.50003V8.5H8.50003V7.5ZM10.5 8.5V7.5H9.50003V8.5H10.5ZM11.5 8.5H12.5V7.5H11.5V8.5ZM11.5 9.5V10.5H12.5V9.5H11.5ZM10.5 9.5H9.50003V10.5H10.5V9.5ZM8.50003 10.5V9.5H7.50003V10.5H8.50003ZM9.50003 10.5H10.5V9.5H9.50003V10.5ZM9.50003 11.5V12.5H10.5V11.5H9.50003ZM8.50003 11.5H7.50003V12.5H8.50003V11.5ZM10.5 12.5V11.5H9.50003V12.5H10.5ZM11.5 12.5H12.5V11.5H11.5V12.5ZM11.5 13.5V14.5H12.5V13.5H11.5ZM10.5 13.5H9.50003V14.5H10.5V13.5ZM8.50003 14.5V13.5H7.50003V14.5H8.50003ZM9.50003 14.5H10.5V13.5H9.50003V14.5ZM9.50003 15.5V16.5H10.5V15.5H9.50003ZM8.50003 15.5H7.50003V16.5H8.50003V15.5ZM10.5 16.5V15.5H9.50003V16.5H10.5ZM11.5 16.5H12.5V15.5H11.5V16.5ZM11.5 17.5V18.5H12.5V17.5H11.5ZM10.5 17.5H9.50003V18.5H10.5V17.5ZM14 2V18H16V2H14ZM14.0006 18.0327C14.0003 18.0245 14.0033 18.0165 14.0089 18.0105L15.4712 19.3749C15.8266 18.994 16.0165 18.4879 15.9995 17.9673L14.0006 18.0327ZM14.0089 18.0105C14.0145 18.0045 14.0222 18.001 14.0304 18.0007L14.1036 19.9993C14.6242 19.9803 15.1159 19.7557 15.4712 19.3749L14.0089 18.0105ZM14.067 18H1.93303V20H14.067V18ZM1.96965 18.0007C1.97784 18.001 1.98558 18.0045 1.99118 18.0105L0.528825 19.3749C0.88415 19.7557 1.3759 19.9803 1.89641 19.9993L1.96965 18.0007ZM1.99118 18.0105C1.99677 18.0165 1.99976 18.0245 1.9995 18.0327L0.000562847 17.9673C-0.0164497 18.4879 0.1735 18.994 0.528825 19.3749L1.99118 18.0105ZM2.00003 18V5.828H2.93255e-05V18H2.00003ZM2.00003 5.82821C2.00009 5.56302 2.10548 5.30871 2.29303 5.12121L0.879029 3.70679C0.316381 4.26926 0.000199258 5.0322 2.93255e-05 5.82779L2.00003 5.82821ZM2.29314 5.12111L5.12114 2.29311L3.70692 0.878893L0.878922 3.70689L2.29314 5.12111ZM5.12124 2.293C5.30873 2.10545 5.56305 2.00006 5.82824 2L5.82782 0C5.03223 0.000169933 4.26929 0.316352 3.70682 0.879L5.12124 2.293ZM5.82803 2H14.067V0H5.82803V2ZM14.0304 1.99933C14.0222 1.99903 14.0145 1.99549 14.0089 1.9895L15.4712 0.625122C15.1159 0.24428 14.6242 0.0197436 14.1036 0.000670671L14.0304 1.99933ZM14.0089 1.9895C14.0033 1.9835 14.0003 1.97554 14.0006 1.96734L15.9995 2.03266C16.0165 1.51208 15.8266 1.00596 15.4712 0.625122L14.0089 1.9895ZM5.00003 1V5H7.00003V1H5.00003ZM5.00003 5V5L6.41424 6.41421C6.78931 6.03914 7.00003 5.53043 7.00003 5H5.00003ZM5.00003 5V5V7C5.53046 7 6.03917 6.78929 6.41424 6.41421L5.00003 5ZM5.00003 5H1.00003V7H5.00003V5ZM8.50003 3.5H9.50003V1.5H8.50003V3.5ZM8.50003 2.5V3.5H10.5V2.5H8.50003ZM9.50003 2.5H8.50003V4.5H9.50003V2.5ZM9.50003 3.5V2.5H7.50003V3.5H9.50003ZM10.5 5.5H11.5V3.5H10.5V5.5ZM10.5 4.5V5.5H12.5V4.5H10.5ZM11.5 4.5H10.5V6.5H11.5V4.5ZM11.5 5.5V4.5H9.50003V5.5H11.5ZM8.50003 7.5H9.50003V5.5H8.50003V7.5ZM8.50003 6.5V7.5H10.5V6.5H8.50003ZM9.50003 6.5H8.50003V8.5H9.50003V6.5ZM9.50003 7.5V6.5H7.50003V7.5H9.50003ZM10.5 9.5H11.5V7.5H10.5V9.5ZM10.5 8.5V9.5H12.5V8.5H10.5ZM11.5 8.5H10.5V10.5H11.5V8.5ZM11.5 9.5V8.5H9.50003V9.5H11.5ZM8.50003 11.5H9.50003V9.5H8.50003V11.5ZM8.50003 10.5V11.5H10.5V10.5H8.50003ZM9.50003 10.5H8.50003V12.5H9.50003V10.5ZM9.50003 11.5V10.5H7.50003V11.5H9.50003ZM10.5 13.5H11.5V11.5H10.5V13.5ZM10.5 12.5V13.5H12.5V12.5H10.5ZM11.5 12.5H10.5V14.5H11.5V12.5ZM11.5 13.5V12.5H9.50003V13.5H11.5ZM8.50003 15.5H9.50003V13.5H8.50003V15.5ZM8.50003 14.5V15.5H10.5V14.5H8.50003ZM9.50003 14.5H8.50003V16.5H9.50003V14.5ZM9.50003 15.5V14.5H7.50003V15.5H9.50003ZM10.5 17.5H11.5V15.5H10.5V17.5ZM10.5 16.5V17.5H12.5V16.5H10.5ZM11.5 16.5H10.5V18.5H11.5V16.5ZM11.5 17.5V16.5H9.50003V17.5H11.5Z"
+        fill="currentColor" />
+</svg>
+@elseif (in_array($ext,['pdf']))
+<svg class="w-14 h-14 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+    viewBox="0 0 16 20">
+    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M1 18a.969.969 0 0 0 .933 1h12.134A.97.97 0 0 0 15 18M1 7V5.828a2 2 0 0 1 .586-1.414l2.828-2.828A2 2 0 0 1 5.828 1h8.239A.97.97 0 0 1 15 2v5M6 1v4a1 1 0 0 1-1 1H1m0 9v-5h1.5a1.5 1.5 0 1 1 0 3H1m12 2v-5h2m-2 3h2m-8-3v5h1.375A1.626 1.626 0 0 0 10 13.375v-1.75A1.626 1.626 0 0 0 8.375 10H7Z" />
+</svg>
+@elseif (in_array($ext,['txt','rtf']))
+<svg class="w-14 h-14 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+    viewBox="0 0 16 20">
+    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M4.828 10h6.239m-6.239 4h6.239M6 1v4a1 1 0 0 1-1 1H1m14-4v16a.97.97 0 0 1-.933 1H1.933A.97.97 0 0 1 1 18V5.828a2 2 0 0 1 .586-1.414l2.828-2.828A2 2 0 0 1 5.828 1h8.239A.97.97 0 0 1 15 2Z" />
+</svg>
+@else
+<svg class="w-14 h-14 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+    viewBox="0 0 16 20">
+    <path stroke="currentColor" stroke-linejoin="round" stroke-width="2"
+        d="M6 1v4a1 1 0 0 1-1 1H1m14-4v16a.97.97 0 0 1-.933 1H1.933A.97.97 0 0 1 1 18V5.828a2 2 0 0 1 .586-1.414l2.828-2.828A2 2 0 0 1 5.828 1h8.239A.97.97 0 0 1 15 2Z" />
+</svg>
+@endif

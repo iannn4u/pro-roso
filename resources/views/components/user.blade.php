@@ -13,7 +13,7 @@
 
 <body class="antialiased">
 
-    <div class="bg-gray-100 h-screen md:pe-3 px-3 md:px-0 pb-4 md:min-w-[1000px] md:max-w-[2000px]">
+    <div class="bg-gray-100 h-screen md:pe-3 px-3 md:px-0 pb-4 2xl:pb-2 md:min-w-[1000px]">
 
         <header class="h-[70px]">
             <nav class="flex md:justify-between items-center gap-6 md:gap-0">
@@ -21,13 +21,13 @@
             </nav>
         </header>
 
-        <div class="flex w-full h-[90%]">
-            <aside class="hidden md:block h-full w-64 2xl:w-[339px] py-3 px-5">
+        <div class="flex md:max-w-[2000px] mx-auto h-[90%]">
+            {{-- <aside class="hidden md:block h-full w-64 2xl:w-[339px] py-3 px-5">
                 @include('user.templates.sidebar')
-            </aside>
+            </aside> --}}
 
 
-            <main class="bg-white rounded-2xl h-full overflow-y-auto parent px-1.5 sm:px-4 w-full md:mr-3">
+            <main class="bg-white rounded-2xl h-full overflow-y-auto parent px-1.5 sm:px-4 w-full md:mx-3">
                 @yield('salam')
                 {{ $slot }}
             </main>

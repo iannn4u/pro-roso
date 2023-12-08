@@ -78,8 +78,22 @@ class UserController extends Controller
   /**
    * nampilin data profil kita
    */
-  public function show(User $user)
+  public function show($param)
   {
+
+    if ($param == Auth::id() || $param == Auth::user()->username) {
+      $user = User::with('files')->where('username', $param)->orWhere('id_user', $param)->first();
+    } else {
+      $user = User::with(['files' => function (\Illuminate\Contracts\Database\Query\Builder $query) {
+        /** @var Illuminate\Contracts\Database\Query\Builder $query */  #https://stackoverflow.com/a/69580333/11297747
+        $query->where('status', 'public');
+      }])->where('username', $param)->orWhere('id_user', $param)->first();
+    }
+
+    if (!$user) {
+      return $this->fail('dashboard', "User not found");
+    }
+
     $data['user'] = $user;
     $data['jumlahPesan'] = $this->getJumlahPesan();
     $pesan = $this->getPesan();
@@ -116,19 +130,25 @@ class UserController extends Controller
   public function update(UpdateUserRequest $request, User $user)
   {
     $idEdit = Auth::id();
+
     if ($user->id_user != $idEdit) {
       abort(404);
     }
-    $data['title'] = 'Edit Profil Saya';
 
     $validasiData = $request->validated();
 
     $validasiData = $request->safe()->only(['fullname', 'username', 'email', 'password', 'pp']);
-    // dd($validasiData);
 
-    $namaPP = session()->get('namaPP');
+    $pathPP = $validasiData['pp'] ?? session('oldPP');
+    $path = 'users/' . Auth::id() . '/avatar';
 
-    $validasiData['pp'] = $namaPP;
+    if (Storage::disk('public')->exists(Auth::user()->pp) && !Storage::disk('public')->exists($pathPP)) {
+      Storage::delete(Auth::user()->pp);
+    }
+
+    $validPathPP = Storage::disk('public')->put($path, $pathPP);
+
+    $validasiData['pp'] = \Illuminate\Support\Str::of($validPathPP)->contains('avatar') ? $validPathPP : $pathPP;
 
     if (isset($validasiData['password'])) {
       $validasiData['password'] = Hash::make($request->input('password'));
@@ -136,9 +156,9 @@ class UserController extends Controller
 
     $user->update($validasiData);
 
-    session()->forget('namaPP');
+    session()->forget('oldPP');
 
-    return $this->flashMessage('success', ['user.edit', $idEdit], "Profile updated successfully — <a href='/user/$idEdit' class='underline hover:no-underline'>view your profile.</a>");
+    return $this->flashMessage('info', ['user.edit', $idEdit], "Profile updated successfully — <a href='/user/$idEdit' class='underline hover:no-underline'>view your profile.</a>");
   }
 
   /**

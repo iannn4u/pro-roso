@@ -16,7 +16,7 @@
           <form class="space-y-4 md:space-y-6" action="signin" method="post">
             @csrf
 
-            <x-partial.flash :flash="session()->all()"></x-partial.flash>
+            <x-partial.flash :flash="session()->all()"/>
 
             <div class="mt-6 ">
               <x-partial.form.label for="usermail" :value="__('Username / Email')" />

@@ -81,32 +81,13 @@
         New file
     </x-slot>
 
-    <div class="max-w-2xl py-5 xl:mx-auto">
-        <div class="mb-5">
-            <nav class="flex">
-                <ol class="inline-flex items-center space-x-1 md:space-x-3">
-                    <li class="inline-flex items-center">
-                        <a href="/"
-                            class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-red-600">
-                            Beranda
-                        </a>
-                    </li>
-                    <li>
-                        <div class="flex items-center">
-                            <svg class="mx-px h-3 w-3 text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                fill="none" viewBox="0 0 6 10">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2" d="m1 9 4-4-4-4" />
-                            </svg>
-                            <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2">Tambah
-                                File</span>
-                        </div>
-                    </li>
-                </ol>
-            </nav>
-        </div>
+    <div class="max-w-2xl py-5 lg:mx-auto">
         <form method="POST" action="{{ route('file.store') }}" enctype="multipart/form-data">
             @csrf
+            <div class="border-b border-gray-900/20 pb-2 mb-5">
+                <h2 class="text-2xl font-medium leading-7 text-gray-900">Add a new file</h2>
+            </div>
+
             <div class="dropArea @error('files') error animate-shake @enderror mb-4">
                 <div class="dropText">
                     <p class="mb-1 text-sm text-gray-500"><span class="font-semibold">Click to upload</span> or drag and drop the file</p>
