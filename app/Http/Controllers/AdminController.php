@@ -30,7 +30,7 @@ class AdminController extends Controller
 
         $data['countUsers'] = $users->count();
         $data['dataUsers'] = $users->paginate(10);
-        return view('admin.index', $data);
+         return view('admin.index', $data);
     }
 
     public function verified($id_user)
