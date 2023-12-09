@@ -1,6 +1,6 @@
 <x-user :$title :$jumlahPesan :$pesan :$files :$pesanGrup>
 
-    <x-partial.flash class="!mt-3" :flash="session()->all()"></x-partial.flash>
+    <x-partial.flash class="!my-2 absolute min-w-[18rem] top-20 right-10 z-10 shadow-md" :flash="session()->all()" />
 
     <div class="py-3">
         <h3 class="text-2xl sm:text-3xl font-semibold">Discover all files</h3>
@@ -85,7 +85,7 @@
                             src="{{ $file->user->pp === 'img/defaultProfile.svg' ? asset('img/defaultProfile.svg') : asset('storage/' . $file->user->pp) }}"
                             class="relative inline-block h-9 w-9 !rounded-full  border-2 border-white object-cover object-center hover:z-10" />
                         <div class="w-[90%] sm:min-w-[inherit] lg:w-full">
-                            <a href="{{ route('profile', $file->user->id_user) }}"
+                            <a href="{{ route('profile', $file->user->username) }}"
                                 class="block font-sans text-sm antialiased font-medium leading-relaxed tracking-normal text-inherit w-[95%] lg:max-w-full truncate decoration-blue-500 decoration-2 hover:underline hover:underline-offset-2">
                                 {{ $file->user->fullname }}</a>
                             <p
@@ -110,13 +110,15 @@
             <div class="mt-px cursor-default">
                 <a href="{{ route('file.detail', ['id_file' => $file->id_file,'username' => $file->user->username]) }}"
                     class="overflow-hidden h-40 bg-white grid place-items-center">
-                    @php $mime=explode('/', $file->mime_type);
+                    @php
+                    $mime=explode('/', $file->mime_type);
+                    $extension = $file->ekstensi_file;
                     @endphp
                     @if (explode('/', $file['mime_type'])[0] == 'image')
                     <img data-src="{{ asset('storage/' . $file->generate_filename) }}" alt="{{ $file->judul_file }}"
                         class="object-contain h-full">
                     @else
-                    <x-partial.asset.svg></x-partial.asset.svg>
+                    <x-partial.asset.svg :ext="$extension" />
                     @endif
                 </a>
             </div>

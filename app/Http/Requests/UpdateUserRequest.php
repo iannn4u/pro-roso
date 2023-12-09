@@ -10,6 +10,13 @@ use Illuminate\Foundation\Http\FormRequest;
 class UpdateUserRequest extends FormRequest
 {
     /**
+     * Indicates if the validator should stop on the first rule failure.
+     *
+     * @var bool
+     */
+    protected $stopOnFirstFailure = true;
+
+    /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
@@ -24,45 +31,24 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules(): array
     {
+        $rules = [
+            'fullname' => 'required|regex:/^[a-zA-Z\s]+$/|min:5',
+            'username' => strtolower($this->user()->username) == strtolower($this->input('username')) ? 'required' : 'required|min:5|unique:users',
+            'email' => strtolower($this->user()->email) == strtolower($this->input('email')) ? 'required' : 'required|email|unique:users',
+        ];
+
         if ($this->file('pp')) {
-            $pp = $this->file('pp');
-
-            if (in_array($pp->extension(), ['png', 'jpg', 'jpeg', 'gif']) && $pp->getSize() <= 2000000) {
-                if (Storage::disk('public')->exists($this->user()->pp)) {
-                    Storage::delete($this->user()->pp);
-                }
-
-                $path = 'users/' . $this->user()->id_user;
-                $namaPP = $pp->store($path);
-
-                session()->flash('namaPP', $namaPP);
-            }
-
-            return [
-                'fullname' => 'required|regex:/^[a-zA-Z\s]+$/|min:5',
-                'username' => $this->user()->username == $this->input('username') ? 'required' : 'required|min:5|unique:users',
-                'email' => $this->user()->email == $this->input('email') ? 'required' : 'required|email|unique:users',
-                'pp' => 'max:2048|mimes:png,jpg,jpeg,gif',
-            ];
+            $rules['pp'] = 'max:2048|mimes:png,jpg,jpeg,gif';
         } else {
-            $namaPP = $this->user()->pp;
-            session()->flash('namaPP', $namaPP);
+            $oldPP = $this->user()->pp;
+            session()->flash('oldPP', $oldPP);
 
             if ($this->input('password') || Hash::check($this->input('password'), $this->user()->password)) {
-                return [
-                    'fullname' => 'required|regex:/^[a-zA-Z\s]+$/|min:5',
-                    'username' => $this->user()->username == $this->input('username') ? 'required' : 'required|min:5|unique:users',
-                    'email' => $this->user()->email == $this->input('email') ? 'required' : 'required|email|unique:users',
-                    'password' => 'required|min:6',
-                ];
+                $rules['password'] = 'required|min:6';
             }
-
-            return [
-                'fullname' => 'required|regex:/^[a-zA-Z\s]+$/|min:5',
-                'username' => $this->user()->username == $this->input('username') ? 'required' : 'required|min:5|unique:users',
-                'email' => $this->user()->email == $this->input('email') ? 'required' : 'required|email|unique:users'
-            ];
         }
+
+        return $rules;
     }
 
     /**
@@ -73,20 +59,20 @@ class UpdateUserRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'fullname.required' => 'Yo, gotta drop that name, can\'t leave it blank!',
-            'fullname.regex' => 'No special characters, bro! Letters only for your name!',
-            'fullname.min' => 'Yo, your long name needs at least 5 characters!',
-            'username.required' => 'Dude, slam in your username already!',
-            'username.min' => 'Five characters minimum for your username, fam!',
-            'username.unique' => 'Oopsie, this username is already taken!',
-            'email.required' => 'Email alert! Fill it in, dude!',
-            'email.email' => 'Dang, email format looking kinda sus!',
-            'email.unique' => 'Oops, email\'s on lockdown, it\'s already in use!',
-            'password.required' => 'Password, dude! Don\'t ghost it, type it!',
-            'password.min' => 'Bro, your password needs at least 6 characters!',
-            'password.confirmed' => 'Hold up, password confirmation doesn\'t match!',
-            'pp.mimes' => 'Yo, the file format has to be GIF, JPEG, JPG, PNG!',
-            'pp.max' => 'Whoa! File size is too wild, gotta shrink it down! (MAX 2MB)',
+            'fullname.required' => 'Please enter your full name; we can\'t proceed without it!',
+            'fullname.regex' => 'Only letters are allowed in the full name, no special characters!',
+            'fullname.min' => 'Your full name must contain a minimum of 5 characters!',
+            'username.required' => 'Kindly provide your chosen username, it\'s a required field!',
+            'username.min' => 'Your username must be at least 5 characters long; a bit more creativity, please!',
+            'username.unique' => 'Oops! This username is already in use; please choose another one!',
+            'email.required' => 'An email address is required; please fill in this essential field!',
+            'email.email' => 'The email format seems to be incorrect, please double-check!',
+            'email.unique' => 'This email address is already associated with an account!',
+            'password.required' => 'The password field cannot be left empty!',
+            'password.min' => 'Your password must be at least 6 characters long!',
+            'password.confirmed' => 'The password confirmation does not match the entered password!',
+            'pp.mimes' => 'We only support GIF, JPEG, JPG, or PNG file!',
+            'pp.max' => 'Please upload an image smaller than 2 MB.',
         ];
     }
 }

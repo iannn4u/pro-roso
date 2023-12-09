@@ -15,38 +15,7 @@
     <x-slot:title>
         Your Profile
     </x-slot>
-
-    <!-- Page Heading -->
-    {{-- <div class="row justify-content-center mt-5">
-        <div class="col-md-6">
-            <form method="post" action="/user/{{ $user->id_user }}" enctype="multipart/form-data">
-                @method('put')
-                @csrf
-                <div class="mb-3">
-                    <label for="fullname" class="form-label">Nama Lengkap</label>
-                    <input type="text" class="form-control @error('fullname') is-invalid @enderror" id="fullname"
-                        placeholder="nama lengkap" name="fullname" value="{{ old('fullname', $user->fullname) }}"
-                        autofocus required>
-                </div>
-                <div class="mb-3">
-                    <label for="username" class="form-label">Username</label>
-                    <input type="text" class="form-control @error('username') is-invalid @enderror" id="username"
-                        placeholder="username" name="username" value="{{ old('username', $user->username) }}" required>
-                </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
-                        placeholder="email" name="email" value="{{ old('email', $user->email) }}" required>
-                </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control @error('password') is-invalid @enderror" id="password"
-                        placeholder="******" name="password">
-                </div>
-                <button type="submit" class="btn btn-outline-primary">Simpan</button>
-            </form>
-        </div>
-    </div> --}}
+    
     <div class="max-w-4xl py-5 xl:mx-auto mt-4">
 
         <x-partial.flash class="!mb-5 !-ml-3" :flash="session()->all()"></x-partial.flash>

@@ -4,7 +4,7 @@
         Beranda
     </x-slot>
 
-    <x-partial.flash class="!my-2" :flash="session()->all()"></x-partial.flash>
+    <x-partial.flash class="!my-2 absolute min-w-[18rem] top-20 right-10 z-10 shadow-md" :flash="session()->all()"/>
 
     @section('salam')
     <div class="py-3">
@@ -43,11 +43,15 @@
 
             <a href="{{ route('file.detail', ['username' => Auth::user()->username, 'id_file' => $file->id_file]) }}"
                 class="overflow-hidden h-40 mt-px cursor-pointer bg-white grid place-items-center">
-                @if (explode('/', $file['mime_type'])[0] == 'image')
-                <img src="{{ asset('storage/' . $file->generate_filename) }}" alt="{{ $file->judul_file }}"
+                @php
+                $mime=explode('/', $file->mime_type);
+                $extension = $file->ekstensi_file;
+                @endphp
+                @if ($mime[0] == 'image')
+                <img data-src="{{ asset('storage/' . $file->generate_filename) }}" alt="{{ $file->judul_file }}"
                     class="object-contain h-full">
                 @else
-                <x-partial.asset.svg></x-partial.asset.svg>
+                <x-partial.asset.svg :ext="$extension" />
                 @endif
             </a>
         </div>

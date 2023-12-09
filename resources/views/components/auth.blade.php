@@ -5,22 +5,22 @@
 
   <x-partial.head.meta></x-partial.head.meta>
   
-  <title>{{ $title }} | {{ config('app.name') }}</title>
+  <title>{{ $title }} - {{ config('app.name') }}</title>
 
   <x-partial.head.css></x-partial.head.css>
 
 </head>
 
-<body class="bg-gray-50 grid place-items-center h-screen">
-
+<body class="bg-gray-50 grid place-items-center min-h-screen">
 
   <!-- Content-->
   {{ $slot }}
 
+
+  <!-- Additional Script -->
+  @stack('js')
   <!-- CDN Script -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
-  <!-- JQuery-->
-  <script src="/vendor/jquery/jquery.min.js"></script>
 
 </body>
 

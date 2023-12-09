@@ -17,6 +17,7 @@
             background-image: var(--backdrop-image);
         }
     }
+
     .header-sec::after {
         /* background: linear-gradient(90deg, #191616 28%, hsla(0, 0%, 2%, 0.98) 20%, hsla(0, 0%, 6.3%, 0.97) 25%, hsla(0, 0%, 9%, .95) 35%, hsla(0, 0%, 9%, .94) 40%, hsla(0, 3%, 6.5%, 0.92) 45%, hsla(0, 0%, 9%, .9) 50%, hsla(0, 0%, 9%, .87) 55%, hsla(0, 0%, 9%, .82) 60%, hsla(0, 0%, 9%, .75) 65%, hsla(0, 0%, 9%, .63) 70%, hsla(0, 0%, 9%, .45) 75%, hsla(0, 0%, 9%, .27) 80%, hsla(0, 0%, 9%, .15) 85%, hsla(0, 0%, 9%, .08) 90%, hsla(0, 0%, 9%, .03) 95%, hsla(0, 0%, 9%, 0)); */
         background: linear-gradient(to left, transparent 0%, #000000 69%);
@@ -33,7 +34,7 @@
 
 <x-user :$title :$user :$jumlahPesan :$pesan :$pesanGrup>
 
-    <x-partial.flash class="!my-2" :flash="session()->all()"></x-partial.flash>
+    <x-partial.flash class="!my-2 absolute min-w-[18rem] top-20 right-10 z-10 shadow-md" :flash="session()->all()" />
 
     <section class="bg-[#191616] isolate relative min-[2368px]:px-14 px-5 py-9 -mx-4">
         <div class="flex gap-x-6 items-center flex-col sm:flex-row header-img">
@@ -75,21 +76,22 @@
             <p>Tidak ada file</p>
             @endunless
             @foreach ($user->files as $file)
-            <div class="w-full sm:w-2/4 md:w-3/12 px-4 md:px-8">
+            <div class="w-full sm:w-2/4 md:w-3/12 2xl:w-2/12 px-4 md:px-8">
                 {{-- main menu --}}
                 <div class="flex-col border-b border-gray-300 py-6 h-full">
 
                     <div class="mt-px cursor-default">
                         <a href="{{ route('file.detail', ['id_file' => $file->id_file,'username' => $file->user->username]) }}"
                             class="overflow-hidden h-40 group bg-white grid place-items-center">
-                            @php $mime=explode('/', $file->mime_type);
+                            @php
+                            $mime=explode('/', $file->mime_type);
+                            $extension = $file->ekstensi_file;
                             @endphp
                             @if (explode('/', $file['mime_type'])[0] == 'image')
                             <img data-src="{{ asset('storage/' . $file->generate_filename) }}"
-                                alt="{{ $file->judul_file }}"
-                                class="object-contain h-full group-hover:scale-105 duration-150">
+                                alt="{{ $file->judul_file }}" class="object-contain h-full">
                             @else
-                            <x-partial.asset.svg></x-partial.asset.svg>
+                            <x-partial.asset.svg :ext="$extension" />
                             @endif
                         </a>
                     </div>
@@ -99,7 +101,7 @@
                             class="inline-block font-semibold text-gray-800 decoration-blue-500 decoration-2 hover:underline hover:underline-offset-2 text-lg"
                             title="{{ $file->judul_file }}">{{ $file->judul_file }}</a>
                         <p class="-mt-2 text-base w-full text-gray-600">
-                            {{ $file->deskripsi }}
+                            {{ Str::limit($file->deskripsi,125,' ...') }}
                         </p>
                         <p class="font-mono text-base antialiased font-light leading-relaxed text-gray-500
                         " title="{{ $file->created_at->format('l, d F Y h:m:s') }}">

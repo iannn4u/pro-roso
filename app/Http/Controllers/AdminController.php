@@ -15,7 +15,7 @@ class AdminController extends Controller
     public function index()
     {
         $data['title'] = 'Data User (Admin)';
-        $users = User::whereIn('status', [0, 1])->paginate(10);
+        $users = User::whereIn('status', [0, 1]);
         $data['files'] = File::all();
         $data['jumlahPesan'] = $this->getJumlahPesan();
         $data['pesan'] = $this->getPesan();
@@ -28,8 +28,8 @@ class AdminController extends Controller
             });
         }
 
-        $data['users'] = $users;
-        $data['usersC'] = User::whereIn('status', [0, 1])->count();
+        $data['countUsers'] = $users->count();
+        $data['dataUsers'] = $users->paginate(10);
         return view('admin.index', $data);
     }
 

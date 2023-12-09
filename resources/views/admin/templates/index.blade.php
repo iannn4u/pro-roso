@@ -40,9 +40,9 @@
         </header>
 
         <div class="flex w-full h-[90%]">
-            <aside class="hidden h-full w-60 py-3 px-5">
+            {{-- <aside class="hidden h-full w-60 py-3 px-5">
                 @include('admin.templates.sidebar')
-            </aside>
+            </aside> --}}
 
 
             <main class="bg-white rounded-2xl h-full overflow-y-auto parent px-4 w-full">
