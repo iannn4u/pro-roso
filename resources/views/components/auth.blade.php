@@ -11,11 +11,14 @@
 
 </head>
 
-<body class="bg-gray-50 grid place-items-center h-screen">
+<body class="bg-gray-50 grid place-items-center min-h-screen">
 
   <!-- Content-->
   {{ $slot }}
 
+
+  <!-- Additional Script -->
+  @stack('js')
   <!-- CDN Script -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
 
