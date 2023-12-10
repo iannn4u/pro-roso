@@ -136,11 +136,11 @@ cards.forEach((c) => {
 /**
  * Nyalin link lewar klik kanan
  */
-bSalin.addEventListener("click", () => {
-  const link = document.querySelector(`#link[data-id_file="${id_file}"]`);
-  navigator.clipboard.writeText(link.value);
-  alert(`Link file #${id_file} berhasil disalin!`);
-});
+// bSalin.addEventListener("click", () => {
+//   const link = document.querySelector(`#link[data-id_file="${id_file}"]`);
+//   navigator.clipboard.writeText(link.value);
+//   alert(`Link file #${id_file} berhasil disalin!`);
+// });
 
 /**
  * ajax nyari user
@@ -451,10 +451,43 @@ searchUser.addEventListener("input", function () {
 
 class Modal {
   static hideModal(modal, trigger) {
-    const m = document.querySelector(`#${modal}`);
-    const t = document.querySelector(`#${trigger}`);
+    const m = document.querySelector(`${modal}`);
+    const t = document.querySelector(`${trigger}`);
     t.addEventListener('click', () => m.classList.add('hidden'));
   }
 }
 
-Modal.hideModal('notif', 'closeModalNotif')
+
+/**
+ * Salin URL File
+ */
+const buttonSalinUrl = document.querySelectorAll('#salin')
+buttonSalinUrl.forEach(b => {
+  b.addEventListener('click', () => {
+    const id_file = b.getAttribute('data-id_file');
+    const linkUrl = document.querySelector(`#link[data-id_file="${id_file}"]`);
+    navigator.clipboard.writeText(linkUrl.value);
+    alert(`Link file #${id_file} berhasil disalin!`);
+  });
+})
+
+
+
+/**
+ * Delete File
+ */
+const buttonShowModalDelete = document.querySelectorAll('#buttonShowModalDelete')
+buttonShowModalDelete.forEach(b => {
+  b.addEventListener('click', () => {
+    const id_file = b.getAttribute('data-id_file');
+    const form = document.querySelector(`#formDeleteFile`);
+    form.action = `file/${id_file}`;
+  });
+})
+
+
+/**
+ * Hide Modal
+ */
+Modal.hideModal('#notif', '#closeModalNotif');
+Modal.hideModal('.dropdownUserIndex', '#buttonShowModalDelete')
