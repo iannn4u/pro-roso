@@ -69,7 +69,7 @@
                     </div>
                 </div>
                 @endforeach
-                @if (count($pesan) > 4)
+                @if (count($pesan) )
                 <button data-modal-target="allNotifications" data-modal-toggle="allNotifications" id="closeModalNotif"
                     class="block py-2 w-full text-xs font-medium text-center text-gray-900 rounded-b-lg bg-gray-50 hover:bg-gray-100">See More Notifications</button>
                 @endif
