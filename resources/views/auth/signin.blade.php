@@ -7,7 +7,7 @@
   <section class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
     <div class="w-96">
       <div>
-        <h2 class="mb-8 text-center text-2xl font-bold leading-9 font-main tracking-tight text-gray-900">
+        <h2 class="mb-8 text-center text-2xl font-bold leading-9 font-semibold tracking-tight text-gray-900">
           Login
           to {{ config('app.name') }}
         </h2>
@@ -15,7 +15,7 @@
 
       <x-partial.flash :flash="session()->all()" class="!mt-1 mb-4" />
 
-      <div class="bg-white rounded-lg shadow">
+      <div class="bg-white rounded-lg shadow-xl">
         <div class="p-6 sm:p-8">
           <form action="signin" method="post" id="form">
             @csrf
@@ -38,7 +38,7 @@
         </div>
       </div>
 
-      <div class="sm:mx-auto sm:w-full sm:max-w-sm bg-white/90 rounded-lg shadow p-6 sm:p-5 mt-4">
+      <div class="sm:mx-auto sm:w-full sm:max-w-sm bg-white/90 rounded-lg shadow-xl p-6 sm:p-5 mt-4">
         <p class="text-sm font-light text-gray-500">
           Belum punya akun? <a href="signup"
             class="font-semibold leading-6 text-gray-600 decoration-2 underline-offset-2 hover:underline hover:decoration-gray-700">Register

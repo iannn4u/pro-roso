@@ -38,7 +38,7 @@
                 $jumlahPesan }}</span>
             @endunless
         </button>
-        <div class="z-50 w-80 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow"
+        <div class="z-50 w-72 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow"
             id="notif">
             <div class="block px-3 py-2 font-medium text-center text-gray-700 rounded-t-lg bg-gray-50">
                 Notifications
@@ -47,15 +47,15 @@
                 @unless (count($pesan))
                 <div class="px-3 py-4">
                     <div class="text-gray-700 text-center">
-                        <span>Kamu tidak memiliki notfikasi terbaru</span>
+                        <span>You have no recent notifications</span>
                     </div>
                 </div>
                 @endunless
                 @foreach (array_slice($pesan->all(), 0, 4) as $p)
-                <div class="px-3 py-2.5 flex">
+                <div class="px-3 py-2.5 flex items-center">
                     <div class="mr-3">
                         <div class="overflow-hidden">
-                            <img class="w-16 mt-2 aspect-square rounded-full object-cover"
+                            <img class="w-10 aspect-square rounded-full object-cover"
                                 src="{{ $p->user->pp === 'img/defaultProfile.svg' ? asset('img/defaultProfile.svg') : asset('storage/' . $p->user->pp) }}"
                                 alt="{{ $p->id_pengirim }}">
                         </div>
@@ -64,17 +64,14 @@
                         <div title="{{ $p->created_at }}" class="text-xs text-gray-700">
                             {{ $p->created_at->format('F d, Y h:iA') }}
                         </div>
-                        <span class="text-[0.85rem]"><b>{{ $p->user->username }}</b> mengirim sebuah file
-                            kepada anda! <a href="{{ route('file.share.detail',[$p->user->username ,$p->id_file]) }}"
-                                class="text-red-500 font-bold hover:underline">Lihat file.</a></span>
+                        <span class="text-[0.85rem]"><b>{{ $p->user->username }}</b> sent you a file! <a href="{{ route('file.share.detail',[$p->user->username ,$p->id_file]) }}"
+                                class="text-gray-800 font-bold hover:underline">View file.</a></span>
                     </div>
                 </div>
                 @endforeach
-                @if (count($pesan))
-                <button data-modal-target="timeline-modal" data-modal-toggle="timeline-modal"
-                    class="block py-2 w-full text-xs font-medium text-center text-gray-900 rounded-b-lg bg-gray-50 hover:bg-gray-100">Lihat
-                    Notifikasi
-                    Lainnya</button>
+                @if (count($pesan) > 4)
+                <button data-modal-target="allNotifications" data-modal-toggle="allNotifications" id="closeModalNotif"
+                    class="block py-2 w-full text-xs font-medium text-center text-gray-900 rounded-b-lg bg-gray-50 hover:bg-gray-100">See More Notifications</button>
                 @endif
             </div>
         </div>
@@ -221,7 +218,7 @@
                         viewBox="0 0 20 20">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M10 18a.969.969 0 0 1-.933 1H1.933A.97.97 0 0 1 1 18V9l4-4m-4 5h5m3-4h5V1m5 1v12a.97.97 0 0 1-.933 1H9.933A.97.97 0 0 1 9 14V5l4-4h5.067A.97.97 0 0 1 19 2Z" />
-                    </svg> <span>File Saya</span>
+                    </svg> <span>My Files</span>
                 </a>
 
                 <a class="flex gap-3 items-center mb-3 px-4 py-2.5 rounded-full {{ request()->is('publikFile') ? 'bg-gray-300' : 'hover:bg-gray-200' }}"
@@ -230,7 +227,7 @@
                         viewBox="0 0 21 20">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M6.487 1.746c0 4.192 3.592 1.66 4.592 5.754 0 .828 1 1.5 2 1.5s2-.672 2-1.5a1.5 1.5 0 0 1 1.5-1.5h1.5m-16.02.471c4.02 2.248 1.776 4.216 4.878 5.645C10.18 13.61 9 19 9 19m9.366-6h-2.287a3 3 0 0 0-3 3v2m6-8a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                    </svg> <span style="ml-1">Publik File</span>
+                    </svg> <span style="ml-1">Public Files</span>
                 </a>
 
                 <a class="flex gap-3 items-center mb-3 px-4 py-2.5 rounded-full {{ request()->routeIs('file.trashed') ? 'bg-gray-300' : 'hover:bg-gray-200' }}"
@@ -251,7 +248,7 @@
                         <path
                             d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z" />
                     </svg>
-                    <span class="ml-1">Data User</span>
+                    <span class="ml-1">User Data</span>
                 </a>
                 @endif
             </div>

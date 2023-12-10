@@ -26,7 +26,7 @@ default => null,
             </a>
             <div data-tooltip="fs" data-tooltip-placement="right"
                 class="absolute z-30 whitespace-normal opacity-0 break-words inline-block px-3 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg shadow-sm">
-                <span class="text-xs">File Saya</span>
+                <span class="text-xs">My Files</span>
             </div>
         </div>
 
@@ -41,7 +41,7 @@ default => null,
             </a>
             <div data-tooltip="pf" data-tooltip-placement="right"
                 class="absolute z-30 whitespace-normal opacity-0 break-words rounded-lg bg-blainline-block px-3 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg shadow-sm">
-                <span class="text-xs">Publik File</span>
+                <span class="text-xs">Public Files</span>
             </div>
         </div>
         <div>
@@ -71,7 +71,7 @@ default => null,
             </a>
             <div data-tooltip="du" data-tooltip-placement="right"
                 class="absolute z-30 whitespace-normal opacity-0 break-words rounded-lg bg-blainline-block px-3 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg shadow-sm">
-                <span class="text-xs">Data User</span>
+                <span class="text-xs">User Data</span>
             </div>
         </div>
         @endif

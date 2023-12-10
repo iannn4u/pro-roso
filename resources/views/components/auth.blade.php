@@ -8,7 +8,7 @@
   <title>{{ $title }} - {{ config('app.name') }}</title>
 
   <x-partial.head.css></x-partial.head.css>
-  <style>
+  {{-- <style>
     body {
       background-color: hsla(15, 0%, 100%, 1);
       background-image:
@@ -20,11 +20,11 @@
 
       /* https://csshero.org/mesher/ */
     }
-  </style>
+  </style> --}}
 
 </head>
 
-<body class="bg-gray-50 grid place-items-center min-h-screen">
+<body class="bg-gray-200 grid place-items-center min-h-screen">
 
   <!-- Content-->
   {{ $slot }}
