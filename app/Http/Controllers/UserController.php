@@ -10,6 +10,7 @@ use App\Models\Pesan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Contracts\Database\Query\Builder;
 
 class UserController extends Controller
 {
@@ -78,17 +79,31 @@ class UserController extends Controller
   /**
    * nampilin data profil kita
    */
-  public function show($param)
+  public function show($param = null)
   {
+    $userId = Auth::id();
+    $username = Auth::user()->username;
 
-    if ($param == Auth::id() || $param == Auth::user()->username) {
-      $user = User::with('files')->where('username', $param)->orWhere('id_user', $param)->first();
-    } else {
-      $user = User::with(['files' => function (\Illuminate\Contracts\Database\Query\Builder $query) {
-        /** @var Illuminate\Contracts\Database\Query\Builder $query */  #https://stackoverflow.com/a/69580333/11297747
-        $query->where('status', 'public');
-      }])->where('username', $param)->orWhere('id_user', $param)->first();
+    if (is_null($param)) {
+      $param = $userId;
     }
+
+    $user = User::with(['files' => function (Builder $query) use ($param, $userId, $username) {
+      /** @var Illuminate\Contracts\Database\Query\Builder $query */
+      $query->when($param != $userId && $param != $username, function (Builder $query) {
+        /** @var Illuminate\Contracts\Database\Query\Builder $query */
+        $query->where('status', 'public');
+      });
+    }])->where('username', $param)->orWhere('id_user', $param)->first();
+
+    // if ($param == Auth::id() || $param == Auth::user()->username) {
+    //   $user = User::with('files')->where('username', $param)->orWhere('id_user', $param)->first();
+    // } else {
+    //   $user = User::with(['files' => function (Builder $query) {
+    //     /** @var Illuminate\Contracts\Database\Query\Builder $query */  #https://stackoverflow.com/a/69580333/11297747
+    //     $query->where('status', 'public');
+    //   }])->where('username', $param)->orWhere('id_user', $param)->first();
+    // }
 
     if (!$user) {
       return $this->fail('dashboard', "User not found");
@@ -108,13 +123,11 @@ class UserController extends Controller
   /**
    * Show the form for editing the specified resource.
    */
-  public function edit(User $user)
+  public function account()
   {
     $data['title'] = 'Edit Profil Saya';
-    if ($user->id_user != Auth::id()) {
-      return to_route('user.edit', Auth::id());
-    }
-    $data['user'] = $user;
+
+    $data['user'] = User::where('id_user', Auth::id())->where('username', Auth::user()->username)->first();
     $data['jumlahPesan'] = $this->getJumlahPesan();
     $pesan = $this->getPesan();
     $groupedPesan = $pesan->groupBy('id_pengirim');
@@ -135,30 +148,34 @@ class UserController extends Controller
       abort(404);
     }
 
-    $validasiData = $request->validated();
+    $validated = $request->validated();
 
-    $validasiData = $request->safe()->only(['fullname', 'username', 'email', 'password', 'pp']);
+    $validated = $request->safe()->only(['fullname', 'username', 'email', 'password', 'pp']);
 
-    $pathPP = $validasiData['pp'] ?? session('oldPP');
-    $path = 'users/' . Auth::id() . '/avatar';
+    $checkIfUserProviededAvatar = session('isNewAvatar');
+    $newAvatar = $validated['pp'] ?? null;
+    $path = 'users/' . Auth::id();
 
-    if (Storage::disk('public')->exists(Auth::user()->pp) && !Storage::disk('public')->exists($pathPP)) {
+    if (Storage::disk('public')->exists(Auth::user()->pp) && $checkIfUserProviededAvatar && !is_null($newAvatar)) {
       Storage::delete(Auth::user()->pp);
     }
 
-    $validPathPP = Storage::disk('public')->put($path, $pathPP);
+    // dd($newAvatar);
 
-    $validasiData['pp'] = \Illuminate\Support\Str::of($validPathPP)->contains('avatar') ? $validPathPP : $pathPP;
-
-    if (isset($validasiData['password'])) {
-      $validasiData['password'] = Hash::make($request->input('password'));
+    if (!is_null($newAvatar)) {
+      $validPathPP = Storage::disk('public')->put($path, $newAvatar);
+      $validated['pp'] = $validPathPP;
     }
 
-    $user->update($validasiData);
+    if (isset($validated['password'])) {
+      $validated['password'] = Hash::make($request->input('password'));
+    }
 
-    session()->forget('oldPP');
+    $user->update($validated);
 
-    return $this->flashMessage('info', ['user.edit', $idEdit], "Profile updated successfully — <a href='/user/$idEdit' class='underline hover:no-underline'>view your profile.</a>");
+    session()->forget('isNewAvatar');
+
+    return $this->flashMessage('info', ['account.settings'], "Profile updated successfully — <a href='/user/$idEdit' class='underline hover:no-underline'>view your profile.</a>");
   }
 
   /**

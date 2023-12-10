@@ -296,14 +296,14 @@ class FileController extends Controller
                     ->where('p.id_pengirim', '=' , function (\Illuminate\Database\Query\Builder $query) use ($username) {
                         return $query->select('id_user')->from('users')->where('username', $username)->get();
                     })
-                    ->get(['p.pesan','f.original_filename','f.generate_filename','f.judul_file','f.status','f.mime_type','f.id_file','u.fullname','f.file_size','f.deskripsi','f.created_at'])->all();
+                    ->first(['p.pesan','f.original_filename','f.generate_filename','f.judul_file','f.status','f.mime_type','f.ekstensi_file','f.id_file','u.fullname','f.file_size','f.deskripsi','f.created_at']);
 
-        if (count($shareFile) == 0) {
+        if (!$shareFile) {
             return $this->fail('dashboard',"File tidak ada");
         }
 
         $data['file'] = $shareFile;
-        $data['title'] = 'File dari ' . $data['file'][0]->fullname;
+        $data['title'] = 'File dari ' . $data['file']->fullname;
         return view('user.file.detalPublik', $data);
     }
 }

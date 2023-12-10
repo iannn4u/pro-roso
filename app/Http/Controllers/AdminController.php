@@ -63,16 +63,16 @@ class AdminController extends Controller
         $data['title'] = 'Edit Profil User';
         $user = User::where('id_user', $id_user)->first();
         $errors = [
-            'fullname.required' => 'Nama panjang harus diisi!',
+            'fullname.required' => 'Nama panjang must not be blank!',
             'fullname.regex' => 'Nama panjang hanya boleh mengandung huruf!',
             'fullname.min' => 'Nama panjang harus memiliki minimal 5 karekter!',
-            'username.required' => 'Username harus diisi!',
+            'username.required' => 'Username must not be blank!',
             'username.min' => 'Username harus memiliki minimal 5 karakter!',
             'username.unique' => 'Username sudah digunakan!',
-            'email.required' => 'Email harus diisi!',
+            'email.required' => 'Email must not be blank!',
             'email.email' => 'Format email tidak sesuai!',
             'email.unique' => 'Email sudah digunakan!',
-            'password.required' => 'Password harus diisi!',
+            'password.required' => 'Password must not be blank!',
             'password.min' => 'Password harus memiliki minimal 6 karakter!',
             'password.confirmed' => 'Ulangi password tidak sesuai!',
         ];

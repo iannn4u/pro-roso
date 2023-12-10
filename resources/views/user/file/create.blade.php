@@ -1,78 +1,78 @@
 @push('style')
-    <style>
-        .thumbnailCard {
-            background: #ddd;
-            min-height: 200px;
-        }
+<style>
+    .thumbnailCard {
+        background: #ddd;
+        min-height: 200px;
+    }
 
-        .dropArea {
-            max-width: 100%;
-            height: 200px;
-            padding: 25px;
-            display: grid;
-            background-color: #f7f9fe;
-            place-items: center;
-            text-align: center;
-            font-family: sans-serif;
-            font-weight: 500;
-            font-size: 1.2rem;
-            cursor: pointer;
-            color: #ccc;
-            border: 4px dashed #000;
-            border-radius: 10px;
-        }
+    .dropArea {
+        max-width: 100%;
+        height: 200px;
+        padding: 25px;
+        display: grid;
+        background-color: #f7f9fe;
+        place-items: center;
+        text-align: center;
+        font-family: sans-serif;
+        font-weight: 500;
+        font-size: 1.2rem;
+        cursor: pointer;
+        color: #ccc;
+        border: 4px dashed #000;
+        border-radius: 10px;
+    }
 
-        .dropArea.error {
-            border: 2px solid red
-        }
+    .dropArea.error {
+        border: 2px solid red
+    }
 
-        .dropArea-over {
-            border-style: solid;
-        }
+    .dropArea-over {
+        border-style: solid;
+    }
 
-        .dropFile {
-            display: none;
-        }
+    .dropFile {
+        display: none;
+    }
 
-        .dropArea-thumb {
-            width: 100%;
-            height: 100%;
-            border-radius: 10px;
-            overflow: hidden;
-            background: #ccc;
-            background-size: contain;
-            background-position: center;
-            background-repeat: no-repeat;
-            position: relative;
-        }
+    .dropArea-thumb {
+        width: 100%;
+        height: 100%;
+        border-radius: 10px;
+        overflow: hidden;
+        background: #ccc;
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        position: relative;
+    }
 
-        .dropArea-thumb::after {
-            content: attr(data-label);
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            padding: 5px 0;
-            color: white;
-            background: rgba(0, 0, 0, .75);
-            font-size: .9rem;
-            text-align: center;
-        }
+    .dropArea-thumb::after {
+        content: attr(data-label);
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 5px 0;
+        color: white;
+        background: rgba(0, 0, 0, .75);
+        font-size: .9rem;
+        text-align: center;
+    }
 
-        .thumb-card {
-            display: grid;
-            place-items: center;
-            background: #ddd;
-            height: 200px;
-        }
+    .thumb-card {
+        display: grid;
+        place-items: center;
+        background: #ddd;
+        height: 200px;
+    }
 
-        .thumb-card img {
-            width: 100%;
-            max-height: 200px;
-            object-fit: cover;
-            object-position: top;
-        }
-    </style>
+    .thumb-card img {
+        width: 100%;
+        max-height: 200px;
+        object-fit: cover;
+        object-position: top;
+    }
+</style>
 @endpush
 
 <x-user :$jumlahPesan :$pesan :$pesanGrup>
@@ -82,7 +82,7 @@
     </x-slot>
 
     <div class="max-w-2xl py-5 lg:mx-auto">
-        <form method="POST" action="{{ route('file.store') }}" enctype="multipart/form-data">
+        <form method="POST" action="/file" enctype="multipart/form-data" id="form">
             @csrf
             <div class="border-b border-gray-900/20 pb-2 mb-5">
                 <h2 class="text-2xl font-medium leading-7 text-gray-900">Add a new file</h2>
@@ -90,7 +90,8 @@
 
             <div class="dropArea @error('files') error animate-shake @enderror mb-4">
                 <div class="dropText">
-                    <p class="mb-1 text-sm text-gray-500"><span class="font-semibold">Click to upload</span> or drag and drop the file</p>
+                    <p class="mb-1 text-sm text-gray-500"><span class="font-semibold">Click to upload</span> or drag
+                        and drop the file</p>
                     @error('files')
                     <p class="text-xs text-red-500">{{ $message }}</p>
                     @enderror
@@ -102,8 +103,9 @@
 
             <div class="mt-6">
                 <x-partial.form.label for="judul_file" :value="__('Judul File')"></x-partial.form.label>
-                
-                <x-partial.form.input id="judul_file" type="text" name="judul_file" :error="$errors->get('judul_file')" :value="old('judul_file')" autofocus ></x-partial.form.input>
+
+                <x-partial.form.input id="judul_file" type="text" name="judul_file" :error="$errors->get('judul_file')"
+                    :value="old('judul_file')" autofocus></x-partial.form.input>
             </div>
 
             <div class="my-4">
@@ -149,68 +151,23 @@
             </div>
 
             <x-partial.textarea name="deskripsi"></x-partial.textarea>
-            <button type="submit"
-                class="text-white bg-gray-800 hover:bg-white hover:text-gray-800 hover:border-gray-800 hover:border-2 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Tambah</button>
+
+            <div class="mt-6 flex items-center justify-start gap-x-4">
+                <div class="!w-max -mt-6">
+                    <x-partial.primary-button onclick="process('add')">
+                        add
+                    </x-partial.primary-button>
+                </div>
+                <x-partial.secondary-button onclick="history.back()">
+                    Cancel
+                </x-partial.secondary-button>
+            </div>
         </form>
     </div>
 
     @push('script')
-        <script>
-            document.querySelectorAll(".dropFile").forEach((i) => {
-                const dropArea = i.closest(".dropArea");
-                dropArea.addEventListener("click", (e) => {
-                    i.click();
-                });
-
-                i.addEventListener("change", (e) => {
-                    if (i.files.length) {
-                        thumb(dropArea, i.files[0]);
-                    }
-                });
-
-                dropArea.addEventListener("dragover", (e) => {
-                    e.preventDefault();
-                    dropArea.classList.add("dropArea-over");
-                });
-                ["dragleave", "dragend"].forEach((type) => {
-                    dropArea.addEventListener(type, (e) => {
-                        dropArea.classList.remove("dropArea-over");
-                    });
-                });
-                dropArea.addEventListener("drop", (e) => {
-                    e.preventDefault();
-                    if (e.dataTransfer.files.length) {
-                        i.files = e.dataTransfer.files;
-                        thumb(dropArea, e.dataTransfer.files[0]);
-                    }
-                    dropArea.classList.remove("dropArea-over");
-                });
-            });
-
-            function thumb(dropArea, file) {
-                let thumbElement = dropArea.querySelector(".dropArea-thumb");
-
-                if (dropArea.querySelector(".dropText")) {
-                    dropArea.querySelector(".dropText").remove();
-                }
-
-                if (!thumbElement) {
-                    thumbElement = document.createElement("div");
-                    thumbElement.classList.add("dropArea-thumb");
-                    dropArea.appendChild(thumbElement);
-                }
-                thumbElement.dataset.label = file.name;
-
-                if (file.type.startsWith("image/")) {
-                    const reader = new FileReader();
-                    reader.readAsDataURL(file);
-                    reader.onload = () => {
-                        thumbElement.style.backgroundImage = `url('${reader.result}')`;
-                    };
-                } else {
-                    thumbElement.style.backgroundImage = null;
-                }
-            }
-        </script>
+<script src="{{ asset('js/filedrop.js') }}"></script>
+    <script src="{{ asset('js/form.js') }}"></script>
     @endpush
+
 </x-user>

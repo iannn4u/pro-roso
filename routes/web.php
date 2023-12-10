@@ -6,6 +6,7 @@ use App\Http\Controllers\FileController;
 use App\Http\Controllers\PesanController;
 use App\Http\Controllers\UserController;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,9 +36,18 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('user', UserController::class);
     Route::resource('file', FileController::class)->only(['edit', 'destroy', 'store', 'update']);
+    Route::redirect('new', 'file/new');
+
+    Route::controller(UserController::class)->group(function () {
+        Route::get('me', 'show')->name('me');
+        Route::get('account', 'account')->name('account.settings');
+    });
 
     Route::controller(FileController::class)->group(function () {
         Route::get('publikFile', 'index');
+        Route::get('/trash', function () {
+            return 'trashed file';
+        })->name('file.trashed');
         Route::get('/file/new', 'create')->name('new');
         Route::get('download/{id_file}', 'download')->name('file.download');
         Route::get('d/{id_file}/{filename}', 'downloadByLink');

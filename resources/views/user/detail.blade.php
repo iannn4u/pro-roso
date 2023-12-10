@@ -1,35 +1,35 @@
 @push('style')
 <style>
-    @media (min-width:768px) {
-        .header-img::before {
-            --backdrop-image : url('{{ $user->pp === ' img/defaultProfile.svg' ? '' : asset('storage/' . $user->pp) }}');
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: 200px 57%;
-            background-repeat: no-repeat;
-            filter: grayscale(100%);
-            z-index: -2;
-            background-image: var(--backdrop-image);
+        @media (min-width:768px) {
+            .header-img::before {
+                --backdrop-image : url('{{ $user->pp === ' img/defaultProfile.svg' ? '' : asset('storage/' . $user->pp) }}');
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-size: cover;
+                background-position: 200px 57%;
+                background-repeat: no-repeat;
+                filter: grayscale(100%);
+                z-index: -2;
+                background-image: var(--backdrop-image);
+            }
         }
-    }
 
-    .header-sec::after {
-        /* background: linear-gradient(90deg, #191616 28%, hsla(0, 0%, 2%, 0.98) 20%, hsla(0, 0%, 6.3%, 0.97) 25%, hsla(0, 0%, 9%, .95) 35%, hsla(0, 0%, 9%, .94) 40%, hsla(0, 3%, 6.5%, 0.92) 45%, hsla(0, 0%, 9%, .9) 50%, hsla(0, 0%, 9%, .87) 55%, hsla(0, 0%, 9%, .82) 60%, hsla(0, 0%, 9%, .75) 65%, hsla(0, 0%, 9%, .63) 70%, hsla(0, 0%, 9%, .45) 75%, hsla(0, 0%, 9%, .27) 80%, hsla(0, 0%, 9%, .15) 85%, hsla(0, 0%, 9%, .08) 90%, hsla(0, 0%, 9%, .03) 95%, hsla(0, 0%, 9%, 0)); */
-        background: linear-gradient(to left, transparent 0%, #000000 69%);
-        bottom: 0;
-        content: "";
-        left: 0;
-        position: absolute;
-        right: -200px;
-        top: 0;
-        z-index: -1;
-    }
-</style>
+        .header-sec::after {
+            /* background: linear-gradient(90deg, #191616 28%, hsla(0, 0%, 2%, 0.98) 20%, hsla(0, 0%, 6.3%, 0.97) 25%, hsla(0, 0%, 9%, .95) 35%, hsla(0, 0%, 9%, .94) 40%, hsla(0, 3%, 6.5%, 0.92) 45%, hsla(0, 0%, 9%, .9) 50%, hsla(0, 0%, 9%, .87) 55%, hsla(0, 0%, 9%, .82) 60%, hsla(0, 0%, 9%, .75) 65%, hsla(0, 0%, 9%, .63) 70%, hsla(0, 0%, 9%, .45) 75%, hsla(0, 0%, 9%, .27) 80%, hsla(0, 0%, 9%, .15) 85%, hsla(0, 0%, 9%, .08) 90%, hsla(0, 0%, 9%, .03) 95%, hsla(0, 0%, 9%, 0)); */
+            background: linear-gradient(to left, transparent 0%, #000000 69%);
+            bottom: 0;
+            content: "";
+            left: 0;
+            position: absolute;
+            right: -200px;
+            top: 0;
+            z-index: -1;
+        }
+    </style>
 @endpush
 
 <x-user :$title :$user :$jumlahPesan :$pesan :$pesanGrup>
@@ -113,5 +113,10 @@
             @endforeach
         </div>
     </section>
+    
+    @push('script')
+    <script src="{{ asset('js/buffer.js') }}"></script>
+    <script src="{{ asset('js/form.js') }}"></script>
+    @endpush
 
 </x-user>

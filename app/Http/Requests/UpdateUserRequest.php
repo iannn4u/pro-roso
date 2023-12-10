@@ -33,15 +33,15 @@ class UpdateUserRequest extends FormRequest
     {
         $rules = [
             'fullname' => 'required|regex:/^[a-zA-Z\s]+$/|min:5',
-            'username' => strtolower($this->user()->username) == strtolower($this->input('username')) ? 'required' : 'required|min:5|unique:users',
+            'username' => strtolower($this->user()->username) == strtolower($this->input('username')) ? 'required|regex:/^(?!.*[-]{2})(?!.*[-_]$)(?!.*__)(?!.*[-_][-_])[a-zA-Z0-9]+([-_][a-zA-Z0-9]+)*$/' : 'required|min:5|unique:users|regex:/^(?!.*[-]{2})(?!.*[-_]$)(?!.*__)(?!.*[-_][-_])[a-zA-Z0-9]+([-_][a-zA-Z0-9]+)*$/',
             'email' => strtolower($this->user()->email) == strtolower($this->input('email')) ? 'required' : 'required|email|unique:users',
         ];
 
         if ($this->file('pp')) {
             $rules['pp'] = 'max:2048|mimes:png,jpg,jpeg,gif';
+            session()->flash('isNewAvatar', true);
         } else {
-            $oldPP = $this->user()->pp;
-            session()->flash('oldPP', $oldPP);
+            session()->flash('isNewAvatar', false);
 
             if ($this->input('password') || Hash::check($this->input('password'), $this->user()->password)) {
                 $rules['password'] = 'required|min:6';
@@ -65,6 +65,7 @@ class UpdateUserRequest extends FormRequest
             'username.required' => 'Kindly provide your chosen username, it\'s a required field!',
             'username.min' => 'Your username must be at least 5 characters long; a bit more creativity, please!',
             'username.unique' => 'Oops! This username is already in use; please choose another one!',
+            'username.regex' => 'Username may only contain alphanumeric characters or single hyphens, and cannot begin or end with a hyphen',
             'email.required' => 'An email address is required; please fill in this essential field!',
             'email.email' => 'The email format seems to be incorrect, please double-check!',
             'email.unique' => 'This email address is already associated with an account!',

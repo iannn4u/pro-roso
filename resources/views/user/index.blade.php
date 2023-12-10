@@ -1,7 +1,7 @@
 <x-user :$jumlahPesan :$files :$pesan :$pesanGrup>
 
     <x-slot:title>
-        Beranda
+        Dashboard - {{ config('app.name') }}
     </x-slot>
 
     <x-partial.flash class="!my-2 absolute min-w-[18rem] top-20 right-10 z-10 shadow-md" :flash="session()->all()"/>
@@ -240,4 +240,9 @@
             </div>
         </div>
     </div>
+
+    @push('script')
+<script src="{{ asset('js/buffer.js') }}"></script>
+    <script src="{{ asset('js/form.js') }}"></script>
+    @endpush
 </x-user>

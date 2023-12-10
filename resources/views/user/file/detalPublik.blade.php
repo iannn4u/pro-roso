@@ -2,7 +2,7 @@
 
     <x-slot:title>
         {{ $file->judul_file . " ($file->original_filename)"}}
-    </x-slot:title>
+    </x-slot>
     <!-- Page Heading -->
     <h1 class="h3 mb-4 text-gray-800">File Details</h1>
 
@@ -43,7 +43,7 @@
                                     {{ $file->fullname }}
                                 </li>
                                 @endif
-                                @if(isset($f) && !is_null($file->pesan))
+                                @if(!is_null($file->pesan))
                                 <li class=""><b>Pesan</b> :
                                     {{ $file->pesan }}
                                 </li>
@@ -71,6 +71,10 @@
             </div>
         </div>
     </div>
-    {{-- @endforeach --}}
+
+    @push('script')
+        <script src="{{ asset('js/buffer.js') }}"></script>
+        <script src="{{ asset('js/form.js') }}"></script>
+    @endpush
 
 </x-user>

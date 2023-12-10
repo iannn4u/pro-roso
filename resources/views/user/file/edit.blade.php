@@ -1,114 +1,87 @@
 @push('style')
-    <style>
-        .thumbnailCard {
-            background: #ddd;
-            min-height: 200px;
-        }
+<style>
+    .thumbnailCard {
+        background: #ddd;
+        min-height: 200px;
+    }
 
-        .dropArea {
-            max-width: 100%;
-            height: 200px;
-            padding: 25px;
-            display: grid;
-            background-color: #f7f9fe;
-            place-items: center;
-            text-align: center;
-            font-family: sans-serif;
-            font-weight: 500;
-            font-size: 1.2rem;
-            cursor: pointer;
-            color: #ccc;
-            border: 4px dashed #000;
-            border-radius: 10px;
-        }
+    .dropArea {
+        max-width: 100%;
+        height: 200px;
+        padding: 25px;
+        display: grid;
+        background-color: #f7f9fe;
+        place-items: center;
+        text-align: center;
+        font-family: sans-serif;
+        font-weight: 500;
+        font-size: 1.2rem;
+        cursor: pointer;
+        color: #ccc;
+        border: 4px dashed #000;
+        border-radius: 10px;
+    }
 
-        .dropArea.error {
-            border: 2px solid red
-        }
+    .dropArea.error {
+        border: 2px solid red
+    }
 
-        .dropArea-over {
-            border-style: solid;
-        }
+    .dropArea-over {
+        border-style: solid;
+    }
 
-        .dropFile {
-            display: none;
-        }
+    .dropFile {
+        display: none;
+    }
 
-        .dropArea-thumb {
-            width: 100%;
-            height: 100%;
-            border-radius: 10px;
-            overflow: hidden;
-            background: #ccc;
-            background-size: contain;
-            background-position: center;
-            background-repeat: no-repeat;
-            position: relative;
-        }
+    .dropArea-thumb {
+        width: 100%;
+        height: 100%;
+        border-radius: 10px;
+        overflow: hidden;
+        background: #ccc;
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        position: relative;
+    }
 
-        .dropArea-thumb::after {
-            content: attr(data-label);
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            padding: 5px 0;
-            color: white;
-            background: rgba(0, 0, 0, .75);
-            font-size: .9rem;
-            text-align: center;
-        }
+    .dropArea-thumb::after {
+        content: attr(data-label);
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 5px 0;
+        color: white;
+        background: rgba(0, 0, 0, .75);
+        font-size: .9rem;
+        text-align: center;
+    }
 
-        .thumb-card {
-            display: grid;
-            place-items: center;
-            background: #ddd;
-            height: 200px;
-        }
+    .thumb-card {
+        display: grid;
+        place-items: center;
+        background: #ddd;
+        height: 200px;
+    }
 
-        .thumb-card img {
-            width: 100%;
-            max-height: 200px;
-            object-fit: cover;
-            object-position: top;
-        }
-    </style>
+    .thumb-card img {
+        width: 100%;
+        max-height: 200px;
+        object-fit: cover;
+        object-position: top;
+    }
+</style>
 @endpush
 <x-user :$title :$jumlahPesan :$pesan :files="$file" :$pesanGrup>
-    @error('judul_file')
-        <div class="alert alert-danger mt-3 mx-2" role="alert" style="position: absolute; z-index: 1; top: 0; right: 0;">
-            {{ $message }}
-        </div>
-    @enderror
-    @error('files')
-        <div class="alert alert-danger mt-3 mx-2" role="alert" style="position: absolute; z-index: 1; top: 0; right: 0;">
-            {{ $message }}
-        </div>
-    @enderror
+
     <div class="max-w-2xl py-5 xl:mx-auto">
-        <div class="mb-5">
-            <nav class="flex">
-                <ol class="inline-flex items-center space-x-1 md:space-x-3">
-                    <li class="inline-flex items-center">
-                        <a href="/"
-                            class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-red-600">
-                            Beranda
-                        </a>
-                    </li>
-                    <li>
-                        <div class="flex items-center">
-                            <svg class="mx-px h-3 w-3 text-gray-400" aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2" d="m1 9 4-4-4-4" />
-                            </svg>
-                            <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2">Edit File</span>
-                        </div>
-                    </li>
-                </ol>
-            </nav>
+        <div class="border-b border-gray-900/20 pb-2">
+            <h2 class="text-2xl font-medium leading-7 text-gray-900">Editing file</h2>
         </div>
-        <form method="post" action="/file/{{ $file['id_file'] }}" enctype="multipart/form-data">
+
+        <form method="post" action="{{ route('file.update',$file->id_file) }}" enctype="multipart/form-data" id="form">
             @method('put')
             @csrf
             <div class="dropArea @error('files') error animate-shake @enderror mb-4">
@@ -116,7 +89,7 @@
                     <p class="mb-1 text-sm text-gray-500"><span class="font-semibold">Click to upload</span> or drag and
                         drop the file</p>
                     @error('files')
-                        <p class="text-xs text-red-500">{{ $message }}</p>
+                    <p class="text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </div>
                 <input type="file" name="files" id="files" class="dropFile">
@@ -125,16 +98,17 @@
             {{-- <input type="hidden" name="return" value="{{ $return }}"> --}}
 
             <div class="mt-6">
-                <x-partial.form.label for="judul_file" :value="__('Judul File')"></x-partial.form.label>
+                <x-partial.form.label for="judul_file" :value="__('Judul File')" />
 
                 <x-partial.form.input id="judul_file" type="text" name="judul_file" :error="$errors->get('judul_file')"
-                    :value="old('judul_file', $file->judul_file)" autofocus></x-partial.form.input>
+                    :value="old('judul_file', $file->judul_file)" autofocus />
             </div>
             <div class="my-4">
                 <p class="mb-2 block text-sm font-medium text-gray-900">Status File</p>
                 <ul class="mb-4 grid grid-cols-1 gap-x-2 sm:grid-cols-2">
                     <li>
-                        <input type="radio" id="status-1" name="status" value="private" class="peer hidden" @if ($file->status == 'private') checked @endif>
+                        <input type="radio" id="status-1" name="status" value="private" class="peer hidden"
+                            @if($file->status == 'private') checked @endif>
                         <label for="status-1"
                             class="@error('status') animate-shake @enderror inline-flex w-full cursor-pointer items-center justify-between rounded-lg border border-gray-200 bg-white p-3 text-gray-900 hover:bg-gray-100 hover:text-gray-900 peer-checked:border-gray-600 peer-checked:text-gray-600">
                             <div class="block">
@@ -151,7 +125,8 @@
                         </label>
                     </li>
                     <li>
-                        <input type="radio" id="status-2" name="status" value="public" class="peer hidden" @if ($file->status == 'public') checked @endif>
+                        <input type="radio" id="status-2" name="status" value="public" class="peer hidden"
+                            @if($file->status == 'public') checked @endif>
                         <label for="status-2"
                             class="@error('status') animate-shake @enderror inline-flex w-full cursor-pointer items-center justify-between rounded-lg border border-gray-200 bg-white p-3 text-gray-900 hover:bg-gray-100 hover:text-gray-900 peer-checked:border-gray-600 peer-checked:text-gray-600">
                             <div class="block">
@@ -172,8 +147,16 @@
                 </ul>
             </div>
             <x-partial.textarea name="deskripsi">{{ $file->deskripsi }}</x-partial.textarea>
-            <button type="submit"
-                class="text-white bg-gray-800 hover:bg-white hover:text-gray-800 hover:border-gray-800 hover:border-2 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Tambah</button>
+            <div class="mt-6 flex items-center justify-start gap-x-4">
+                <div class="!w-max -mt-6">
+                    <x-partial.primary-button onclick="process('save')">
+                        Save
+                    </x-partial.primary-button>
+                </div>
+                <x-partial.secondary-button onclick="history.back()">
+                    Cancel
+                </x-partial.secondary-button>
+            </div>
         </form>
     </div>
 </x-user>
