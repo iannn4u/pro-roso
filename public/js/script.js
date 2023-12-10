@@ -10,32 +10,6 @@ function showPreview(event) {
 }
 
 /**
- * heading scroll
- */
-// // var parent = document.querySelectorAll(".parent");
-
-// // parent.forEach((element) => {
-// //   element.onscroll = () => {
-// //     if (element.scrollTop > 30) {
-// //       document.querySelector(".greeting").classList.add("onsc");
-// //       document.querySelector(".msgs").classList.add("onsc");
-// //     } else {
-// //       document.querySelector(".greeting").classList.remove("onsc");
-// //       document.querySelector(".msgs").classList.remove("onsc");
-// //     }
-// //   };
-// // });
-
-/**
- * Kalau user edit atau create tampilin dragble
- */
-if (
-  window.location.href === "http://127.0.0.1:8000/file/create" ||
-  window.location.href === "http://127.0.0.1:8000/file/1/edit"
-) {
-}
-
-/**
  * Hapus user lain oleh admin
  */
 const targetDelete = document.querySelectorAll(".deleteA");
@@ -98,12 +72,6 @@ document.addEventListener("keydown", (event) => {
     }
   }
 });
-
-// mobileDropBtn.forEach(dropdown => {
-//   dropdown.addEventListener('click', () => {
-//     dropdown.setAttribute('data-dropdown-toggle',id_file)
-//   })
-// });
 
 cards.forEach((c) => {
   c.addEventListener("contextmenu", (e) => {

@@ -30,20 +30,17 @@ if ($attributes->get('flash') != null) {
 
 @if (isset($messages))
   <div id="atomic-alert-1"
-    class="{{ $attributes->merge(['class' => 'flex items-center p-4 text-black border text-black rounded-lg ' . $alertType])['class'] }}"
+    class="{{ $attributes->merge(['class' => 'flex items-center p-4 text-black border text-black rounded-lg absolute bottom-[2vh] left-[4vh] z-20 ' . $alertType])['class'] }}"
     role="alert">
     <span class="sr-only">{{ $alert }}</span>
     <div class="ms-2 text-sm font-medium">
       {!! $msg !!}
     </div>
-    <button type="button"
-      class="ms-auto -mx-1.5 -my-1.5 text-black rounded-lg focus:ring-2 focus:ring-slate-800 p-1.5 inline-flex items-center justify-center h-8 w-8 hover:rotate-180 duration-150"
-      data-dismiss-target="#atomic-alert-1" aria-label="Close">
+    <button type="button" autofocus="" class="-my-1 ml-2 inline-flex h-9 w-9 items-center justify-center rounded-md p-1.5 text-black outline-none ring-inset backdrop-blur-lg duration-150 focus-within:bg-gray-100/80 focus-within:ring-2 hover:ring-2 focus-within:ring-gray-900/80 hover:bg-gray-100/80 hover:ring-slate-600 focus:bg-gray-100/80 focus:ring-2 focus:ring-gray-900/80" data-dismiss-target="#atomic-alert-1" aria-label="Close">
       <span class="sr-only">Close</span>
-      <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-          d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+      <svg class="h-3 w-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 16">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"></path>
       </svg>
-    </button>
+    </button>  
   </div>
 @endif
