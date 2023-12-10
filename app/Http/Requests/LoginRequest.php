@@ -14,8 +14,8 @@ class LoginRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'usermail.required' => 'Whoopsie! Username or Email can\'t be empty!',
-            'password.required' => 'Uh-oh! Password can\'t be empty!',
+            'usermail.required' => 'Username or Email must not blank!',
+            'password.required' => 'Password must not blank!',
         ];
     }
 

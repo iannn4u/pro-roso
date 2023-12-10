@@ -135,4 +135,8 @@
         </div>
         @endforeach
     </div>
+
+    @push('script')
+        <script src="{{ asset('js/buffer.js') }}"></script>
+    @endpush
 </x-user>

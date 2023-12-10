@@ -21,6 +21,7 @@ class RegisterRequest extends FormRequest
       'username.required' => 'Hey there! You need to fill in your username!',
       'username.min' => 'Oops! Your username should be at least 5 characters long!',
       'username.unique' => 'Oh snap! This username is already taken!',
+      'username.regex' => 'Username may only contain alphanumeric characters or single hyphens, and cannot begin or end with a hyphen',
       'email.required' => 'Hold on! You gotta fill in your email!',
       'email.email' => 'Hmm... the email format seems a bit off!',
       'email.unique' => 'Oops! This email is already in use!',
@@ -39,7 +40,7 @@ class RegisterRequest extends FormRequest
   {
     return [
       'fullname' => 'required|regex:/^[a-zA-Z\s]+$/|min:5|string',
-      'username' => 'required|min:5|unique:users',
+      'username' => 'required|min:5|unique:users|regex:/^(?!.*[-]{2})(?!.*[-_]$)(?!.*__)(?!.*[-_][-_])[a-zA-Z0-9]+([-_][a-zA-Z0-9]+)*$/',
       'email' => 'required|email|unique:users',
       'password' => 'required|min:6|confirmed'
     ];
