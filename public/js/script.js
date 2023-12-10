@@ -10,32 +10,6 @@ function showPreview(event) {
 }
 
 /**
- * heading scroll
- */
-// // var parent = document.querySelectorAll(".parent");
-
-// // parent.forEach((element) => {
-// //   element.onscroll = () => {
-// //     if (element.scrollTop > 30) {
-// //       document.querySelector(".greeting").classList.add("onsc");
-// //       document.querySelector(".msgs").classList.add("onsc");
-// //     } else {
-// //       document.querySelector(".greeting").classList.remove("onsc");
-// //       document.querySelector(".msgs").classList.remove("onsc");
-// //     }
-// //   };
-// // });
-
-/**
- * Kalau user edit atau create tampilin dragble
- */
-if (
-  window.location.href === "http://127.0.0.1:8000/file/create" ||
-  window.location.href === "http://127.0.0.1:8000/file/1/edit"
-) {
-}
-
-/**
  * Hapus user lain oleh admin
  */
 const targetDelete = document.querySelectorAll(".deleteA");
@@ -98,12 +72,6 @@ document.addEventListener("keydown", (event) => {
     }
   }
 });
-
-// mobileDropBtn.forEach(dropdown => {
-//   dropdown.addEventListener('click', () => {
-//     dropdown.setAttribute('data-dropdown-toggle',id_file)
-//   })
-// });
 
 cards.forEach((c) => {
   c.addEventListener("contextmenu", (e) => {
@@ -461,7 +429,7 @@ class Modal {
 /**
  * Salin URL File
  */
-const buttonSalinUrl = document.querySelectorAll('#salin')
+const buttonSalinUrl = document.querySelectorAll('#salin');
 buttonSalinUrl.forEach(b => {
   b.addEventListener('click', () => {
     const id_file = b.getAttribute('data-id_file');
@@ -476,9 +444,13 @@ buttonSalinUrl.forEach(b => {
 /**
  * Delete File
  */
-const buttonShowModalDelete = document.querySelectorAll('#buttonShowModalDelete')
+const buttonShowModalDelete = document.querySelectorAll('#buttonShowModalDelete');
 buttonShowModalDelete.forEach(b => {
   b.addEventListener('click', () => {
+    const modal = document.querySelectorAll(`.dropdownUserIndex`);
+    modal.forEach(m => {
+      m.classList.add('hidden');
+    })
     const id_file = b.getAttribute('data-id_file');
     const form = document.querySelector(`#formDeleteFile`);
     form.action = `file/${id_file}`;
@@ -490,4 +462,4 @@ buttonShowModalDelete.forEach(b => {
  * Hide Modal
  */
 Modal.hideModal('#notif', '#closeModalNotif');
-Modal.hideModal('.dropdownUserIndex', '#buttonShowModalDelete')
+// Modal.hideModal('.dropdownUserIndex', '#buttonShowModalDelete')

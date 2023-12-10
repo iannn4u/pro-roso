@@ -77,7 +77,7 @@
 <x-user :$title :$jumlahPesan :$pesan :files="$file" :$pesanGrup>
 
     <div class="max-w-2xl py-5 xl:mx-auto">
-        <div class="border-b border-gray-900/20 pb-2">
+        <div class="border-b border-gray-900/20 pb-2 mb-5">
             <h2 class="text-2xl font-medium leading-7 text-gray-900">Editing file</h2>
         </div>
 
@@ -159,4 +159,9 @@
             </div>
         </form>
     </div>
+
+    @push('script')
+    <script src="{{ asset('js/form.js') }}"></script>
+    <script src="{{ asset('js/filedrop.js') }}"></script>
+    @endpush
 </x-user>
