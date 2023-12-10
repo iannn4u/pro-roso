@@ -25,6 +25,9 @@ php artisan db:seed --class=UserSeeder
 php artisan storage:link
 ```
 ```
+php artisan optimize:clear
+```
+```
 php artisan serve
 ```
 [localhost](http://127.0.0.1:8000)
