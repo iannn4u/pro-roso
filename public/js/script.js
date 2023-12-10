@@ -415,3 +415,14 @@ searchUser.addEventListener("input", function () {
     result.innerHTML = "";
   }
 });
+
+
+class Modal {
+  static hideModal(modal, trigger) {
+    const m = document.querySelector(`#${modal}`);
+    const t = document.querySelector(`#${trigger}`);
+    t.addEventListener('click', () => m.classList.add('hidden'));
+  }
+}
+
+Modal.hideModal('notif', 'closeModalNotif')
