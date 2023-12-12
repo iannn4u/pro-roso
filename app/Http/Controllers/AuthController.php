@@ -39,7 +39,7 @@ class AuthController extends Controller
             session()->flash('fail', 'Incorrect username or password.');
             return back()->withInput(['usermail' => $validated['usermail']]);
         } else {
-            session()->flash('fail', 'Akun belum aktif silahkan hubungi admin');
+            session()->flash('fail', 'Account is not yet active, please contact the administrator.');
             return redirect()->back()->withInput(['usermail' => $validated['usermail']]);
         }
     }
@@ -54,7 +54,7 @@ class AuthController extends Controller
 
         User::create($validated);
 
-        $greets = 'Welcom to ' . config('app.name') . ', ' . $validated['fullname'] . '!';
+        $greets = 'Welcome to ' . config('app.name') . ', ' . $validated['fullname'] . '!';
 
         session()->flash('success', $greets);
         return to_route('login');

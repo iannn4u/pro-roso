@@ -35,7 +35,7 @@ class PesanController extends Controller
         $user = User::where('username', request('username'))->first();
         if (!$user) {
             session()->flash('errors', 'username tidak ada');
-            return redirect()->back();
+            return $this->fail('dashboard',"user tidak ada");
         }
         DB::table('pesans')->insert([
             'id_pengirim' => auth()->id(),

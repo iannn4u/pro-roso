@@ -32,18 +32,6 @@ class UserController extends Controller
     }
     $data['files'] = $files->get();
     $data['salam'] = $this->greetings('Asia/Jakarta');
-
-    // foreach ($groupedPesan as $pengirimId => $pesanPerPengirim) {
-    //   dump($pesanPerPengirim);
-    //   $pengirim = $pesanPerPengirim->first->user;
-
-    //   echo "Pesan dari $pengirim->fullname:";
-
-    //   // dump($pesanPerPengirim)
-    //   foreach ($pesanPerPengirim as $pesanItem) {
-    //     echo " $pesanItem->id_file";
-    //   }
-    // }
     return view('user.index', $data);
   }
 
@@ -96,15 +84,6 @@ class UserController extends Controller
       });
     }])->where('username', $param)->orWhere('id_user', $param)->first();
 
-    // if ($param == Auth::id() || $param == Auth::user()->username) {
-    //   $user = User::with('files')->where('username', $param)->orWhere('id_user', $param)->first();
-    // } else {
-    //   $user = User::with(['files' => function (Builder $query) {
-    //     /** @var Illuminate\Contracts\Database\Query\Builder $query */  #https://stackoverflow.com/a/69580333/11297747
-    //     $query->where('status', 'public');
-    //   }])->where('username', $param)->orWhere('id_user', $param)->first();
-    // }
-
     if (!$user) {
       return $this->fail('dashboard', "User not found");
     }
@@ -125,7 +104,7 @@ class UserController extends Controller
    */
   public function account()
   {
-    $data['title'] = 'Edit Profil Saya';
+    $data['title'] = 'Edit My Profile';
 
     $data['user'] = User::where('id_user', Auth::id())->where('username', Auth::user()->username)->first();
     $data['jumlahPesan'] = $this->getJumlahPesan();

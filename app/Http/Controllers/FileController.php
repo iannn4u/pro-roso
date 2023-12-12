@@ -55,13 +55,14 @@ class FileController extends Controller
     public function store(StoreFileRequest $request)
     {
         $errors = [
-            'judul_file.required' => 'Judul harus diisi',
-            'judul_file.unique' => 'Judul sudah digunakan',
-            'judul_file.max' => 'Max 255 huruf',
-            'files.required' => 'Files harus diisi',
-            'files.file' => 'Files format harus file',
-            'status.required' => 'Status harus diisi',
+            'judul_file.required' => 'Title must be filled in',
+            'judul_file.unique' => 'Title has already been used',
+            'judul_file.max' => 'Max 255 characters',
+            'files.required' => 'Files must be filled in',
+            'files.file' => 'Files format must be a file',
+            'status.required' => 'Status must be filled in',
         ];
+        
         $rules = [
             'files' => 'required|file',
             'status' => 'required',
@@ -109,10 +110,11 @@ class FileController extends Controller
 
         File::create($validatedData);
 
-        if ($return != null) {
-            return $this->rediretUrl('success', $return, "Berhasil mengupload file");
-        }
-        return $this->success('dashboard', "Berhasil mengupload file");
+        // if ($return != null) {
+        //     return $this->redirectTo('dashboard', $return, "Successfully uploaded file");
+        // }
+        
+        return $this->success('dashboard', "Successfully uploaded file");
     }
 
     /**
@@ -121,12 +123,12 @@ class FileController extends Controller
     public function update(UpdateFileRequest $request, File $file)
     {
         $errors = [
-            'judul_file.required' => 'Judul harus diisi',
-            'judul_file.unique' => 'Judul sudah digunakan',
-            'files.required' => 'Files harus diisi',
-            'files.file' => 'Files format harus file',
-            'status.required' => 'Status harus diisi',
-            'deskripsi.required' => 'Deskripsi harus diisi'
+            'judul_file.required' => 'Title must be filled in',
+            'judul_file.unique' => 'Title has already been used',
+            'files.required' => 'Files must be filled in',
+            'files.file' => 'Files format must be a file',
+            'status.required' => 'Status must be filled in',
+            'deskripsi.required' => 'Description must be filled in'
         ];
         $rules = [
             'files' => 'file',
@@ -182,7 +184,7 @@ class FileController extends Controller
 
         $file->update($validatedData);
 
-        return $this->success('dashboard', "Berhasil mengedit file");
+        return $this->success('dashboard', "Successfully edited file");
     }
 
     /**
@@ -196,7 +198,7 @@ class FileController extends Controller
         ];
 
         if (is_null($file)) {
-            session()->flash('errors', 'File tidak ada');
+            session()->flash('errors', 'File not found');
             return redirect('/');
         }
 
@@ -219,7 +221,7 @@ class FileController extends Controller
         Storage::delete($file->generate_filename);
         $file->destroy($file->id_file);
 
-        session()->flash('success', 'Berhasil menghapus file!');
+        session()->flash('success', 'Successfully deleted file!');
         return redirect()->back();
     }
 
@@ -230,14 +232,14 @@ class FileController extends Controller
     {
         $file = File::where('id_file', $id_file)->first();
         if ($file == null) {
-            return $this->fail('dashboard', "File tidak ditemukan");
+            return $this->fail('dashboard', "File not found");
         }
         $path = public_path('storage/' . $file->generate_filename);
         $headers = [
             'Content-Type' => 'application/octet-stream'
         ];
 
-        $this->success('dashboard', "File berhasil didownload");
+        $this->success('dashboard', "File successfully downloaded");
         return response()->download($path, $file->original_filename, $headers);
     }
 
@@ -247,11 +249,11 @@ class FileController extends Controller
         $fileDB = File::where('generate_filename', $filePathDB)->first();
 
         if ($fileDB == null) {
-            return $this->fail('dashboard', "File tidak ditemukan");
+            return $this->fail('dashboard', "File not found");
         }
 
         session()->flash('download', $fileDB->id_file);
-        return $this->success('dashboard', "File berhasil didownload");
+        return $this->success('dashboard', "File successfully downloaded");
     }
 
     public function fileDetail($username, $id_file)
@@ -270,11 +272,11 @@ class FileController extends Controller
 
         // kalau file ga ada atau statusnya private
         if (!$data['file']) {
-            return $this->fail('dashboard', "File $username ($id_file) tidak ada");
+            return $this->fail('dashboard', "File $username ($id_file) not found");
         }
 
         if ($data['file']->id_user != Auth::id() && $data['file']->status != 'public') {
-            return $this->fail('dashboard', "File $username ($id_file) tidak ada");
+            return $this->fail('dashboard', "File $username ($id_file) not found");
         }
 
         return view('user.file.detalPublik', $data);
@@ -299,7 +301,7 @@ class FileController extends Controller
                     ->first(['p.pesan','f.original_filename','f.generate_filename','f.judul_file','f.status','f.mime_type','f.ekstensi_file','f.id_file','u.fullname','f.file_size','f.deskripsi','f.created_at']);
 
         if (!$shareFile) {
-            return $this->fail('dashboard',"File tidak ada");
+            return $this->fail('dashboard',"File not found");
         }
 
         $data['file'] = $shareFile;

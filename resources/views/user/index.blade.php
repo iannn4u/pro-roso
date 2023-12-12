@@ -11,7 +11,6 @@
         <h3 class="text-3xl font-semibold">{{ $salam . ', ' . Auth::user()->fullname }}</h3>
     </div>
     @endsection --}}
-
     <div class="grid grid-cols-2 gap-y-[20px] gap-x-[16px] md:grid-cols-5 min-[2368px]:grid-cols-6 p-5">
         @foreach ($files as $file)
             @php
@@ -48,7 +47,8 @@
                             </svg>Download</a>
                     </li>
                     <li>
-                        <button class="inline-flex items-center whitespace-nowrap px-4 py-2 text-sm hover:bg-gray-100"
+                        <button
+                            class="inline-flex items-center whitespace-nowrap px-4 py-2 text-sm hover:bg-gray-100 w-full"
                             id="salin" data-id_file="{{ $file->id_file }}">
                             <svg class="mr-2 h-3 w-3 text-gray-800" aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 19 19">
@@ -56,10 +56,24 @@
                                     stroke-width="2"
                                     d="M11.013 7.962a3.519 3.519 0 0 0-4.975 0l-3.554 3.554a3.518 3.518 0 0 0 4.975 4.975l.461-.46m-.461-4.515a3.518 3.518 0 0 0 4.975 0l3.553-3.554a3.518 3.518 0 0 0-4.974-4.975L10.3 3.7" />
                             </svg>
-                            Bagikan dengan link</button>
+                            Share with link</button>
                     </li>
                     <li>
-                        <button data-modal-target="modalDeleteFile" data-modal-toggle="modalDeleteFile" id="buttonShowModalDelete" data-id_file="{{ $file->id_file }}"
+                        <button class="inline-flex items-center whitespace-nowrap px-4 py-2 text-sm hover:bg-gray-100"
+                            id="buttonShowModalShare" data-user="{{ Auth::user()->username }}"
+                            data-modal-target="modalShareAnotherUser" data-modal-toggle="modalShareAnotherUser"
+                            data-id_file="{{ $file->id_file }}">
+                            <svg class="mr-2 h-3 w-3 text-gray-800" xmlns="http://www.w3.org/2000/svg" height="16"
+                                width="20"
+                                viewBox="0 0 640 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.-->
+                                <path
+                                    d="M144 0a80 80 0 1 1 0 160A80 80 0 1 1 144 0zM512 0a80 80 0 1 1 0 160A80 80 0 1 1 512 0zM0 298.7C0 239.8 47.8 192 106.7 192h42.7c15.9 0 31 3.5 44.6 9.7c-1.3 7.2-1.9 14.7-1.9 22.3c0 38.2 16.8 72.5 43.3 96c-.2 0-.4 0-.7 0H21.3C9.6 320 0 310.4 0 298.7zM405.3 320c-.2 0-.4 0-.7 0c26.6-23.5 43.3-57.8 43.3-96c0-7.6-.7-15-1.9-22.3c13.6-6.3 28.7-9.7 44.6-9.7h42.7C592.2 192 640 239.8 640 298.7c0 11.8-9.6 21.3-21.3 21.3H405.3zM224 224a96 96 0 1 1 192 0 96 96 0 1 1 -192 0zM128 485.3C128 411.7 187.7 352 261.3 352H378.7C452.3 352 512 411.7 512 485.3c0 14.7-11.9 26.7-26.7 26.7H154.7c-14.7 0-26.7-11.9-26.7-26.7z" />
+                            </svg>
+                            Share another user</button>
+                    </li>
+                    <li>
+                        <button data-modal-target="modalDeleteFile" data-modal-toggle="modalDeleteFile"
+                            id="buttonShowModalDelete" data-id_file="{{ $file->id_file }}"
                             class="inline-flex w-full items-center bg-red-500 px-4 py-2 text-left text-sm text-white hover:bg-red-600">
                             <svg class="mr-2 h-3 w-3 text-gray-800" aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
@@ -106,17 +120,73 @@
                 </a>
             </div>
         @endforeach
-
-        {{--
-                <li>
-                    <button id="bSearch" class="block px-4 py-2 hover:bg-gray-100 flex items-center gap-2 w-full"
-                        data-id_file="" data-user="{{ Auth::user()->username }}" data-modal-target="shareModal"
-                        data-modal-toggle="shareModal"><i class="fa-solid fa-users"></i>Bagikan dengan
-                        user</button>
-                </li>
-                 --}}
-
     </div>
+
+    <!-- Main modal -->
+    <div id="modalShareAnotherUser" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
+        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative p-4 w-full max-w-md max-h-full">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <!-- Modal header -->
+                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                        Share Another User
+                    </h3>
+                    <button type="button"
+                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                        data-modal-hide="modalShareAnotherUser">
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                        </svg>
+                        <span class="sr-only">Close modal</span>
+                    </button>
+                </div>
+                <!-- Modal body -->
+                <div class="p-4 md:p-5 space-y-4">
+                    <form id="formShareFile" method="POST">
+                        @csrf
+                        {{-- <div class="mb-3 -mt-2 space-y-1">
+                            <h5 class="font-medium">Now sharing: </h5>
+                            <span class="font-mono Filename truncate inline-block w-[calc(95%_+_1rem)]">~</span>
+                        </div> --}}
+                        <div class="space-y-4">
+                            <div class="relative">
+                                <label for="searchUser" class="block mb-2 text-sm font-medium text-gray-900">To
+                                    user</label>
+                                <input type="text" id="searchUser" autofocus name="username"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                    placeholder="{{ Auth::user()->username }}" required>
+                                <small id="notfon" class="block text-sm font-medium text-gray-800 my-1.5"></small>
+                                <ul id="result"
+                                    class="hidden absolute w-full py-2 text-sm text-gray-700 bg-white border-2 rounded-b-lg border-x border-gray-500">
+                                </ul>
+                            </div>
+                            <div>
+                                <label for="pesan" class="block mb-2 text-sm font-medium text-gray-900">Your
+                                    message</label>
+                                <textarea id="pesan" rows="2"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                                    placeholder="From {{ Auth::user()->username }}..." required name="pesan" id="pesan"></textarea>
+                            </div>
+                        </div>
+                </div>
+                <!-- Modal footer -->
+                <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                    <button type="submit" id="kirimUser"
+                        class="w-full text-white bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Send</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
 
     <div id="shareModal" tabindex="-1" aria-hidden="true"
         class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -133,8 +203,8 @@
                         data-modal-hide="shareModal">
                         <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                         </svg>
                         <span class="sr-only">Close modal</span>
                     </button>

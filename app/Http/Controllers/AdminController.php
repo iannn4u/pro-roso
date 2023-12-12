@@ -36,7 +36,7 @@ class AdminController extends Controller
     public function verified($id_user)
     {
         User::where('id_user', $id_user)->update(['status' => 1]);
-        session()->flash('success', 'verified');
+        session()->flash('success', 'Successfully verified user');
         return redirect()->back();
     }
 
@@ -45,7 +45,7 @@ class AdminController extends Controller
         Storage::deleteDirectory('users/' . $id_user);
         User::destroy($id_user);
 
-        session()->flash('success', 'menghapus user');
+        session()->flash('success', 'Successfully deleted user');
         return redirect()->back();
     }
 
@@ -63,19 +63,20 @@ class AdminController extends Controller
         $data['title'] = 'Edit Profil User';
         $user = User::where('id_user', $id_user)->first();
         $errors = [
-            'fullname.required' => 'Nama panjang must not be blank!',
-            'fullname.regex' => 'Nama panjang hanya boleh mengandung huruf!',
-            'fullname.min' => 'Nama panjang harus memiliki minimal 5 karekter!',
+            'fullname.required' => 'Full name must not be blank!',
+            'fullname.regex' => 'Full name can only contain letters!',
+            'fullname.min' => 'Full name must be at least 5 characters long!',
             'username.required' => 'Username must not be blank!',
-            'username.min' => 'Username harus memiliki minimal 5 karakter!',
-            'username.unique' => 'Username sudah digunakan!',
+            'username.min' => 'Username must be at least 5 characters long!',
+            'username.unique' => 'Username is already in use!',
             'email.required' => 'Email must not be blank!',
-            'email.email' => 'Format email tidak sesuai!',
-            'email.unique' => 'Email sudah digunakan!',
+            'email.email' => 'Invalid email format!',
+            'email.unique' => 'Email is already in use!',
             'password.required' => 'Password must not be blank!',
-            'password.min' => 'Password harus memiliki minimal 6 karakter!',
-            'password.confirmed' => 'Ulangi password tidak sesuai!',
+            'password.min' => 'Password must be at least 6 characters long!',
+            'password.confirmed' => 'Password confirmation does not match!',
         ];
+        
         $rules = [
             'fullname' => 'required|regex:/^[a-zA-Z\s]+$/|min:5',
             'username' => $user->username == $request->input('username') ? 'required' : 'required|min:5|unique:users',
@@ -92,7 +93,7 @@ class AdminController extends Controller
 
         $user->update($validasiData);
 
-        session()->flash('success', 'update data user');
+        session()->flash('success', 'Successfully updated user data');
         return redirect('a/users');
     }
 }
