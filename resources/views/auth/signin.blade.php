@@ -38,7 +38,7 @@
         </div>
       </div>
 
-      <div class="sm:mx-auto sm:w-full sm:max-w-sm bg-white/90 rounded-lg shadow-xl p-6 sm:p-5 mt-4">
+      <div class="sm:mx-auto sm:w-full sm:max-w-sm bg-white rounded-lg shadow-xl p-6 sm:p-5 mt-4">
         <p class="text-sm font-light text-gray-500">
           Belum punya akun? <a href="signup"
             class="font-semibold leading-6 text-gray-600 decoration-2 underline-offset-2 hover:underline hover:decoration-gray-700">Register
