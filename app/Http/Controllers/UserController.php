@@ -154,7 +154,7 @@ class UserController extends Controller
 
     session()->forget('isNewAvatar');
 
-    return $this->flashMessage('info', ['account.settings'], "Profile updated successfully — <a href='/user/$idEdit' class='underline hover:no-underline'>view your profile.</a>");
+    return $this->flashMessage('info', ['account.settings'], "Profile updated successfully — <a href='/user/$idEdit' class='underline outline-none hover:text-gray-200 hover:no-underline focus:text-gray-200 focus:outline-2 focus:outline-offset-4 focus:outline-blue-500'>view your profile.</a>");
   }
 
   /**

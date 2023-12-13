@@ -30,7 +30,12 @@ targetDelete.forEach((target) => {
  * Right Click by Ian
  */
 const cards = document.querySelectorAll(".card-file");
-const bSalin = document.querySelector("#salin");
+const bSalin = document.querySelector("#rcCopy");
+const form = document.querySelector("#formShareFile");
+const dropdown = document.querySelector(`#dropdown`);
+const downlaod = document.querySelector("#download");
+const edit = document.querySelector(`#edit`);
+const fileShareName = form.querySelector(".fileshrnm");
 let countResult;
 let visibleDropdown = null;
 let id_file;
@@ -49,6 +54,13 @@ function hiddenDropdownResult() {
   }
 }
 
+function hideDropdownUserIndex(param) {
+  const dpdwn = document.querySelectorAll(param);
+  dpdwn.forEach((m) => {
+    m.classList.add("hidden");
+  });
+}
+
 window.addEventListener("contextmenu", (e) => {
   e.preventDefault();
   return false;
@@ -63,6 +75,9 @@ document.addEventListener("click", (e) => {
   }
 });
 
+/**
+ * ESC key listener ,to hide the dropdown
+ */
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") {
     //if esc key was not pressed in combination with ctrl or alt or shift
@@ -73,20 +88,26 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
+const file_name_by_click = document.querySelectorAll("[data-modal-byclick]");
+file_name_by_click.forEach((f) => {
+  f.addEventListener("click", () => {
+    file_name = f.previousElementSibling.textContent;
+    fileShareName.textContent = file_name;
+  });
+});
+
 cards.forEach((c) => {
   c.addEventListener("contextmenu", (e) => {
+    hideDropdownUserIndex(".dropdownUserIndex");
     hideDropdown();
-    id_file = c.getAttribute("data-id_file");
-    file_name = c.querySelector("a").textContent;
-
-    const dropdown = document.querySelector(`#dropdown`);
-    const downlaod = document.querySelector("#download");
-    const edit = document.querySelector(`#edit`);
-    // const filnm = document.querySelector(`#edit`);
 
     if (visibleDropdown && visibleDropdown != dropdown) {
       hideDropdown();
     }
+
+    id_file = c.getAttribute("data-id_file");
+    file_name = c.querySelector("a").textContent;
+    fileShareName.textContent = file_name;
 
     dropdown.style.left = `${e.clientX}px`;
     dropdown.style.top = `${e.clientY}px`;
@@ -94,7 +115,8 @@ cards.forEach((c) => {
 
     downlaod.href = `/download/${id_file}`;
     edit.href = `/file/${id_file}/edit`;
-    document.querySelector("#formDelete").action = "/file/" + id_file;
+    form.action = `/file/send/${id_file}`;
+    document.querySelector("#formDeleteFile").action = "/file/" + id_file;
     visibleDropdown = dropdown;
     e.preventDefault();
     return false;
@@ -102,18 +124,13 @@ cards.forEach((c) => {
 });
 
 /**
- * Nyalin link lewar klik kanan
+ * Nyalin link lewar klik kanan button
  */
-// bSalin.addEventListener("click", () => {
-//   const link = document.querySelector(`#link[data-id_file="${id_file}"]`);
-//   navigator.clipboard.writeText(link.value);
-//   alert(`Link file #${id_file} berhasil disalin!`);
-// });
-
-/**
- * ajax nyari user
- */
-
+bSalin.addEventListener("click", () => {
+  const link = document.querySelector(`#link[data-id_file="${id_file}"]`);
+  navigator.clipboard.writeText(link.value);
+  alert(`Link file #${id_file} berhasil disalin!`);
+});
 
 /**
  * Hide Modal Notif
@@ -121,144 +138,161 @@ cards.forEach((c) => {
 const modalNotif = document.querySelector(`#notif`);
 const triggerCloseModalNotif = document.querySelector(`#closeModalNotif`);
 if (triggerCloseModalNotif != null) {
-  triggerCloseModalNotif.addEventListener('click', () => modalNotif.classList.add('hidden'));
+  triggerCloseModalNotif.addEventListener("click", () =>
+    modalNotif.classList.add("hidden")
+  );
 }
-
 
 /**
  * Salin URL File
  */
-const buttonSalinUrl = document.querySelectorAll('#salin');
-buttonSalinUrl.forEach(b => {
-  b.addEventListener('click', () => {
-    const id_file = b.getAttribute('data-id_file');
+const buttonSalinUrl = document.querySelectorAll("#salin");
+buttonSalinUrl.forEach((b) => {
+  b.addEventListener("click", () => {
+    const id_file = b.getAttribute("data-id_file");
     const linkUrl = document.querySelector(`#link[data-id_file="${id_file}"]`);
     navigator.clipboard.writeText(linkUrl.value);
-    alert(`Link file #${id_file} berhasil disalin!`);
+    alert(`Link file id #${id_file} berhasil disalin!`);
   });
-})
-
+});
 
 /**
  * Delete File
  */
-const buttonShowModalDelete = document.querySelectorAll('#buttonShowModalDelete');
-buttonShowModalDelete.forEach(b => {
-  b.addEventListener('click', () => {
-    const dropdown = document.querySelectorAll(`.dropdownUserIndex`);
-    dropdown.forEach(m => {
-      m.classList.add('hidden');
-    })
-    const id_file = b.getAttribute('data-id_file');
+const buttonShowModalDelete = document.querySelectorAll(
+  "#buttonShowModalDelete"
+);
+buttonShowModalDelete.forEach((b) => {
+  b.addEventListener("click", () => {
+    hideDropdownUserIndex(".dropdownUserIndex");
+    const id_file = b.getAttribute("data-id_file");
     const form = document.querySelector(`#formDeleteFile`);
     form.action = `file/${id_file}`;
   });
-})
-
+});
 
 /**
  * Modal Share Another User
  */
-const buttonShowModalShare = document.querySelectorAll('#buttonShowModalShare');
-const form = document.querySelector("#formShareFile");
-buttonShowModalShare.forEach(b => {
-  b.addEventListener('click', () => {
-    const modalShareAnotherUser = document.querySelector('#modalShareAnotherUser').classList.add('hidden');
-    const dropdown = document.querySelectorAll(`.dropdownUserIndex`);
+const buttonShowModalShare = document.querySelectorAll("#buttonShowModalShare");
+buttonShowModalShare.forEach((b) => {
+  b.addEventListener("click", () => {
+    const modalShareAnotherUser = document
+      .querySelector("#modalShareAnotherUser")
+      .classList.add("hidden");
     const id_file = b.getAttribute("data-id_file");
-    dropdown.forEach(m => {
-      m.classList.add('hidden');
-    })
+    hideDropdownUserIndex(".dropdownUserIndex");
     form.action = "";
     form.action = "file/send/" + id_file;
-    console.log(form.action)
-  })
+  });
 });
 
-const modalResultAjaxUser = document.querySelector('#result');
-document.addEventListener('click', function (event) {
+/**
+ * Kalau pas search nama user klik diluar elemnt daftar nama user
+ */
+const areaResultUser = document.querySelector("#result");
+document.addEventListener("click", function (event) {
   // Periksa apakah klik dilakukan di luar elemen result
-  if (!modalResultAjaxUser.contains(event.target)) {
+  if (!areaResultUser.contains(event.target)) {
     // Jika ya, tambahkan class hidden pada elemen result
-    modalResultAjaxUser.classList.add('hidden');
+    areaResultUser.classList.add("hidden");
   }
 });
-
 // Event listener untuk menampilkan kembali elemen result jika diklik
-modalResultAjaxUser.addEventListener('click', function (event) {
+areaResultUser.addEventListener("click", function (event) {
   // Hapus class hidden saat elemen result diklik
-  modalResultAjaxUser.classList.remove('hidden');
+  areaResultUser.classList.remove("hidden");
 });
 
+/**
+ * Deklarasi variable
+ */
 const result = document.querySelector("#result");
+const textAreaPesan = document.querySelector("#pesan");
 const buttonModalShare = document.querySelectorAll("#bSearch");
+const searchUser = document.querySelector("#searchUser");
 const notfon = document.querySelector("#notfon");
+const btnSendFile = document.querySelector("#sendFile");
 let clicked = false;
 let username;
 
-const searchUser = document.querySelector("#searchUser");
-searchUser.addEventListener("input", function () {
+textAreaPesan.addEventListener("focus", () => {
+  result.classList.add("hidden");
+  searchUser.classList.add("rounded-lg");
+  searchUser.classList.remove("rounded-t-lg");
+});
+
+searchUser.addEventListener("input", () => {
   let valueSearch = searchUser.value.trim();
   if (valueSearch != "") {
     result.innerHTML = "<span class='block px-4 py-2'>Loading...</span>";
-    const userPromise = fetch(`/username?q=${valueSearch}`, {
+    const { userPromise } = fetch(`/username?q=${valueSearch}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
-    }).then((response) => {
-      return response.json();
-    }).then((dataUsers) => {
-      const users = dataUsers.dataUsers;
-      result.innerHTML = "";
-      searchUser.addEventListener("keyup", function () {
-        clicked = false;
-      });
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((dataUsers) => {
+        const users = dataUsers.dataUsers;
+        result.innerHTML = "";
+        searchUser.addEventListener("keyup", function () {
+          clicked = false;
+          btnSendFile.disabled = true;
+        });
 
-      if (users.length == 0) {
-        searchUser.classList.add("rounded-lg");
-        searchUser.classList.remove("rounded-t-lg");
-        result.classList.add("hidden");
-        notfon.textContent = `User '${valueSearch}' tidak ada!`;
-        notfon.classList.remove("hidden");
-        notfon.classList.add("block");
-      } else {
-        searchUser.classList.remove("rounded-lg");
-        searchUser.classList.add("rounded-t-lg");
-        result.classList.remove("hidden");
-        result.classList.add("block");
-        notfon.classList.remove("block");
-        notfon.classList.add("hidden");
-      }
+        if (users.length == 0) {
+          searchUser.classList.add("rounded-lg");
+          searchUser.classList.remove("rounded-t-lg");
+          result.classList.add("hidden");
+          notfon.textContent = `User '${valueSearch}' tidak ada!`;
+          notfon.classList.remove("hidden");
+          notfon.classList.add("block");
+          btnSendFile.disabled = true;
+        } else {
+          searchUser.classList.remove("rounded-lg");
+          searchUser.classList.add("rounded-t-lg");
+          result.classList.remove("hidden");
+          result.classList.add("block");
+          notfon.classList.remove("block");
+          notfon.classList.add("hidden");
+        }
 
-      users.forEach((user) => {
-        const li = document.createElement("li");
-        li.textContent = user.username;
-        li.classList.add(
-          "userLi",
-          "block",
-          "px-4",
-          "py-2",
-          "hover:bg-gray-100"
-        );
-        li.setAttribute("role", "button");
-        result.appendChild(li);
+        users.forEach((user) => {
+          const li = document.createElement("li");
+          li.textContent = user.username;
+          li.classList.add(
+            "userLi",
+            "block",
+            "px-4",
+            "py-2",
+            "hover:bg-gray-100"
+          );
+          li.setAttribute("role", "button");
+          result.appendChild(li);
 
-        let liUser = document.querySelectorAll(".userLi");
-        liUser.forEach((uli) => {
-          uli.addEventListener("click", () => {
-            searchUser.value = uli.innerText;
-            result.innerHTML = "";
-            countResult = null;
-            clicked = true;
+          let liUser = document.querySelectorAll(".userLi");
+          liUser.forEach((uli) => {
+            uli.addEventListener("click", () => {
+              searchUser.value = uli.innerText;
+              result.innerHTML = "";
+              countResult = null;
+              clicked = true;
 
-            if (clicked) {
-              result.classList.add("hidden");
-            }
+              if (clicked) {
+                searchUser.classList.add("rounded-lg");
+                searchUser.classList.remove("rounded-t-lg");      
+                result.classList.add("hidden");
+                btnSendFile.disabled = false;
+              } else {
+                btnSendFile.disabled = true;
+              }
+            });
           });
         });
-      });
-    })
+      })
       .catch((error) => {
         console.error(`Error: ${error.message}`);
       });
@@ -270,5 +304,6 @@ searchUser.addEventListener("input", function () {
     result.classList.add("hidden");
     result.classList.remove("block");
     result.innerHTML = "";
+    btnSendFile.disabled = true;
   }
 });

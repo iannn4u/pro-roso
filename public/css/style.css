@@ -12,7 +12,9 @@ img[data-src] {
   filter: blur(3px);
   opacity: .75 !important;
 }
-
+.no-scrollbar::-webkit-scrollbar{
+  width: 0 !important;
+}
 .onsc {
   border-bottom-width: 1px;
   --border-opacity: 1;

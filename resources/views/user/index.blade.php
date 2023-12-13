@@ -4,7 +4,7 @@
         Dashboard - {{ config('app.name') }}
     </x-slot>
 
-    <x-partial.flash class="!my-2 absolute min-w-[18rem] top-20 right-10 z-10 shadow-md" :flash="session()->all()" />
+    <x-partial.flash class="!my-2 shadow-md" :flash="session()->all()" />
 
     {{-- @section('salam')
     <div class="py-3">
@@ -13,133 +13,206 @@
     @endsection --}}
     <div class="grid grid-cols-2 gap-y-[20px] gap-x-[16px] md:grid-cols-5 min-[2368px]:grid-cols-6 p-5">
         @foreach ($files as $file)
-            @php
-                $namaFile = explode('/', $file->generate_filename);
-            @endphp
+        @php
+        $namaFile = explode('/', $file->generate_filename);
+        @endphp
+        <input type="hidden" value="{{ config('app.url') . 'd/' . $file->id_user . '/' . end($namaFile) }}" id="link"
+            data-id_file="{{ $file->id_file }}">
 
-            <input type="hidden" value="{{ config('app.url') . 'd/' . $file->id_user . '/' . end($namaFile) }}"
-                id="link" data-id_file="{{ $file->id_file }}">
-
-            <!-- Dropdown menu -->
-            <div id="file-#{{ $file->id_file }}"
-                class="z-50 hidden w-44 list-none divide-y divide-gray-100 overflow-hidden rounded-lg bg-white text-base shadow dropdownUserIndex">
-                <ul>
-                    <li>
-                        <a href="{{ route('file.edit', $file->id_file) }}"
-                            class="inline-flex w-full items-center px-4 py-2 text-sm hover:bg-gray-100">
-                            <svg class="mr-2 h-3 w-3 text-gray-800" aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
-                                <path
-                                    d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z" />
-                                <path
-                                    d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z" />
-                            </svg>
-                            Edit</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('file.download', $file->id_file) }}"
-                            class="inline-flex w-full items-center px-4 py-2 text-sm hover:bg-gray-100"><svg
-                                class="mr-2 h-3 w-3 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                fill="none" viewBox="0 0 16 18">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M8 1v11m0 0 4-4m-4 4L4 8m11 4v3a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-3" />
-                            </svg>Download</a>
-                    </li>
-                    <li>
-                        <button
-                            class="inline-flex items-center whitespace-nowrap px-4 py-2 text-sm hover:bg-gray-100 w-full"
-                            id="salin" data-id_file="{{ $file->id_file }}">
-                            <svg class="mr-2 h-3 w-3 text-gray-800" aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 19 19">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M11.013 7.962a3.519 3.519 0 0 0-4.975 0l-3.554 3.554a3.518 3.518 0 0 0 4.975 4.975l.461-.46m-.461-4.515a3.518 3.518 0 0 0 4.975 0l3.553-3.554a3.518 3.518 0 0 0-4.974-4.975L10.3 3.7" />
-                            </svg>
-                            Share with link</button>
-                    </li>
-                    <li>
-                        <button class="inline-flex items-center whitespace-nowrap px-4 py-2 text-sm hover:bg-gray-100"
-                            id="buttonShowModalShare" data-user="{{ Auth::user()->username }}"
-                            data-modal-target="modalShareAnotherUser" data-modal-toggle="modalShareAnotherUser"
-                            data-id_file="{{ $file->id_file }}">
-                            <svg class="mr-2 h-3 w-3 text-gray-800" xmlns="http://www.w3.org/2000/svg" height="16"
-                                width="20"
-                                viewBox="0 0 640 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.-->
-                                <path
-                                    d="M144 0a80 80 0 1 1 0 160A80 80 0 1 1 144 0zM512 0a80 80 0 1 1 0 160A80 80 0 1 1 512 0zM0 298.7C0 239.8 47.8 192 106.7 192h42.7c15.9 0 31 3.5 44.6 9.7c-1.3 7.2-1.9 14.7-1.9 22.3c0 38.2 16.8 72.5 43.3 96c-.2 0-.4 0-.7 0H21.3C9.6 320 0 310.4 0 298.7zM405.3 320c-.2 0-.4 0-.7 0c26.6-23.5 43.3-57.8 43.3-96c0-7.6-.7-15-1.9-22.3c13.6-6.3 28.7-9.7 44.6-9.7h42.7C592.2 192 640 239.8 640 298.7c0 11.8-9.6 21.3-21.3 21.3H405.3zM224 224a96 96 0 1 1 192 0 96 96 0 1 1 -192 0zM128 485.3C128 411.7 187.7 352 261.3 352H378.7C452.3 352 512 411.7 512 485.3c0 14.7-11.9 26.7-26.7 26.7H154.7c-14.7 0-26.7-11.9-26.7-26.7z" />
-                            </svg>
-                            Share another user</button>
-                    </li>
-                    <li>
-                        <button data-modal-target="modalDeleteFile" data-modal-toggle="modalDeleteFile"
-                            id="buttonShowModalDelete" data-id_file="{{ $file->id_file }}"
-                            class="inline-flex w-full items-center bg-red-500 px-4 py-2 text-left text-sm text-white hover:bg-red-600">
-                            <svg class="mr-2 h-3 w-3 text-gray-800" aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z" />
-                            </svg>
-                            Hapus</button>
-                    </li>
-                </ul>
-            </div>
-            <div title="{{ $file->original_filename }}"
-                class="flex w-full max-w-full flex-col bg-gray-100 border border-gray-200 rounded-lg shadow hover:bg-gray-200/20 duration-150 hover:shadow-md pb-2 card-file"
-                data-id_file="{{ $file->id_file }}">
-
-                <div class="flex justify-between px-2 mt-2 my-1">
-                    <a href="{{ route('file.detail', ['username' => Auth::user()->username, 'id_file' => $file->id_file]) }}"
-                        class="inline-block w-[139px] truncate font-medium text-gray-900 decoration-blue-500 decoration-2 hover:underline hover:underline-offset-2 lg:w-full"
-                        title="{{ $file->original_filename }}">{{ $file->original_filename }}</a>
-                    <button data-dropdown-toggle="file-#{{ $file->id_file }}"
-                        class="inline-block rounded-full ml-1 -mr-1 p-1.5 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
-                        type="button">
-                        <span class="sr-only">Open dropdown</span>
-                        <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                            viewBox="0 0 16 3">
+        <!-- Dropdown menu -->
+        <div id="file-#{{ $file->id_file }}"
+            class="z-50 hidden w-44 list-none divide-y divide-gray-100 overflow-hidden rounded-lg bg-white text-base shadow dropdownUserIndex">
+            <ul>
+                <li>
+                    <a href="{{ route('file.edit', $file->id_file) }}"
+                        class="inline-flex w-full items-center px-4 py-2 text-sm hover:bg-gray-100">
+                        <svg class="mr-2 h-3 w-3 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor" viewBox="0 0 20 18">
                             <path
-                                d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
+                                d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z" />
+                            <path
+                                d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z" />
                         </svg>
+                        <span>Edit</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('file.download', $file->id_file) }}"
+                        class="inline-flex w-full items-center px-4 py-2 text-sm hover:bg-gray-100">
+                        <svg class="mr-2 h-3 w-3 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                            fill="none" viewBox="0 0 16 18">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 1v11m0 0 4-4m-4 4L4 8m11 4v3a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-3" />
+                        </svg>
+                        <span>Download</span>
+                    </a>
+                </li>
+                <li>
+                    <button
+                        class="inline-flex items-center whitespace-nowrap px-4 py-2 text-sm hover:bg-gray-100 w-full"
+                        id="salin" data-id_file="{{ $file->id_file }}">
+                        <svg class="mr-2 h-3 w-3 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                            fill="none" viewBox="0 0 19 19">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M11.013 7.962a3.519 3.519 0 0 0-4.975 0l-3.554 3.554a3.518 3.518 0 0 0 4.975 4.975l.461-.46m-.461-4.515a3.518 3.518 0 0 0 4.975 0l3.553-3.554a3.518 3.518 0 0 0-4.974-4.975L10.3 3.7" />
+                        </svg>
+                        <span>Share with link</span>
                     </button>
-                </div>
+                </li>
+                <li>
+                    <button class="inline-flex items-center whitespace-nowrap px-4 py-2 text-sm hover:bg-gray-100"
+                        id="buttonShowModalShare" data-user="{{ Auth::user()->username }}"
+                        data-modal-target="modalShareAnotherUser" data-modal-toggle="modalShareAnotherUser"
+                        data-id_file="{{ $file->id_file }}">
+                        <svg class="mr-2 h-4 w-4 text-gray-800" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+                        </svg>
+                        <span>Share another user</span>
+                    </button>
+                </li>
+                <li>
+                    <button data-modal-target="modalDeleteFile" data-modal-toggle="modalDeleteFile"
+                        id="buttonShowModalDelete" data-id_file="{{ $file->id_file }}"
+                        class="inline-flex w-full items-center bg-red-500 px-4 py-2 text-left text-sm text-white hover:bg-red-600">
+                        <svg class="mr-2 h-3 w-3 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                            fill="none" viewBox="0 0 18 20">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z" />
+                        </svg>
+                        <span>Hapus</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
 
+        <div title="{{ $file->original_filename }}"
+            class="flex w-full max-w-full flex-col bg-gray-100 border border-gray-200 rounded-lg shadow hover:bg-gray-200/20 duration-150 hover:shadow-md pb-2 card-file"
+            data-id_file="{{ $file->id_file }}">
+
+            <div class="flex justify-between px-2 mt-2 my-1">
                 <a href="{{ route('file.detail', ['username' => Auth::user()->username, 'id_file' => $file->id_file]) }}"
-                    class="overflow-hidden h-40 mt-px cursor-pointer bg-white grid place-items-center">
-                    @php
-                        $mime = explode('/', $file->mime_type);
-                        $extension = $file->ekstensi_file;
-                    @endphp
-                    @if ($mime[0] == 'image')
-                        <img data-src="{{ asset('storage/' . $file->generate_filename) }}"
-                            alt="{{ $file->judul_file }}" class="object-contain h-full">
-                    @else
-                        <x-partial.asset.svg :ext="$extension" />
-                    @endif
-                </a>
+                    class="inline-block ori__file w-[139px] truncate font-medium text-gray-900 decoration-blue-500 decoration-2 hover:underline hover:underline-offset-2 lg:w-full"
+                    title="{{ $file->original_filename }}">{{ $file->original_filename }}</a>
+                <button data-dropdown-toggle="file-#{{ $file->id_file }}" data-modal-byclick
+                    class="inline-block rounded-full ml-1 -mr-1 p-1.5 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
+                    type="button">
+                    <span class="sr-only">Open dropdown</span>
+                    <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                        viewBox="0 0 16 3">
+                        <path
+                            d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
+                    </svg>
+                </button>
             </div>
+
+            <a href="{{ route('file.detail', ['username' => Auth::user()->username, 'id_file' => $file->id_file]) }}"
+                class="overflow-hidden h-40 mt-px cursor-pointer bg-white grid place-items-center">
+                @php
+                $mime = explode('/', $file->mime_type);
+                $extension = $file->ekstensi_file;
+                @endphp
+                @if ($mime[0] == 'image')
+                <img data-src="{{ asset('storage/' . $file->generate_filename) }}" alt="{{ $file->judul_file }}"
+                    class="object-contain h-full">
+                @else
+                <x-partial.asset.svg :ext="$extension" />
+                @endif
+            </a>
+        </div>
         @endforeach
     </div>
 
-    <!-- Main modal -->
-    <div id="modalShareAnotherUser" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
+
+    <!-- 
+            Dropdown menu based on oright click
+        -->
+
+    <div id="dropdown" class="absolute hidden z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-52">
+        <ul class="py-2 text-sm text-gray-700">
+            <li>
+                <a href="" class="block px-4 py-2 hover:bg-gray-100 flex items-center gap-3" id="edit">
+                    <svg class="h-4 w-4 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor" viewBox="0 0 20 18">
+                        <path
+                            d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z">
+                        </path>
+                        <path
+                            d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z">
+                        </path>
+                    </svg>
+                    <span>Edit</span>
+                </a>
+            </li>
+            <li>
+                <a href="" class="block px-4 py-2 hover:bg-gray-100 flex items-center gap-3" id="download">
+                    <svg class="mr-1 h-3 w-3 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                        fill="none" viewBox="0 0 16 18">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8 1v11m0 0 4-4m-4 4L4 8m11 4v3a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-3" />
+                    </svg>
+                    <span>Download</span>
+                </a>
+            </li>
+            <li>
+                <button class="block px-4 py-2 hover:bg-gray-100 flex items-center gap-3 w-full" id="rcCopy">
+                    <svg class="mr-1 h-3 w-3 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                        fill="none" viewBox="0 0 19 19">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M11.013 7.962a3.519 3.519 0 0 0-4.975 0l-3.554 3.554a3.518 3.518 0 0 0 4.975 4.975l.461-.46m-.461-4.515a3.518 3.518 0 0 0 4.975 0l3.553-3.554a3.518 3.518 0 0 0-4.974-4.975L10.3 3.7" />
+                    </svg>
+                    <span class="ms-px">Share with link</span>
+                </button>
+            </li>
+            <li>
+                <button id="bSearch" class="block px-4 py-2 hover:bg-gray-100 flex items-center gap-3 w-full"
+                    data-id_file="" data-user="{{ Auth::user()->username }}" data-modal-toggle="modalShareAnotherUser">
+                    <svg class="mr-0.5 h-4 w-4 text-gray-800" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+                    </svg>
+                    <span>Share with user</span>
+                </button>
+            </li>
+            <li>
+                <button
+                    class="inline-flex items-center gap-3 w-full bg-red-500 px-4 py-2 text-left text-sm text-white hover:bg-red-600"
+                    data-modal-target="modalDeleteFile" data-modal-toggle="modalDeleteFile">
+                    <svg class="mr-1 h-3 w-3 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                        fill="none" viewBox="0 0 18 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z" />
+                    </svg>
+                    <span>Hapus</span>
+                </button>
+            </li>
+        </ul>
+    </div>
+
+
+    <!--
+            Main modal fol sharing file
+        -->
+
+    <div id="modalShareAnotherUser" tabindex="-1" aria-hidden="true"
         class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
         <div class="relative p-4 w-full max-w-md max-h-full">
             <!-- Modal content -->
-            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <div class="relative bg-white rounded-lg shadow">
                 <!-- Modal header -->
-                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
+                    <h3 class="text-xl font-semibold text-gray-900">
                         Share Another User
                     </h3>
                     <button type="button"
-                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 focus:bg-gray-200 focus:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
                         data-modal-hide="modalShareAnotherUser">
                         <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                         </svg>
                         <span class="sr-only">Close modal</span>
                     </button>
@@ -148,35 +221,41 @@
                 <div class="p-4 md:p-5 space-y-4">
                     <form id="formShareFile" method="POST">
                         @csrf
-                        {{-- <div class="mb-3 -mt-2 space-y-1">
+                        <div class="mb-3 -mt-2 space-y-1">
                             <h5 class="font-medium">Now sharing: </h5>
-                            <span class="font-mono Filename truncate inline-block w-[calc(95%_+_1rem)]">~</span>
-                        </div> --}}
+                            <span class="font-mono fileshrnm truncate inline-block w-[calc(95%_+_1rem)]">~</span>
+                        </div>
                         <div class="space-y-4">
                             <div class="relative">
                                 <label for="searchUser" class="block mb-2 text-sm font-medium text-gray-900">To
                                     user</label>
-                                <input type="text" id="searchUser" autofocus name="username"
+                                <input type="text" id="searchUser" name="username"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                    placeholder="{{ Auth::user()->username }}" required>
+                                    placeholder="someone..." required>
                                 <small id="notfon" class="block text-sm font-medium text-gray-800 my-1.5"></small>
                                 <ul id="result"
-                                    class="hidden absolute w-full py-2 text-sm text-gray-700 bg-white border-2 rounded-b-lg border-x border-gray-500">
+                                    class="hidden absolute z-20 shadow w-full py-2 text-sm text-gray-700 bg-white border-2 rounded-b-lg border-x border-gray-500">
                                 </ul>
                             </div>
                             <div>
                                 <label for="pesan" class="block mb-2 text-sm font-medium text-gray-900">Your
                                     message</label>
-                                <textarea id="pesan" rows="2"
+                                <textarea rows="2"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                                    placeholder="From {{ Auth::user()->username }}..." required name="pesan" id="pesan"></textarea>
+                                    placeholder="From {{ Auth::user()->username }}..." required name="pesan"
+                                    id="pesan"></textarea>
                             </div>
                         </div>
-                </div>
-                <!-- Modal footer -->
-                <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                    <button type="submit" id="kirimUser"
-                        class="w-full text-white bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Send</button>
+                        <div class="flex flex-col items-center border-t border-gray-200 rounded-b mt-2">
+                            <x-partial.primary-button onclick="process('send')" id="sendFile" disabled
+                                class="!w-full text-white bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                                Send
+                            </x-partial.primary-button>
+                            <x-partial.secondary-button class="justify-center w-full text-center mt-2"
+                                data-modal-hide="modalShareAnotherUser">
+                                Cancel
+                            </x-partial.secondary-button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -185,10 +264,11 @@
 
 
 
+    <!-- 
+            Modal for sharing a file (sebelumnya)
+        -->
 
-
-
-    <div id="shareModal" tabindex="-1" aria-hidden="true"
+    {{-- <div id="shareModal" tabindex="-1" aria-hidden="true"
         class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
         <div class="relative p-4 w-full max-w-md max-h-full">
             <!-- Modal content -->
@@ -203,8 +283,8 @@
                         data-modal-hide="shareModal">
                         <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                         </svg>
                         <span class="sr-only">Close modal</span>
                     </button>
@@ -234,7 +314,8 @@
                                     message</label>
                                 <textarea id="pesan" rows="2"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                                    placeholder="From {{ Auth::user()->username }}..." required name="pesan" id="pesan"></textarea>
+                                    placeholder="From {{ Auth::user()->username }}..." required name="pesan"
+                                    id="pesan"></textarea>
                             </div>
                             <button type="submit" id="kirimUser"
                                 class="w-full text-white bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Send</button>
@@ -243,8 +324,11 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
+    <!-- 
+            Modal for deleting a file
+        -->
 
     <div id="modalDeleteFile" tabindex="-1"
         class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -273,7 +357,7 @@
                         @csrf
                         <button data-modal-hide="modalDeleteFile" type="submit"
                             class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center me-2">
-                            Yes, I'm sure
+                            Delete
                         </button>
                     </form>
                     <button data-modal-hide="modalDeleteFile" type="button"
@@ -283,6 +367,10 @@
             </div>
         </div>
     </div>
+
+    <!-- 
+            Modal for notification button
+        -->
 
     <div id="allNotifications" tabindex="-1" aria-hidden="true"
         class="hidden overflow-y-auto overflow-x-hidden fixed pt-3 top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -297,8 +385,8 @@
                         data-modal-toggle="allNotifications">
                         <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                         </svg>
                         <span class="sr-only">Close modal</span>
                     </button>
@@ -306,27 +394,27 @@
                 <div class="p-4 md:p-5">
                     <ul class="space-y-4">
                         @foreach ($pesan as $p)
-                            <li>
-                                <a href="{{ route('file.share.detail', [$p->user->username, $p->id_file]) }}"
-                                    class="inline-flex items-center justify-between w-full p-3 px-5 text-gray-900 bg-white border border-gray-200 rounded-lg cursor-pointer  hover:text-gray-900 hover:bg-gray-100">
-                                    <img class="w-10 aspect-square rounded-full object-cover"
-                                        src="{{ $p->user->pp === 'img/defaultProfile.svg' ? asset('img/defaultProfile.svg') : asset('storage/' . $p->user->pp) }}"
-                                        alt="{{ $p->id_pengirim }}">
-                                    <div class="block">
-                                        <div title="{{ $p->created_at }}" class="text-xs text-gray-700">
-                                            {{ $p->created_at->format('F d, Y h:iA') }}
-                                        </div>
-                                        <span class="text-base"><b>{{ $p->user->username }}</b> sent you a file! View
-                                            file.</span>
+                        <li>
+                            <a href="{{ route('file.share.detail', [$p->user->username, $p->id_file]) }}"
+                                class="inline-flex items-center justify-between w-full p-3 px-5 text-gray-900 bg-white border border-gray-200 rounded-lg cursor-pointer  hover:text-gray-900 hover:bg-gray-100">
+                                <img class="w-10 aspect-square rounded-full object-cover"
+                                    src="{{ $p->user->pp === 'img/defaultProfile.svg' ? asset('img/defaultProfile.svg') : asset('storage/' . $p->user->pp) }}"
+                                    alt="{{ $p->id_pengirim }}">
+                                <div class="block">
+                                    <div title="{{ $p->created_at }}" class="text-xs text-gray-700">
+                                        {{ $p->created_at->format('F d, Y h:iA') }}
                                     </div>
-                                    <svg class="w-4 h-4 ms-3 rtl:rotate-180 text-gray-500 dark:text-gray-400"
-                                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                        viewBox="0 0 14 10">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                            stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
-                                    </svg>
-                                </a>
-                            </li>
+                                    <span class="text-base"><b>{{ $p->user->username }}</b> sent you a file! View
+                                        file.</span>
+                                </div>
+                                <svg class="w-4 h-4 ms-3 rtl:rotate-180 text-gray-500 dark:text-gray-400"
+                                    aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                    viewBox="0 0 14 10">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
+                                </svg>
+                            </a>
+                        </li>
                         @endforeach
                     </ul>
                 </div>
@@ -336,7 +424,7 @@
 
 
     @push('script')
-        <script src="{{ asset('js/buffer.js') }}"></script>
-        <script src="{{ asset('js/form.js') }}"></script>
+    <script src="{{ asset('js/buffer.js') }}"></script>
+    <script src="{{ asset('js/form.js') }}"></script>
     @endpush
 </x-user>
