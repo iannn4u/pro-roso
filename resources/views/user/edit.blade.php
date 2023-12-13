@@ -52,13 +52,13 @@
                 <div class="w-1/3 -mx-1.5">
                     <div class="flex flex-col items-center sm:mt-5">
                         <button
-                            class="w-48 h-48 focus:outline-none focus:ring-1 focus:ring-gray-400 ring-offset-4 rounded-full duration-100"
-                            type="button" onclick="openFile()">
+                        class="w-48 h-48 focus:outline-none focus:ring-1 focus:ring-gray-400 ring-offset-4 rounded-full duration-100 group relative"
+                        type="button" onclick="openFile()">
                             <img class="w-full h-full object-cover rounded-full shadow-lg hover:brightness-95 duration-150"
                                 src="{{ Auth::user()->pp === 'img/defaultProfile.svg' ? asset('img/defaultProfile.svg') : asset('storage/' . Auth::user()->pp) }}"
                                 id="imgPreview" />
+                            <span class="absolute inset-0 bg-white/70 rounded-full backdrop-blur-md flex justify-center items-center text-xl capitalize text-gray-800 opacity-0 invisible group-hover:opacity-100 group-hover:visible duration-300">change image</span>
                         </button>
-
                         <div class="mt-3">
                             <x-partial.form.input id="pp" type="file" name="pp" :error="$errors->get('pp')"
                                 class="!hidden !invisible !p-1.5" :value="$user->pp" accept="image/gif,image/png,image/jpg,image/jpeg"

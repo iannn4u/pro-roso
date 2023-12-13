@@ -18,11 +18,11 @@
             }
 
             $alertType = match ($alert) {
-                'fail' => 'border-red-600 bg-red-50',
-                'success' => 'border-green-300 bg-green-50',
-                'info' => 'border-blue-300 bg-blue-50',
-                'warn' => 'border-yellow-300 bg-yellow-50',
-                default => 'border-gray-300 bg-gray-50',
+                'fail' => 'border-red-600',
+                'success' => 'border-green-300',
+                'info' => 'border-blue-300',
+                'warn' => 'border-yellow-300',
+                default => 'border-gray-300',
             };
         }
     }
@@ -30,20 +30,16 @@
 
 @if (isset($messages))
         <div id="atomic-alert-1"
-            class="bg-gray-700 text-white flex w-64 items-center p-3 pe-0 text-black border text-black rounded-lg absolute bottom-[2vh] left-[4vh] z-20"
+            class="{{ $attributes->merge(['class' => 'absolute bottom-[2vh] left-[4vh] z-20 !mb-5 flex max-w-xl items-center space-x-2 rounded-lg bg-gray-700 p-3 text-white ' . $alertType])['class'] }}"
             role="alert">
-            <div class="ms-2 pe-2 text-sm font-medium w-full">
+            <div class="w-full pe-2 text-sm font-medium">
                 {!! $msg !!}
             </div>
             {{-- <div class="inline-block h-100 w-0.5 self-stretch bg-gray-300 opacity-100"></div> --}}
-            <button type="button" autofocus=""
-                class="inline-flex mx-2 mt-1 h-9 w-9 items-center justify-center rounded-md text-white outline-none ring-inset backdrop-blur-lg duration-150"
-                data-dismiss-target="#atomic-alert-1" aria-label="Close">
+            <button type="button" autofocus class="mt-1 inline-flex aspect-square h-10 w-10 items-center justify-center rounded-md text-white outline-none ring-1 ring-gray-300 duration-150 focus-within:ring-2 hover:ring-2 focus:ring-2" data-dismiss-target="#atomic-alert-1" aria-label="Close">
                 <span class="sr-only">Close</span>
-                <svg class="h-3 w-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 14 16">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"></path>
+                <svg class="h-3 w-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 16">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"></path>
                 </svg>
             </button>
         </div>

@@ -23,6 +23,12 @@ function process(location) {
     preprocessElement = document.getElementById("preprocessDel");
 
     preprocessElement.innerHTML = loader;
+  } else if (location == "send") {
+    document.getElementById("formShareFile").submit();
+
+    preprocessElement = document.getElementById("preprocess");
+
+    preprocessElement.innerHTML = loader;
   } else {
     document.getElementById("form").submit();
 
@@ -38,15 +44,17 @@ function processTxt(placeholder) {
       return "Logging in...";
     case "register":
       return "Registering...";
+    case "logout":
+      return "Logging out...";
     // …
+    case "send":
+      return "Sending...";
     case "add":
       return "Adding...";
     case "save":
       return "Saving...";
     case "delete":
       return "Deleting...";
-    case "logout":
-      return "Logging out...";
     default:
       return "Processing...";
   }
