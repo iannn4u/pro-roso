@@ -18,7 +18,7 @@
         font-size: 1.2rem;
         cursor: pointer;
         color: #ccc;
-        border: 4px dashed #000;
+        border: 4px dashed #4b5563;
         border-radius: 10px;
     }
 

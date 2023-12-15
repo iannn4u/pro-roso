@@ -4,7 +4,7 @@
         Data user (Admin)
     </x-slot>
 
-    <x-partial.flash class="!my-2 shadow-md" :flash="session()->all()"/>
+    <x-partial.flash class="!my-2 shadow-md" :flash="session()->all()" />
 
     <div class="flex gap-3 py-4">
         <div class="w-48 bg-gray-100 border-l-8 border-gray-500">
@@ -65,51 +65,51 @@
             </thead>
             <tbody>
                 @unless ($countUsers > 0)
-                <tr
-                    class="bg-white border-b hover:bg-gray-50">
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap" colspan="6">
-                        Tidak ada data user
-                    </th>
-                </tr>
+                    <tr class="bg-white border-b hover:bg-gray-50">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap" colspan="6">
+                            Tidak ada data user
+                        </th>
+                    </tr>
                 @endunless
                 @foreach ($dataUsers as $user)
-                <tr
-                    class="bg-white border-b hover:bg-gray-50">
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                        {{ $loop->iteration }}
-                    </th>
-                    <td class="px-6 py-4">
-                        {{ $user->fullname }}
-                    </td>
-                    <td class="px-6 py-4">
-                        {{ $user->username }}
-                    </td>
-                    <td class="px-6 py-4">
-                        {{ $user->email }}
-                    </td>
-                    <td class="px-6 py-4 text-center">
-                        @if ($user->status == 0)
-                        <span
-                            class="bg-yellow-100 text-yellow-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded">pending</span>
-                        @else
-                        <span
-                            class="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded">verified</span>
-                        @endif
-                    </td>
-                    <td class="px-6 py-4 text-right">
-                        <a href="{{ route('verify', $user->id_user) }}"
-                            class="font-medium text-blue-600 hover:underline @if ($user->status == 1) disabled @endif">
-                            Verified
-                        </a>
-                        <a href="{{ route('editUser', $user->id_user) }}"
-                            class="font-medium text-blue-600 hover:underline">Edit</a>
-                        <button class="font-medium text-blue-600 hover:underline deleteA"
-                            data-toggle="modal" data-user="{{ $user->id_user }}" data-acc="{{ $user->fullname }}"
-                            data-target="#adminDeleteModal">
-                            Hapus
-                        </button>
-                    </td>
-                </tr>
+                    <tr class="bg-white border-b hover:bg-gray-50">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                            {{ $loop->iteration }}
+                        </th>
+                        <td class="px-6 py-4">
+                            {{ $user->fullname }}
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            {{ $user->username }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ $user->email }}
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            @if ($user->status == 0)
+                                <span
+                                    class="bg-yellow-100 text-yellow-800 text-sm font-medium px-2.5 py-0.5 rounded">pending</span>
+                            @else
+                                <span
+                                    class="bg-green-100 text-green-800 text-sm font-medium px-2.5 py-0.5 rounded">verified</span>
+                            @endif
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            <form action="{{ route('verify', $user->id_user) }}" method="GET" class="inline-block">
+                                <button
+                                    class="font-medium @if ($user->status == 1) text-gray-300 @else text-blue-600 hover:underline @endif" @if ($user->status == 1) disabled @endif>
+                                    Verified
+                                </button>
+                            </form>
+                            <a href="{{ route('editUser', $user->id_user) }}"
+                                class="font-medium text-blue-600 hover:underline">Edit</a>
+                            <button class="font-medium text-blue-600 hover:underline deleteA" data-toggle="modal"
+                                data-user="{{ $user->id_user }}" data-acc="{{ $user->fullname }}"
+                                data-target="#adminDeleteModal">
+                                Hapus
+                            </button>
+                        </td>
+                    </tr>
                 @endforeach
             </tbody>
         </table>

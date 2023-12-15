@@ -44,7 +44,7 @@ default => null,
                 <span class="text-xs">Public Files</span>
             </div>
         </div>
-        <div>
+        {{-- <div>
             <a class="flex flex-col gap-3 w-full aspect-square justify-center items-center mb-1 px-4 py-2.5 rounded-full {{ request()->routeIs('file.trashed') ? 'bg-gray-300' : 'hover:bg-gray-200' }}"
                 data-tooltip-target="tr" href="{{ route('file.trashed') }}">
                 <svg class="w-4 h-4 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -57,7 +57,7 @@ default => null,
                 class="absolute z-30 whitespace-normal opacity-0 break-words rounded-lg bg-blainline-block px-3 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg shadow-sm">
                 <span class="text-xs">Trash</span>
             </div>
-        </div>
+        </div> --}}
 
         @if (Auth::user()->status == 2)
         <div>
