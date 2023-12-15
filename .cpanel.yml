@@ -1,0 +1,5 @@
+---
+deployment:
+tasks:
+- export DEPLOYPATH=/home/offs6891/public_html/lanlan.offerprinting.id
+- /bin/cp -r * $DEPLOYPATH

@@ -83,7 +83,7 @@
                     <div class="flex items-center gap-1 flex-1 min-w-0">
                         <img alt=""
                             src="{{ $file->user->pp === 'img/defaultProfile.svg' ? asset('img/defaultProfile.svg') : asset('storage/' . $file->user->pp) }}"
-                            class="relative inline-block h-9 w-9 !rounded-full  border-2 border-white object-cover object-center hover:z-10" />
+                            class="relative inline-block h-9 w-9 aspect-square !rounded-full  border-2 border-white object-cover object-center hover:z-10" />
                         <div class="w-[90%] sm:min-w-[inherit] lg:w-full">
                             <a href="{{ route('profile', $file->user->username) }}"
                                 class="block font-sans text-sm antialiased font-medium leading-relaxed tracking-normal text-inherit w-[95%] lg:max-w-full truncate decoration-blue-500 decoration-2 hover:underline hover:underline-offset-2">
@@ -116,7 +116,7 @@
                     @endphp
                     @if (explode('/', $file['mime_type'])[0] == 'image')
                     <img data-src="{{ asset('storage/' . $file->generate_filename) }}" alt="{{ $file->judul_file }}"
-                        class="object-contain h-full">
+                        class="object-contain h-[inherit]">
                     @else
                     <x-partial.asset.svg :ext="$extension" />
                     @endif
