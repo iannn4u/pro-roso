@@ -2,9 +2,9 @@
 
     <x-partial.flash class="!my-2 absolute min-w-[18rem] top-20 right-10 z-10 shadow-md" :flash="session()->all()" />
 
-    <div class="py-3">
-        <h3 class="text-2xl sm:text-3xl font-semibold">Discover all files</h3>
-    </div>
+    <x-section-heading class="mb-3 mt-5 pl-4">
+        <h3 class="text-2xl sm:text-3xl font-medium font-mona">Discover all files</h3>
+    </x-section-heading>
 
     <div
         class="grid grid-cols-1 sm:grid-cols-2 gap-y-[20px] gap-x-[16px] md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 min-[2368px]:grid-cols-6 p-3 sm:p-5">
@@ -18,8 +18,8 @@
             <div class="flex justify-end px-4">
                 <!-- Dropdown menu -->
                 <div id="file-#{{ $file->id_file }}"
-                    class="z-50 hidden w-44 list-none divide-y divide-gray-100 overflow-hidden rounded-lg bg-white text-base shadow">
-                    <ul>
+                    class="z-50 hidden w-44 list-none divide-y divide-gray-100 overflow-hidden rounded-lg bg-white text-base shadow font-poppins font-light">
+                    <ul lc>
                         @unless ($file->id_user != Auth::id())
                         <li>
                             <a href="{{ route('file.edit', $file->id_file) }}"
@@ -46,14 +46,14 @@
                         </li>
                         <li>
                             <a href="{{ $url ?? '#' }}"
-                                class="inline-flex items-center whitespace-nowrap px-4 py-2 text-sm hover:bg-gray-100">
+                                class="inline-flex items-center w-full whitespace-nowrap px-4 py-2 text-sm hover:bg-gray-100">
                                 <svg class="mr-2 h-3 w-3 text-gray-800" aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 19 19">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                         stroke-width="2"
                                         d="M11.013 7.962a3.519 3.519 0 0 0-4.975 0l-3.554 3.554a3.518 3.518 0 0 0 4.975 4.975l.461-.46m-.461-4.515a3.518 3.518 0 0 0 4.975 0l3.553-3.554a3.518 3.518 0 0 0-4.974-4.975L10.3 3.7" />
                                 </svg>
-                                Bagikan dengan link</a>
+                                Share with link</a>
                         </li>
                         @unless ($file->id_user != Auth::id())
                         <li>
@@ -77,7 +77,7 @@
                 </div>
             </div>
 
-            {{-- main menu --}}
+            {{-- Profile user --}}
             <div class="my-1 px-3 py-1">
                 <div class="flex justify-between">
                     <div class="flex items-center gap-1 flex-1 min-w-0">
@@ -86,10 +86,10 @@
                             class="relative inline-block h-9 w-9 aspect-square !rounded-full  border-2 border-white object-cover object-center hover:z-10" />
                         <div class="w-[90%] sm:min-w-[inherit] lg:w-full">
                             <a href="{{ route('profile', $file->user->username) }}"
-                                class="block font-sans text-sm antialiased font-medium leading-relaxed tracking-normal text-inherit w-[95%] lg:max-w-full truncate decoration-blue-500 decoration-2 hover:underline hover:underline-offset-2">
+                                class="break-all text-sm antialiased font-medium tracking-normal text-inherit line-clamp-1 w-fit isolate relative font-mona no-underline after:absolute after:right-[.05em] after:bottom-0 after:left-[.05em] after:block after:-z-[1] after:h-px after:bg-gray-400 after:transition-transform after:scale-x-100 after:origin-bottom-left hover:after:scale-x-0 hover:after:origin-bottom-right before:absolute before:inset-0 before:-z-[1] before:block before:bg-gray-300/75 before:transition-transform before:scale-x-0 before:origin-bottom-right hover:before:scale-x-100 hover:before:origin-bottom-left hover:text-black duration-150 p-0.5 pb-0">
                                 {{ $file->user->fullname }}</a>
                             <p
-                                class="block font-sans text-xs antialiased font-normal leading-normal text-gray-500 -mt-1.5">
+                                class="block font-poppins text-xs antialiased font-light leading-normal text-gray-500 -mt-px w-[95%] lg:max-w-full truncate">
                                 {{ $file->user->username }}
                             </p>
                         </div>
@@ -107,36 +107,38 @@
                 </div>
             </div>
 
-            <div class="mt-px cursor-default">
-                <a href="{{ route('file.detail', ['id_file' => $file->id_file,'username' => $file->user->username]) }}"
-                    class="overflow-hidden h-40 bg-white grid place-items-center">
-                    @php
-                    $mime=explode('/', $file->mime_type);
-                    $extension = $file->ekstensi_file;
-                    @endphp
-                    @if (explode('/', $file['mime_type'])[0] == 'image')
-                    <img data-src="{{ asset('storage/' . $file->generate_filename) }}" alt="{{ $file->judul_file }}"
-                        class="object-contain h-[inherit]">
-                    @else
-                    <x-partial.asset.svg :ext="$extension" />
-                    @endif
-                </a>
-            </div>
+            <div title="Filename: {{ $file->original_filename }}">
+                <div class="mt-px cursor-default">
+                    <a href="{{ route('file.detail', ['id_file' => $file->id_file,'username' => $file->user->username]) }}"
+                        class="overflow-hidden h-40 bg-white grid place-items-center relative isolate before:absolute before:inset-0 before:z-10 before:block before:origin-bottom-left before:scale-x-0 before:bg-gradient-to-r before:from-gray-200/25 before:opacity-25 before:transition-all hover:before:origin-top-left hover:before:scale-x-100 hover:before:opacity-100">
+                        @php
+                        $mime=explode('/', $file->mime_type);
+                        $extension = $file->ekstensi_file;
+                        @endphp
+                        @if (explode('/', $file['mime_type'])[0] == 'image')
+                        <img data-src="{{ asset('storage/' . $file->generate_filename) }}" alt="{{ $file->judul_file }}"
+                            class="object-contain h-[inherit]">
+                        @else
+                        <x-partial.asset.svg :ext="$extension" />
+                        @endif
+                    </a>
+                </div>
 
-            <div class="pt-1 px-3 space-y-px">
-                <a href="{{ route('file.detail', ['id_file' => $file->id_file,'username' => $file->user->username]) }}"
-                    class="inline-block font-medium text-gray-900 decoration-blue-500 decoration-2 hover:underline hover:underline-offset-2 lg:w-full"
-                    title="{{ $file->judul_file }}">{{ $file->judul_file }}</a>
-                <p class="-mt-2 text-sm w-[calc(95%_+_1rem)] truncate text-gray-400"
-                    title="{{ $file->created_at->format('l, d F Y h:m:s') }}">
-                    {{ $file->original_filename }}
-                </p>
+                <div class="pt-1 px-3 space-y-px">
+                    <a href="{{ route('file.detail', ['id_file' => $file->id_file,'username' => $file->user->username]) }}"
+                        class="line-clamp-2 font-normal text-gray-900 isolate relative font-mona no-underline after:absolute after:right-[.05em] after:bottom-0 after:left-[.05em] after:block after:-z-[1] after:h-px after:bg-gray-400 after:transition-transform after:scale-x-100 after:origin-bottom-left hover:after:scale-x-0 hover:after:origin-bottom-right before:absolute before:inset-0 before:-z-[1] before:block before:bg-gray-300/75 before:transition-transform before:scale-x-0 before:origin-bottom-right hover:before:scale-x-100 hover:before:origin-bottom-left hover:text-black duration-150 p-0.5 pb-0 w-fit"
+                        title="{{ $file->judul_file }}">{{ $file->judul_file }}</a>
+                    <p class="-mt-2 text-sm w-[calc(95%_+_1rem)] truncate text-gray-600/70 font-inter font-normal">
+                        {{ $file->original_filename }}
+                    </p>
+                </div>
             </div>
         </div>
         @endforeach
     </div>
 
     @push('script')
-        <script src="{{ asset('js/buffer.js') }}"></script>
+    <script src="{{ asset('js/form.js') }}"></script>
+    <script src="{{ asset('js/buffer.js') }}"></script>
     @endpush
 </x-user>

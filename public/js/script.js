@@ -283,7 +283,7 @@ searchUser.addEventListener("input", () => {
 
               if (clicked) {
                 searchUser.classList.add("rounded-lg");
-                searchUser.classList.remove("rounded-t-lg");      
+                searchUser.classList.remove("rounded-t-lg");
                 result.classList.add("hidden");
                 btnSendFile.disabled = false;
               } else {
