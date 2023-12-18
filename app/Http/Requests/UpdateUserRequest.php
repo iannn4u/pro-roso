@@ -33,7 +33,7 @@ class UpdateUserRequest extends FormRequest
     {
         $rules = [
             'fullname' => 'required|regex:/^[a-zA-Z\s]+$/|min:5',
-            'username' => strtolower($this->user()->username) == strtolower($this->input('username')) ? 'required|regex:/^(?!.*[-]{2})(?!.*[-_]$)(?!.*__)(?!.*[-_][-_])[a-zA-Z0-9]+([-_][a-zA-Z0-9]+)*$/' : 'required|min:5|unique:users|regex:/^(?!.*[-]{2})(?!.*[-_]$)(?!.*__)(?!.*[-_][-_])[a-zA-Z0-9]+([-_][a-zA-Z0-9]+)*$/',
+            'username' => strtolower($this->user()->username) == strtolower($this->input('username')) ? 'required|max:39|regex:/^(?!.*[-]{2})(?!.*[-_]$)(?!.*__)(?!.*[-_][-_])[a-zA-Z0-9]+([-_][a-zA-Z0-9]+)*$/' : 'required|min:5|max:39|unique:users|regex:/^(?!.*[-]{2})(?!.*[-_]$)(?!.*__)(?!.*[-_][-_])[a-zA-Z0-9]+([-_][a-zA-Z0-9]+)*$/',
             'email' => strtolower($this->user()->email) == strtolower($this->input('email')) ? 'required' : 'required|email|unique:users',
         ];
 
@@ -64,6 +64,7 @@ class UpdateUserRequest extends FormRequest
             'fullname.min' => 'Your full name must contain a minimum of 5 characters!',
             'username.required' => 'Kindly provide your chosen username, it\'s a required field!',
             'username.min' => 'Your username must be at least 5 characters long; a bit more creativity, please!',
+            'username.max' => 'Username is too long (maximum is 39 characters). Username may only contain alphanumeric characters or single hyphens, and cannot begin or end with a hyphen.',
             'username.unique' => 'Oops! This username is already in use; please choose another one!',
             'username.regex' => 'Username may only contain alphanumeric characters or single hyphens, and cannot begin or end with a hyphen',
             'email.required' => 'An email address is required; please fill in this essential field!',
