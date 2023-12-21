@@ -72,7 +72,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
                         </svg>
-                        <span>Share another user</span>
+                        <span>Share with user</span>
                     </button>
                 </li>
                 <li>
@@ -96,8 +96,11 @@
 
             <div class="flex justify-between px-2 mt-2 my-1">
                 <a href="{{ route('file.detail', ['username' => Auth::user()->username, 'id_file' => $file->id_file]) }}"
-                    class="inline-block ori__file w-[139px] truncate font-medium text-gray-900 decoration-blue-500 decoration-2 hover:underline hover:underline-offset-2 lg:w-full"
-                    title="{{ $file->original_filename }}">{{ $file->original_filename }}</a>
+                    class="w-full">
+                    <span
+                        class="line-clamp-1 break-all font-medium text-gray-800 w-fit isolate relative font-mona no-underline after:absolute after:right-[.05em] after:bottom-0 after:left-[.05em] after:block after:-z-[1] after:h-px after:bg-gray-400 after:transition-transform after:scale-x-100 after:origin-bottom-left hover:after:scale-x-0 hover:after:origin-bottom-right before:absolute before:inset-0 before:-z-[1] before:block before:bg-gray-300/75 before:transition-transform before:scale-x-0 before:origin-bottom-right hover:before:scale-x-100 hover:before:origin-bottom-left hover:text-black duration-150 p-0.5 pb-0 text-base sm:text-lg font-mona"
+                        title="{{ $file->original_filename }}">{{ $file->original_filename }}</span>
+                </a>
                 <button data-dropdown-toggle="file-#{{ $file->id_file }}" data-modal-byclick
                     class="inline-block rounded-full ml-1 -mr-1 p-1.5 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
                     type="button">
@@ -111,14 +114,14 @@
             </div>
 
             <a href="{{ route('file.detail', ['username' => Auth::user()->username, 'id_file' => $file->id_file]) }}"
-                class="overflow-hidden h-40 mt-px cursor-pointer bg-white grid place-items-center">
+                class="overflow-hidden h-40 mt-px cursor-pointer bg-white grid place-items-center relative isolate before:absolute before:inset-0 before:z-10 before:block before:origin-bottom-left before:scale-x-0 before:bg-gradient-to-r before:from-gray-200/25 before:opacity-25 before:transition-all hover:before:origin-top-left hover:before:scale-x-100 hover:before:opacity-100">
                 @php
                 $mime = explode('/', $file->mime_type);
                 $extension = $file->ekstensi_file;
                 @endphp
                 @if ($mime[0] == 'image')
                 <img data-src="{{ asset('storage/' . $file->generate_filename) }}" alt="{{ $file->judul_file }}"
-                    class="object-contain h-full">
+                    class="object-contain h-[inherit]">
                 @else
                 <x-partial.asset.svg :ext="$extension" />
                 @endif

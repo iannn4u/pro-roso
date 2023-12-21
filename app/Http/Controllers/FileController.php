@@ -27,7 +27,7 @@ class FileController extends Controller
         if (request('search')) {
             $files->where('judul_file', 'like', '%' . request('search') . '%');
         }
-        
+
         $data['files'] = $files->get();
         $data['title'] = 'Discover';
 
@@ -62,7 +62,7 @@ class FileController extends Controller
             'files.file' => 'Files format must be a file',
             'status.required' => 'Status must be filled in',
         ];
-        
+
         $rules = [
             'files' => 'required|file',
             'status' => 'required',
@@ -113,7 +113,7 @@ class FileController extends Controller
         // if ($return != null) {
         //     return $this->redirectTo('dashboard', $return, "Successfully uploaded file");
         // }
-        
+
         return $this->success('dashboard', "Successfully uploaded file");
     }
 
@@ -192,10 +192,7 @@ class FileController extends Controller
      */
     public function edit(File $file)
     {
-        $data = [
-            'title' => 'Edit File',
-            'file' => $file,
-        ];
+        $data = ['file' => $file];
 
         if (is_null($file)) {
             session()->flash('errors', 'File not found');
@@ -267,7 +264,7 @@ class FileController extends Controller
 
         $data['file'] = File::where('id_file', $id_file)->where('id_file', $id_file)->where('id_user', '=', function (\Illuminate\Database\Query\Builder $query) use ($username) {
             return $query->select('id_user')->from('users')->where('username', $username)->get();
-        })->first(['original_filename','generate_filename','judul_file','status','mime_type','id_file','file_size','deskripsi','created_at','id_user','ekstensi_file']);
+        })->first(['original_filename', 'generate_filename', 'judul_file', 'status', 'mime_type', 'id_file', 'file_size', 'deskripsi', 'created_at', 'id_user', 'ekstensi_file']);
 
 
         // kalau file ga ada atau statusnya private
@@ -289,19 +286,19 @@ class FileController extends Controller
         $groupedPesan = $pesan->groupBy('id_pengirim');
         $data['pesan'] = $pesan;
         $data['pesanGrup'] = $groupedPesan->all();
-        
+
         $shareFile = DB::table('files AS f')
-                    ->join('users AS u', 'u.id_user', '=', 'f.id_user')
-                    ->join('pesans AS p', 'f.id_file', '=', 'p.id_file')
-                    ->where('p.id_file', '=', $id_file)
-                    ->where('p.id_penerima', '=', $this->getUserId())
-                    ->where('p.id_pengirim', '=' , function (\Illuminate\Database\Query\Builder $query) use ($username) {
-                        return $query->select('id_user')->from('users')->where('username', $username)->get();
-                    })
-                    ->first(['p.pesan','f.original_filename','f.generate_filename','f.judul_file','f.status','f.mime_type','f.ekstensi_file','f.id_file','u.fullname','f.file_size','f.deskripsi','f.created_at']);
+            ->join('users AS u', 'u.id_user', '=', 'f.id_user')
+            ->join('pesans AS p', 'f.id_file', '=', 'p.id_file')
+            ->where('p.id_file', '=', $id_file)
+            ->where('p.id_penerima', '=', $this->getUserId())
+            ->where('p.id_pengirim', '=', function (\Illuminate\Database\Query\Builder $query) use ($username) {
+                return $query->select('id_user')->from('users')->where('username', $username)->get();
+            })
+            ->first(['p.pesan', 'f.original_filename', 'f.generate_filename', 'f.judul_file', 'f.status', 'f.mime_type', 'f.ekstensi_file', 'f.id_file', 'u.fullname', 'f.file_size', 'f.deskripsi', 'f.created_at']);
 
         if (!$shareFile) {
-            return $this->fail('dashboard',"File not found");
+            return $this->fail('dashboard', "File not found");
         }
 
         $data['file'] = $shareFile;

@@ -9,24 +9,31 @@
             </path>
         </svg>
     </button>
-    <form class="w-10/12 md:w-1/2">
+    <form class="w-4/5 max-md:mx-auto sm:w-1/2 xl:w-7/12">
         <div class="relative">
-            <div
-                class="absolute z-10 hover:bg-gray-200 inset-y-0 start-0 flex items-center ml-1 h-9 w-9 mt-[6px] ml-2 rounded-full">
-                <button type="submit" class="mx-auto" title="Search something">
-                    <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                        fill="none" viewBox="0 0 20 20">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                    </svg>
-                </button>
-            </div>
-            <input type="search" id="default-search"
-                class="block w-full p-4 ps-12 text-sm text-gray-900 border border-gray-300 rounded-full bg-gray-50 focus:outline-none h-12"
+            <button type="submit"
+                class="absolute z-10 inset-y-0 start-0 flex items-center justify-center ml-1 h-9 w-9 mt-[6px] ml-2 rounded-lg hover:bg-gray-200 mx-auto"
+                title="Search something">
+                <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 20 20">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                </svg>
+                <span class="sr-only">Enter to search</span>
+            </button>
+            <input type="search" id="global-search"
+                class="block w-full p-4 pl-12 md:px-12 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 ring-4 ring-transparent transition placeholder:text-neutral-500 focus:border-neutral-950 focus:outline-none focus:ring-neutral-950/5 h-12"
                 placeholder="Search..." value="{{ request('search') }}" name="search">
+            <div
+                class="absolute z-10 inset-y-0 end-0 hidden md:flex items-center ml-1 h-9 w-9 mt-[6px] mr-2 rounded-lg">
+                <label for="global-search" class="mx-auto cursor-pointer flex" title="Press / to search">
+                    <kbd
+                        class="px-2.5 py-1.5 text-xs font-semibold text-gray-800 select-none bg-gray-100 rounded-lg ring-1 ring-gray-900/20">/</kbd>
+                </label>
+            </div>
         </div>
     </form>
-    <div class="hidden md:flex gap-2 md:gap-7 items-center md:oorder-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+    <div class="lg:flex gap-2 md:gap-7 items-center md:oorder-2 space-x-3 md:space-x-0 rtl:space-x-reverse hidden min-w-[10rem] w-0">
         <button type="button"
             class="relative grid place-items-center text-sm rounded-full w-5 h-5 md:me-0 focus:ring-2 focus:ring-gray-300"
             id="dropdownDefaultButton" data-dropdown-toggle="notif">
@@ -79,18 +86,17 @@
                 @endif
             </div>
         </div>
-        <div class="inline-block h-8 w-0.5 self-stretch bg-gray-300 opacity-100">
-        </div>
-        <button class="hidden md:flex items-center group" aria-expanded="false" data-dropdown-toggle="user-dropdown"
+        {{-- <div class="inline-block h-8 w-0.5 self-stretch bg-gray-300 opacity-100">
+        </div> --}}
+        <button class="inline-flex min-w-0 items-center group" aria-expanded="false" data-dropdown-toggle="user-dropdown"
             data-dropdown-placement="bottom" data-popover-trigger="click">
-            <span
-                class="me-3 text-gray-700 group-hover:text-gray-600/80 text-sm md:text-base font-semibold">{{ Auth::user()->username }}</span>
-            <img class="rounded-full object-cover w-7 h-7"
-                src="{{ Auth::user()->pp === 'img/defaultProfile.svg' ? asset('img/defaultProfile.svg') : asset('storage/' . Auth::user()->pp) }}"
-                width="40">
+            <span class="me-3 inline-block truncate w-[45%] text-gray-700 group-hover:text-gray-600/80 text-sm md:text-base font-medium">{{
+                Auth::user()->username }}</span>
+            <img class="rounded-full object-cover w-8 h-8"
+                src="{{ Auth::user()->pp === 'img/defaultProfile.svg' ? asset('img/defaultProfile.svg') : asset('storage/' . Auth::user()->pp) }}">
         </button>
-        <div class="hidden z-20 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-lg"
-            style="transform: translate(-100%) !important max-w-[300px]" id="user-dropdown">
+        <!-- Dropdown menu -->
+        <div class="hidden z-20 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-lg" id="user-dropdown">
             <div class="min-w-[250px] py-3">
                 <div class="px-4 mb-1.5 mt-1.5">
                     <span class="block text-sm  text-gray-500 truncate">{{ Auth::user()->email }}</span>
@@ -223,50 +229,49 @@
             </x-partial.create-file>
 
             <div class="block mt-5">
-                <a class="flex gap-3 items-center mb-3 px-4 py-2.5 rounded-full {{ request()->is('/') ? 'bg-gray-300' : 'hover:bg-gray-200' }}"
-                    tabindex="-1" href="/">
-                    <svg class="w-4 h-4 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                        fill="none" viewBox="0 0 20 20">
+                <x-partial.tertiary-button href="/" :path="request()->is('/')" tabindex="-1">
+                    <svg class="w-4 h-4 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 20 20">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M10 18a.969.969 0 0 1-.933 1H1.933A.97.97 0 0 1 1 18V9l4-4m-4 5h5m3-4h5V1m5 1v12a.97.97 0 0 1-.933 1H9.933A.97.97 0 0 1 9 14V5l4-4h5.067A.97.97 0 0 1 19 2Z" />
-                    </svg> <span>My Files</span>
-                </a>
+                    </svg>
+                    <span>My Files</span>
+                </x-partial.tertiary-button>
 
-                <a class="flex gap-3 items-center mb-3 px-4 py-2.5 rounded-full {{ request()->is('publikFile') ? 'bg-gray-300' : 'hover:bg-gray-200' }}"
-                    tabindex="-1" href="/publikFile">
-                    <svg class="w-4 h-4 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                        fill="none" viewBox="0 0 21 20">
+                <x-partial.tertiary-button href="/publikFile" :path="request()->is('publikFile')" tabindex="-1">
+                    <svg class="w-4 h-4 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 21 20">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M6.487 1.746c0 4.192 3.592 1.66 4.592 5.754 0 .828 1 1.5 2 1.5s2-.672 2-1.5a1.5 1.5 0 0 1 1.5-1.5h1.5m-16.02.471c4.02 2.248 1.776 4.216 4.878 5.645C10.18 13.61 9 19 9 19m9.366-6h-2.287a3 3 0 0 0-3 3v2m6-8a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                    </svg> <span style="ml-1">Public Files</span>
-                </a>
+                    </svg>
+                    <span style="ml-1">Public Files</span>
+                </x-partial.tertiary-button>
 
-                {{-- <a class="flex gap-3 items-center mb-3 px-4 py-2.5 rounded-full {{ request()->routeIs('file.trashed') ? 'bg-gray-300' : 'hover:bg-gray-200' }}"
-                    href="{{ route('file.trashed') }}">
+                <x-partial.tertiary-button href="{{ route('file.trashed') }}" :path="request()->routeIs('file.trashed')"
+                    tabindex="-1">
                     <svg class="w-4 h-4 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                         viewBox="0 0 18 20">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z" />
                     </svg>
                     <span style="ml-1">Trash</span>
-                </a> --}}
+                </x-partial.tertiary-button>
 
                 @if (Auth::user()->status == 2)
-                    <a class="flex gap-3 items-center mb-3 px-4 py-2.5 rounded-full {{ request()->is('a/*') ? 'bg-gray-300' : 'hover:bg-gray-200' }}"
-                        tabindex="-1" href="/a/users">
-                        <svg class="h-5 w-5 text-gray-800" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
-                        </svg>
-                        <span class="ml-1">User Data</span>
-                    </a>
+                <x-partial.tertiary-button href="/a/users" :path="request()->is('a/*')" tabindex="-1">
+                    <svg class="h-5 w-5 text-gray-800" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
+                    </svg>
+                    <span class="ml-1">User Data</span>
+                </x-partial.tertiary-button>
                 @endif
             </div>
             <hr class="my-2 h-px bg-gray-200 border-0" />
             <div>
-                <a class="flex gap-3 items-center mb-3 px-4 py-2.5 rounded-full {{ request()->routeIs('file.trashed') ? 'bg-gray-300' : 'hover:bg-gray-200' }}"
-                    tabindex="-1" href="{{ route('account.settings') }}">
+                <x-partial.tertiary-button href="{{ route('account.settings') }}"
+                    :path="request()->routeIs('account.settings')" tabindex="-1">
                     <svg class="w-5 h-5 text-gray-800" xmlns="http://www.w3.org/2000/svg" fill="none"
                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -274,7 +279,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
                     <span style="ml-1">Settings</span>
-                </a>
+                </x-partial.tertiary-button>
                 <button data-modal-target="signout" data-modal-toggle="signout" tabindex="-1"
                     class="flex w-full gap-3 items-center mb-3 px-4 py-2.5 rounded-full {{ request()->routeIs('file.trashed') ? 'bg-gray-300' : 'hover:bg-gray-200' }}">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
@@ -289,6 +294,21 @@
         </div>
     </div>
 </div>
+
+@push('script')
+<script>
+    /**
+         * Slash key listener ,to focus inputs
+         */
+        document.addEventListener("keydown", (event) => {
+        if (event.key === "/" && event.code === "Slash") {
+            event.preventDefault();
+            // var globalForm = document.getElementById("global-search");
+            document.getElementById("global-search").focus();
+        }
+        });
+</script>
+@endpush
 
 
 

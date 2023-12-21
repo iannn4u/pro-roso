@@ -71,6 +71,7 @@ class UserController extends Controller
   {
     $userId = Auth::id();
     $username = Auth::user()->username;
+    [$imageFile, $videoFile] = [[], []]; #njir
 
     if (is_null($param)) {
       $param = $userId;
@@ -80,7 +81,10 @@ class UserController extends Controller
       /** @var Illuminate\Contracts\Database\Query\Builder $query */
       $query->when($param != $userId && $param != $username, function (Builder $query) {
         /** @var Illuminate\Contracts\Database\Query\Builder $query */
-        $query->where('status', 'public');
+        $query->where('status', 'public')->latest();
+      }, function (Builder $query) {
+        /** @var Illuminate\Contracts\Database\Query\Builder $query */
+        $query->latest();
       });
     }])->where('username', $param)->orWhere('id_user', $param)->first();
 
@@ -88,12 +92,27 @@ class UserController extends Controller
       return $this->fail('dashboard', "User not found");
     }
 
+    collect($user->files)->each(function ($f) use (&$imageFile) { #'&' buat ngerubah value dr variable original yg diuse di func ini,
+      $i = 0;
+      if (in_array(strtoupper($f->ekstensi_file), ['BMP', 'GIF', 'JPG', 'JPEG', 'PNG', 'TIFF', 'JFIF', 'AI', 'EPS', 'SVG', 'WEBP'])) {
+        $imageFile[] = $i++;
+      }
+    });
+
+    $user->files->each(function ($f) use (&$videoFile) {
+      $i = 0;
+      if (in_array(strtoupper($f->ekstensi_file), ['MP4', 'MOV', 'AVI', 'WMV', 'FLV', 'WebM'])) {
+        $videoFile[] = $i++;
+      }
+    });
+
+    $data['imageFile'] = count($imageFile);
+    $data['videoFile'] = count($videoFile);
+    $data['otherFile'] = $user->files->count() - $data['imageFile'] - $data['videoFile'];
     $data['user'] = $user;
     $data['jumlahPesan'] = $this->getJumlahPesan();
     $pesan = $this->getPesan();
-    $groupedPesan = $pesan->groupBy('id_pengirim');
     $data['pesan'] = $pesan;
-    $data['pesanGrup'] = $groupedPesan->all();
     $data['title'] = $user->username . " ($user->fullname)";
 
     return view('user.detail', $data);
@@ -169,7 +188,19 @@ class UserController extends Controller
     request()->session()->invalidate();
     request()->session()->regenerateToken();
 
-    return redirect('signin');
+    return to_route('login');
+  }
+
+  public function notification()
+  {
+    $data['user'] = User::where('id_user', Auth::id())->where('username', Auth::user()->username)->first();
+    $data['jumlahPesan'] = $this->getJumlahPesan();
+    $pesan = $this->getPesan();
+    $groupedPesan = $pesan->groupBy('id_pengirim');
+    $data['pesan'] = $pesan;
+    $data['pesanGrup'] = $groupedPesan->all();
+
+    return view('user.notification', $data);
   }
 
   public function ajax()

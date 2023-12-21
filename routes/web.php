@@ -34,13 +34,15 @@ Route::middleware('auth')->group(function () {
     Route::get('username', [UserController::class, 'ajax']);
     Route::post('/file/send/{id_file}', [PesanController::class, 'store']);
 
-    Route::resource('user', UserController::class);
+    Route::resource('user', UserController::class)->except(['show']);
     Route::resource('file', FileController::class)->only(['edit', 'destroy', 'store', 'update']);
     Route::redirect('new', 'file/new');
 
     Route::controller(UserController::class)->group(function () {
+        Route::get('u/{user:username}', 'show')->name('profile');
         Route::get('me', 'show')->name('me');
         Route::get('account', 'account')->name('account.settings');
+        Route::get('/notifications', 'notification')->name('notification');
     });
 
     Route::controller(FileController::class)->group(function () {
@@ -54,10 +56,6 @@ Route::middleware('auth')->group(function () {
         Route::get('{username}/file/{id_file}', 'fileDetail')->name('file.detail');
         Route::get('{username}/share/{id_file}', 'fileShareDetail')->name('file.share.detail');
     });
-
-    Route::get('/{username}', function (string $username) {
-        return to_route('user.show', $username);
-    })->name('profile');
 
     Route::controller(AdminController::class)->prefix('a/users')->middleware('admin')->group(function () {
         Route::get('/', 'index');
