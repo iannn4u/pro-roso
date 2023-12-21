@@ -11,7 +11,10 @@
         <h3 class="text-3xl font-semibold">{{ $salam . ', ' . Auth::user()->fullname }}</h3>
     </div>
     @endsection --}}
-    <div class="grid grid-cols-2 gap-y-[20px] gap-x-[16px] md:grid-cols-5 min-[2368px]:grid-cols-6 p-5">
+    <div class="grid @if($files->isEmpty()) place-items-center h-full w-full md:grid-cols-1 grid-cols-1 @else md:grid-cols-5 grid-cols-2 grid-cols-2 @endif  gap-y-[20px] gap-x-[16px]  min-[2368px]:grid-cols-6 p-5">
+    @if ($files->isEmpty())
+        <h1 class="text-center mx-auto text-gray-400 font-semibold text-4xl">No files yet</h1>
+    @endif
         @foreach ($files as $file)
         @php
         $namaFile = explode('/', $file->generate_filename);
