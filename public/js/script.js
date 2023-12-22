@@ -26,13 +26,13 @@ targetDelete.forEach((target) => {
 });
 
 /**
- * Hapus user lain oleh admin
+ * Verify user oleh admin
  */
 const targetVerify = document.querySelectorAll(".verifyA");
 const formVer = document.querySelector("#form");
 targetVerify.forEach((target) => {
   target.addEventListener("click", () => {
-    const namaAkun = document.querySelector("#target-acc");
+    const namaAkun = document.querySelector("#target-accv");
     let idTarget = target.getAttribute("data-user");
     let nmTarget = target.getAttribute("data-acc");
 

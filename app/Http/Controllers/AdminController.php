@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
@@ -15,7 +16,8 @@ class AdminController extends Controller
     public function index()
     {
         $data['title'] = 'Data User (Admin)';
-        $users = User::whereIn('status', [0, 1]);
+        $user = new User;
+        $users = $user->whereIn('status', [0, 1]);
         $data['files'] = File::all();
         $data['jumlahPesan'] = $this->getJumlahPesan();
         $data['pesan'] = $this->getPesan();
@@ -27,6 +29,9 @@ class AdminController extends Controller
                     ->orWhere('email', 'like', '%' . request('search') . '%');
             });
         }
+
+        $data['verified'] = $user->where('status', 1)->count();
+        $data['unverified'] = $user->where('status', 0)->count();
 
         $data['countUsers'] = $users->count();
         $data['dataUsers'] = $users->paginate(10);
@@ -42,6 +47,12 @@ class AdminController extends Controller
 
     public function destroy($id_user)
     {
+
+        if ($id_user == Auth::id()) {
+            session()->flash('success', 'Error');
+            return redirect()->back();
+        }
+
         Storage::deleteDirectory('users/' . $id_user);
         User::destroy($id_user);
 
@@ -76,7 +87,7 @@ class AdminController extends Controller
             'password.min' => 'Password must be at least 6 characters long!',
             'password.confirmed' => 'Password confirmation does not match!',
         ];
-        
+
         $rules = [
             'fullname' => 'required|regex:/^[a-zA-Z\s]+$/|min:5',
             'username' => $user->username == $request->input('username') ? 'required' : 'required|min:5|unique:users',
