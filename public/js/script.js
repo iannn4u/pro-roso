@@ -13,15 +13,30 @@ function showPreview(event) {
  * Hapus user lain oleh admin
  */
 const targetDelete = document.querySelectorAll(".deleteA");
+const formDel = document.querySelector("#dxz");
 targetDelete.forEach((target) => {
   target.addEventListener("click", () => {
-    const formDel = document.querySelector("#form-delete-admin");
-    const namaAkun = document.querySelector(".nmA");
+    const namaAkun = document.querySelector("#target-acc");
     let idTarget = target.getAttribute("data-user");
     let nmTarget = target.getAttribute("data-acc");
 
-    formDel.action = "";
     formDel.action = `users/hapus/${idTarget}`;
+    namaAkun.textContent = nmTarget;
+  });
+});
+
+/**
+ * Hapus user lain oleh admin
+ */
+const targetVerify = document.querySelectorAll(".verifyA");
+const formVer = document.querySelector("#form");
+targetVerify.forEach((target) => {
+  target.addEventListener("click", () => {
+    const namaAkun = document.querySelector("#target-acc");
+    let idTarget = target.getAttribute("data-user");
+    let nmTarget = target.getAttribute("data-acc");
+
+    formVer.action = `users/verified/${idTarget}`;
     namaAkun.textContent = nmTarget;
   });
 });

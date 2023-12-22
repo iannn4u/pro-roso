@@ -23,6 +23,12 @@ function process(location) {
     preprocessElement = document.getElementById("preprocessDel");
 
     preprocessElement.innerHTML = loader;
+  } else if (location == "deleteUser") {
+    document.getElementById("dxz").submit();
+
+    preprocessElement = document.getElementById("preprocess");
+
+    preprocessElement.innerHTML = loader;
   } else if (location == "send") {
     document.getElementById("formShareFile").submit();
 
@@ -55,6 +61,10 @@ function processTxt(placeholder) {
       return "Saving...";
     case "delete":
       return "Deleting...";
+    case "deleteUser":
+      return "Deleting...";
+    case "verify":
+      return "Verifying...";
     default:
       return "Processing...";
   }
