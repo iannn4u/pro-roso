@@ -59,7 +59,7 @@ Route::middleware('auth')->group(function () {
 
     Route::controller(AdminController::class)->prefix('a/users')->middleware('admin')->group(function () {
         Route::get('/', 'index');
-        Route::get('verified/{id_user}', 'verified')->name('verify');
+        Route::post('verified/{id_user}', 'verified')->name('verify');
         Route::delete('hapus/{id_user}', 'destroy')->name('hapusUser');
         Route::get('/{id_user}/edit', 'edit')->name('editUser');
         Route::put('/{id_user}/edit', 'update')->name('editAction');

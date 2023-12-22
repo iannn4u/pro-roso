@@ -1,5 +1,6 @@
 <div class="flex flex-wrap items-center gap-5 md:gap-0 md:justify-between mx-auto p-5 md:px-5 px-0 pt-3 w-full">
-    <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar" type="button"
+    <button role="button" data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar"
+        aria-controls="logo-sidebar" type="button"
         class="inline-flex group items-center p-2 text-sm text-gray-500 rounded-lg hover:bg-gray-200/80 focus:outline-none focus:ring-2 focus:ring-gray-200">
         <span class="sr-only">Open sidebar</span>
         <svg class="w-6 h-6 group-hover:text-black" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
@@ -11,7 +12,7 @@
     </button>
     <form class="w-4/5 max-md:mx-auto sm:w-1/2 xl:w-7/12">
         <div class="relative">
-            <button type="submit"
+            <button role="button" type="submit"
                 class="absolute z-10 inset-y-0 start-0 flex items-center justify-center ml-1 h-9 w-9 mt-[6px] ml-2 rounded-lg hover:bg-gray-200 mx-auto"
                 title="Search something">
                 <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -33,8 +34,10 @@
             </div>
         </div>
     </form>
-    <div class="lg:flex gap-2 md:gap-7 items-center md:oorder-2 space-x-3 md:space-x-0 rtl:space-x-reverse hidden min-w-[10rem] w-0">
-        <button type="button"
+    <div
+        class="lg:flex gap-2 md:gap-7 items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse hidden min-w-[10rem] w-0 justify-end">
+        @unless (request()->routeIs('notification'))
+        <button role="button" type="button"
             class="relative grid place-items-center text-sm rounded-full w-5 h-5 md:me-0 focus:ring-2 focus:ring-gray-300"
             id="dropdownDefaultButton" data-dropdown-toggle="notif">
             <svg xmlns="http://www.w3.org/2000/svg" height="16" width="14" viewBox="0 0 448 512">
@@ -42,10 +45,12 @@
                     d="M224 0c-17.7 0-32 14.3-32 32V51.2C119 66 64 130.6 64 208v25.4c0 45.4-15.5 89.5-43.8 124.9L5.3 377c-5.8 7.2-6.9 17.1-2.9 25.4S14.8 416 24 416H424c9.2 0 17.6-5.3 21.6-13.6s2.9-18.2-2.9-25.4l-14.9-18.6C399.5 322.9 384 278.8 384 233.4V208c0-77.4-55-142-128-156.8V32c0-17.7-14.3-32-32-32zm0 96c61.9 0 112 50.1 112 112v25.4c0 47.9 13.9 94.6 39.7 134.6H72.3C98.1 328 112 281.3 112 233.4V208c0-61.9 50.1-112 112-112zm64 352H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7s18.7-28.3 18.7-45.3z" />
             </svg>
             @unless ($jumlahPesan == 0)
-                <span
-                    class="absolute inline-flex items-center justify-center w-4 h-4 text-[10px] font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2">{{ $jumlahPesan }}</span>
+            <span
+                class="absolute inline-flex items-center justify-center w-4 h-4 text-[10px] font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2">{{
+                $jumlahPesan }}</span>
             @endunless
         </button>
+        @endunless
         <div class="z-50 w-72 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow"
             id="notif">
             <div class="block px-3 py-2 font-medium text-center text-gray-700 rounded-t-lg bg-gray-50">
@@ -53,50 +58,48 @@
             </div>
             <div>
                 @unless (count($pesan))
-                    <div class="px-3 py-4">
-                        <div class="text-gray-700 text-center">
-                            <span>You have no recent notifications</span>
-                        </div>
+                <div class="px-3 py-4">
+                    <div class="text-gray-700 text-center">
+                        <span>No notification yet</span>
                     </div>
+                </div>
                 @endunless
                 @foreach (array_slice($pesan->all(), 0, 4) as $p)
-                    <div class="px-3 py-2.5 flex items-center">
-                        <div class="mr-3">
-                            <div class="overflow-hidden">
-                                <img class="w-10 aspect-square rounded-full object-cover"
-                                    src="{{ $p->user->pp === 'img/defaultProfile.svg' ? asset('img/defaultProfile.svg') : asset('storage/' . $p->user->pp) }}"
-                                    alt="{{ $p->id_pengirim }}">
-                            </div>
-                        </div>
-                        <div>
-                            <div title="{{ $p->created_at }}" class="text-xs text-gray-700">
-                                {{ $p->created_at->format('F d, Y h:iA') }}
-                            </div>
-                            <span class="text-[0.85rem]"><b>{{ $p->user->username }}</b> sent you a file! <a
-                                    href="{{ route('file.share.detail', [$p->user->username, $p->id_file]) }}"
-                                    class="text-gray-800 font-bold hover:underline">View file.</a></span>
+                <div class="px-3 py-2.5 flex items-center">
+                    <div class="mr-3">
+                        <div class="overflow-hidden">
+                            <img class="w-10 aspect-square rounded-full object-cover"
+                                src="{{ $p->user->pp === 'img/defaultProfile.svg' ? asset('img/defaultProfile.svg') : asset('storage/' . $p->user->pp) }}"
+                                alt="{{ $p->id_pengirim }}">
                         </div>
                     </div>
+                    <div>
+                        <div title="{{ $p->created_at }}" class="text-xs text-gray-700">
+                            {{ $p->created_at->format('F d, Y h:i A') }}
+                        </div>
+                        <span class="text-[0.85rem]"><a href="{{ route('profile',$p->user->username) }}"
+                                class="isolate text-[0.85rem] truncate w-[85%] md:w-max font-normal relative no-underline before:absolute before:inset-0 before:-z-[1] before:block before:bg-gray-300/75 before:transition-transform before:scale-x-0 before:origin-bottom-right hover:before:scale-x-100 hover:before:origin-bottom-left hover:text-black duration-150 p-0.5 pb-0">{{
+                                $p->user->username }}</a> sent you a file! <a
+                                href="{{ route('file.share.detail', [$p->user->username, $p->id_file]) }}"
+                                class="text-gray-800 font-medium hover:underline">View file.</a></span>
+                    </div>
+                </div>
                 @endforeach
-                @if (count($pesan) == 0)
-                    <button data-modal-target="allNotifications" data-modal-toggle="allNotifications"
-                        id="closeModalNotif"
-                        class="block py-2 w-full text-xs font-medium text-center text-gray-900 rounded-b-lg bg-gray-50 hover:bg-gray-100">See
-                        More Notifications</button>
+                @if (count($pesan) > 4)
+                <a href="{{ route('notification') }}"
+                    class="block py-2 w-full text-xs font-medium text-center text-gray-900 rounded-b-lg bg-gray-50 hover:bg-gray-100">See
+                    More Notifications</a>
                 @endif
             </div>
         </div>
-        {{-- <div class="inline-block h-8 w-0.5 self-stretch bg-gray-300 opacity-100">
-        </div> --}}
-        <button class="inline-flex min-w-0 items-center group" aria-expanded="false" data-dropdown-toggle="user-dropdown"
-            data-dropdown-placement="bottom" data-popover-trigger="click">
-            <span class="me-3 inline-block truncate w-[45%] text-gray-700 group-hover:text-gray-600/80 text-sm md:text-base font-medium">{{
-                Auth::user()->username }}</span>
+        <button role="button" class="inline-flex min-w-0 items-center hover:ring-2 duration-150 hover:ring-gray-200 focus:ring-2 focus:ring-gray-200 rounded-full ring-offset-2" aria-expanded="false"
+            data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom" data-popover-trigger="click">
             <img class="rounded-full object-cover w-8 h-8"
                 src="{{ Auth::user()->pp === 'img/defaultProfile.svg' ? asset('img/defaultProfile.svg') : asset('storage/' . Auth::user()->pp) }}">
         </button>
         <!-- Dropdown menu -->
-        <div class="hidden z-20 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-lg" id="user-dropdown">
+        <div class="hidden z-20 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-lg"
+            id="user-dropdown">
             <div class="min-w-[250px] py-3">
                 <div class="px-4 mb-1.5 mt-1.5">
                     <span class="block text-sm  text-gray-500 truncate">{{ Auth::user()->email }}</span>
@@ -133,7 +136,7 @@
                 <hr class="my-2.5 w-10/12 mx-auto h-px border-0 bg-gray-300">
                 <ul>
                     <li>
-                        <button data-modal-target="signout" data-modal-toggle="signout" type="button"
+                        <button role="button" data-modal-target="signout" data-modal-toggle="signout" type="button"
                             class="w-full block text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Log
                             Out</button>
                     </li>
@@ -148,7 +151,7 @@
     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative p-4 w-full max-w-md max-h-full">
         <div class="relative bg-white rounded-lg shadow">
-            <button type="button"
+            <button role="button" type="button"
                 class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
                 data-modal-hide="signout">
                 <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -159,8 +162,8 @@
                 <span class="sr-only">Close modal</span>
             </button>
             <div class="p-4 md:p-5 text-center">
-                <svg class="mx-auto mb-4 text-gray-400 w-12 h-12" aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                <svg class="mx-auto mb-4 text-gray-400 w-12 h-12" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                    fill="none" viewBox="0 0 20 20">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                 </svg>
@@ -188,8 +191,8 @@
     tabindex="-1">
     <div class="h-full px-4 py-3 overflow-y-auto bg-gray-50 rounded-e-xl">
         <div class="flex items-center justify-between gap-x-2">
-            <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar"
-                type="button"
+            <button role="button" data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar"
+                aria-controls="logo-sidebar" type="button"
                 class="inline-flex group items-center p-2 text-sm text-gray-500 rounded-lg hover:bg-gray-200/80 focus:outline-none focus:ring-2 focus:ring-gray-200">
                 <span class="sr-only">Open sidebar</span>
                 <svg class="w-5 h-5 group-hover:text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
@@ -200,7 +203,7 @@
             </button>
             <div class="flex justify-center items-center gap-2">
                 <a href="{{ route('me') }}" class="flex items-center group">
-                    <img class="rounded-full object-cover w-7 h-7"
+                    <img class="rounded-full object-cover w-7 h-7 hover:ring-2 duration-150 hover:ring-gray-200 ring-offset-2"
                         src="{{ Auth::user()->pp === 'img/defaultProfile.svg' ? asset('img/defaultProfile.svg') : asset('storage/' . Auth::user()->pp) }}"
                         width="40">
                 </a>
@@ -208,20 +211,20 @@
                 <div class="inline-block h-8 w-0.5 self-stretch bg-gray-300 opacity-100">
                 </div>
 
-                <button data-modal-target="allNotifications1" data-modal-toggle="allNotifications1"
+                <a href="{{ route('notification') }}"
                     class="relative grid place-items-center text-sm rounded-full w-5 h-5 md:me-0 focus:ring-2 focus:ring-gray-300">
                     <svg xmlns="http://www.w3.org/2000/svg" height="16" width="14" viewBox="0 0 448 512">
                         <path
                             d="M224 0c-17.7 0-32 14.3-32 32V51.2C119 66 64 130.6 64 208v25.4c0 45.4-15.5 89.5-43.8 124.9L5.3 377c-5.8 7.2-6.9 17.1-2.9 25.4S14.8 416 24 416H424c9.2 0 17.6-5.3 21.6-13.6s2.9-18.2-2.9-25.4l-14.9-18.6C399.5 322.9 384 278.8 384 233.4V208c0-77.4-55-142-128-156.8V32c0-17.7-14.3-32-32-32zm0 96c61.9 0 112 50.1 112 112v25.4c0 47.9 13.9 94.6 39.7 134.6H72.3C98.1 328 112 281.3 112 233.4V208c0-61.9 50.1-112 112-112zm64 352H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7s18.7-28.3 18.7-45.3z" />
                     </svg>
-                </button>
+                </a>
             </div>
         </div>
         @php
-            $ref = match (request()->path()) {
-                'publikFile' => 'publikFile',
-                default => null,
-            };
+        $ref = match (request()->path()) {
+        'publikFile' => 'publikFile',
+        default => null,
+        };
         @endphp
         <div class="mt-2.5">
             <x-partial.create-file :url="$ref" tabindex="-1">
@@ -280,10 +283,10 @@
                     </svg>
                     <span style="ml-1">Settings</span>
                 </x-partial.tertiary-button>
-                <button data-modal-target="signout" data-modal-toggle="signout" tabindex="-1"
+                <button role="button" data-modal-target="signout" data-modal-toggle="signout" tabindex="-1"
                     class="flex w-full gap-3 items-center mb-3 px-4 py-2.5 rounded-full {{ request()->routeIs('file.trashed') ? 'bg-gray-300' : 'hover:bg-gray-200' }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                        aria-hidden="true" class="w-4 h-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"
+                        class="w-4 h-4">
                         <path fill-rule="evenodd"
                             d="M12 2.25a.75.75 0 01.75.75v9a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM6.166 5.106a.75.75 0 010 1.06 8.25 8.25 0 1011.668 0 .75.75 0 111.06-1.06c3.808 3.807 3.808 9.98 0 13.788-3.807 3.808-9.98 3.808-13.788 0-3.808-3.807-3.808-9.98 0-13.788a.75.75 0 011.06 0z"
                             clip-rule="evenodd"></path>
@@ -309,56 +312,3 @@
         });
 </script>
 @endpush
-
-
-
-<div id="allNotifications1" tabindex="-1" aria-hidden="true"
-    class="hidden overflow-y-auto overflow-x-hidden fixed pt-3 top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-    <div class="relative w-full max-w-md h-full">
-        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700 h-full overflow-y-auto">
-            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                    All Message
-                </h3>
-                <button type="button"
-                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                    data-modal-toggle="allNotifications1">
-                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                        viewBox="0 0 14 14">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                    </svg>
-                    <span class="sr-only">Close modal</span>
-                </button>
-            </div>
-            <div class="p-4 md:p-5">
-                <ul class="space-y-4">
-                    @foreach ($pesan as $p)
-                        <li>
-                            <a href="{{ route('file.share.detail', [$p->user->username, $p->id_file]) }}"
-                                class="inline-flex items-center justify-between w-full p-3 px-5 text-gray-900 bg-white border border-gray-200 rounded-lg cursor-pointer  hover:text-gray-900 hover:bg-gray-100">
-                                <img class="w-10 aspect-square rounded-full object-cover"
-                                    src="{{ $p->user->pp === 'img/defaultProfile.svg' ? asset('img/defaultProfile.svg') : asset('storage/' . $p->user->pp) }}"
-                                    alt="{{ $p->id_pengirim }}">
-                                <div class="block">
-                                    <div title="{{ $p->created_at }}" class="text-xs text-gray-700">
-                                        {{ $p->created_at->format('F d, Y h:iA') }}
-                                    </div>
-                                    <span class="text-base"><b>{{ $p->user->username }}</b> sent you a
-                                        file! View
-                                        file.</span>
-                                </div>
-                                <svg class="w-4 h-4 ms-3 rtl:rotate-180 text-gray-500 dark:text-gray-400"
-                                    aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                    viewBox="0 0 14 10">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
-                                </svg>
-                            </a>
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>

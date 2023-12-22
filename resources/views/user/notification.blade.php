@@ -27,7 +27,7 @@
                 alt="{{ $p->id_pengirim }}">
               <div class="leading-1 5 flex flex-col basis-full">
                 <a href=""
-                  class="isolate text-[0.85rem] truncate w-[85%] md:w-max font-normal relative font-poppins no-underline after:absolute after:right-[.05em] after:bottom-0 after:left-[.05em] after:block after:-z-[1] after:h-px after:bg-gray-400 after:transition-transform after:scale-x-100 after:origin-bottom-left hover:after:scale-x-0 hover:after:origin-bottom-right before:absolute before:inset-0 before:-z-[1] before:block before:bg-gray-300/75 before:transition-transform before:scale-x-0 before:origin-bottom-right hover:before:scale-x-100 hover:before:origin-bottom-left hover:text-black duration-150 p-0.5 pb-0">{{
+                  class="isolate text-[0.85rem] truncate w-[85%] md:w-max font-normal relative no-underline before:absolute before:inset-0 before:-z-[1] before:block before:bg-gray-300/75 before:transition-transform before:scale-x-0 before:origin-bottom-right hover:before:scale-x-100 hover:before:origin-bottom-left hover:text-black duration-150 p-0.5 pb-0">{{
                   $p->user->username }}</a>
                 <span title="{{ $p->created_at }}" class="text-xs text-gray-700">
                   {{ $p->created_at->diffForHumans() }}
