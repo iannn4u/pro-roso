@@ -6,9 +6,10 @@
 
     <x-partial.flash class="!my-2 shadow-md" :flash="session()->all()" />
 
-    <ul role="list" class="w-full flex sm:gap-3 my-4 mx-2">
+    <ul role="list"
+        class="grid w-full grid-cols-2 gap-x-6 gap-y-3 text-sm sm:grid-cols-3 md:gap-y-10 lg:grid-cols-4 my-4">
         <li
-            class="rounded-2xl md:border border-gray-200 p-4 sm:p-6 border-l border-gray-600 w-[49%] sm:w-[20rem] flex flex-col items-start gap-x-1.5">
+            class="rounded-2xl md:border border-gray-200 p-4 sm:p-6 border-l border-gray-600 flex flex-col items-start gap-x-1.5">
             <div class="w-8 h-8">
                 <h2 class="text-2xl sm:text-3xl font-semibold font-mona"
                     style="font-variation-settings: &quot;wdth&quot; 125;">{{
@@ -18,7 +19,7 @@
             <h3 class="font-mona font-normal text-sm sm:text-base text-gray-900 mt-2">Total User</h3>
         </li>
         <li
-            class="rounded-2xl md:border border-gray-200 p-4 sm:p-6 border-l border-gray-600 w-[49%] sm:w-[20rem] flex flex-col items-start gap-x-1.5">
+            class="rounded-2xl md:border border-gray-200 p-4 sm:p-6 border-l border-gray-600 flex flex-col items-start gap-x-1.5">
             <div class="w-8 h-8">
                 <h2 class="text-2xl sm:text-3xl font-semibold font-mona"
                     style="font-variation-settings: &quot;wdth&quot; 125;">{{
@@ -26,6 +27,26 @@
                 </h2>
             </div>
             <h3 class="font-mona font-normal text-sm sm:text-base text-gray-900 mt-2">Total file</h3>
+        </li>
+        <li
+            class="rounded-2xl md:border border-gray-200 p-4 sm:p-6 border-l border-gray-600 flex flex-col items-start gap-x-1.5">
+            <div class="w-8 h-8">
+                <h2 class="text-2xl sm:text-3xl font-semibold font-mona"
+                    style="font-variation-settings: &quot;wdth&quot; 125;">{{
+                    $verified}}
+                </h2>
+            </div>
+            <h3 class="font-mona font-normal text-sm sm:text-base text-gray-900 mt-2">Verified users</h3>
+        </li>
+        <li
+            class="rounded-2xl md:border border-gray-200 p-4 sm:p-6 border-l border-gray-600 flex flex-col items-start gap-x-1.5">
+            <div class="w-8 h-8">
+                <h2 class="text-2xl sm:text-3xl font-semibold font-mona"
+                    style="font-variation-settings: &quot;wdth&quot; 125;">{{
+                    $unverified}}
+                </h2>
+            </div>
+            <h3 class="font-mona font-normal text-sm sm:text-base text-gray-900 mt-2">Unverified users</h3>
         </li>
     </ul>
 
@@ -46,6 +67,9 @@
                         Email
                     </th>
                     <th scope="col" class="px-6 py-3 text-center">
+                        Created at
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center">
                         Status
                     </th>
                     <th scope="col" class="px-6 py-3 text-center">
@@ -61,7 +85,7 @@
                     </th>
                 </tr>
                 @endunless
-                @foreach ($dataUsers as $user)
+                @foreach ($dataUsers as $index => $user)
                 <tr class="bg-white border-b hover:bg-gray-50">
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                         {{ $loop->iteration }}
@@ -74,6 +98,9 @@
                     </td>
                     <td class="px-6 py-4">
                         {{ $user->email }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ $user->created_at->diffForHumans() }}
                     </td>
                     <td class="px-6 py-4 text-center">
                         @if ($user->status == 0)
@@ -129,7 +156,7 @@
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                     </svg>
-                    <h3 class="mb-5 text-lg font-normal text-gray-600"><span id="target-acc"
+                    <h3 class="mb-5 text-lg font-normal text-gray-600"><span id="target-accv"
                             class="font-medium underline text-black"></span>
                         account's will be verify.</h3>
                     <form action="" method="POST" class="inline-block mr-1" id="form">
@@ -176,7 +203,7 @@
                         @method('DELETE')
                         @csrf
                         <div class="!w-max">
-                            <x-partial.primary-button onclick="process('deleteUser')"
+                            <x-partial.primary-button onclick="process('deleteUser')" data-delete=""
                                 class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                                 Delete
                             </x-partial.primary-button>

@@ -9,7 +9,7 @@ function process(location) {
     </svg>
     ${placeholder}
   </button>
-`;
+  `;
 
   if (location == "logout") {
     document.getElementById("formLogout").submit();
@@ -26,7 +26,7 @@ function process(location) {
   } else if (location == "deleteUser") {
     document.getElementById("dxz").submit();
 
-    preprocessElement = document.getElementById("preprocess");
+    preprocessElement = document.getElementById("preprocessDel");
 
     preprocessElement.innerHTML = loader;
   } else if (location == "send") {
@@ -61,10 +61,10 @@ function processTxt(placeholder) {
       return "Saving...";
     case "delete":
       return "Deleting...";
-    case "deleteUser":
-      return "Deleting...";
     case "verify":
       return "Verifying...";
+    case "deleteUser":
+      return "Deleting...";
     default:
       return "Processing...";
   }
